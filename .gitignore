@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+
+.env
+.env.production
+.env.local
+
+.DS_Store
+*.log
+
+# Local editor/agent tooling — not part of the client's project
+.claude/
