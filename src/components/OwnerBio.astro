@@ -1,0 +1,73 @@
+---
+import { owner, PENDING } from "@lib/site";
+---
+
+<section>
+  <div class="wrap">
+    <h2>Who's actually doing the work</h2>
+
+    {
+      PENDING.owner ? (
+        <p class="pending-note">
+          <strong>Build note — not for launch.</strong> Owner name, photo and
+          bio are the highest-converting block on a trade site and cannot be
+          drafted without the client. Needed: full name, role, one real photo
+          (phone camera is fine — no stock), years in the trade, and how they got
+          into it.
+        </p>
+      ) : (
+        <div class="bio">
+          {owner.photo && (
+            <img
+              src={owner.photo}
+              alt={`${owner.name}, ${owner.role}`}
+              width="220"
+              height="220"
+              loading="lazy"
+            />
+          )}
+          <div>
+            <h3>
+              {owner.name} — {owner.role}
+            </h3>
+            <p>{owner.bio}</p>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .bio {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .bio img {
+    border-radius: var(--radius);
+    width: 220px;
+    object-fit: cover;
+  }
+
+  .bio div {
+    flex: 1 1 320px;
+  }
+
+  .bio p {
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .pending-note {
+    border: 1px dashed #f0a868;
+    background: #fffaf4;
+    color: #8a4b08;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    font-size: 0.92rem;
+    max-width: 70ch;
+  }
+</style>

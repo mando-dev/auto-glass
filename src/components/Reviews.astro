@@ -1,0 +1,90 @@
+---
+import { reviews, site, PENDING } from "@lib/site";
+
+/**
+ * Renders nothing publishable until real reviews exist. The build note below is
+ * for client review only and is stripped once PENDING.reviews flips to false.
+ */
+---
+
+{
+  reviews.length > 0 ? (
+    <section class="section-soft">
+      <div class="wrap">
+        <h2>What customers actually said</h2>
+        <p class="lede">
+          These are unedited reviews from the same profile you see when you
+          search us — not testimonials we wrote.
+        </p>
+
+        <div class="grid grid-3">
+          {reviews.map((r) => (
+            <figure class="card">
+              <blockquote>{r.quote}</blockquote>
+              <figcaption>
+                {r.author} &middot;{" "}
+                <a href={r.url} rel="nofollow noopener" target="_blank">
+                  on {r.platform}
+                </a>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <p class="all-link">
+          <a href={site.social.google} rel="nofollow noopener" target="_blank">
+            Read every review on Google
+          </a>
+        </p>
+      </div>
+    </section>
+  ) : (
+    PENDING.reviews && (
+      <section class="section-soft">
+        <div class="wrap">
+          <p class="pending-note">
+            <strong>Build note — not for launch.</strong> Reviews section is
+            wired and will render once real Google or Yelp reviews are pulled
+            into <code>src/lib/site.ts</code>. Nothing is written here on the
+            client's behalf.
+          </p>
+        </div>
+      </section>
+    )
+  )
+}
+
+<style>
+  blockquote {
+    margin: 0 0 1rem;
+    font-size: 1.02rem;
+  }
+
+  blockquote::before {
+    content: open-quote;
+  }
+  blockquote::after {
+    content: close-quote;
+  }
+
+  figcaption {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .all-link {
+    margin-top: 1.5rem;
+    font-weight: 700;
+  }
+
+  .pending-note {
+    margin: 0;
+    border: 1px dashed #f0a868;
+    background: #fffaf4;
+    color: #8a4b08;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    font-size: 0.92rem;
+  }
+</style>

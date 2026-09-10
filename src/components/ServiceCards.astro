@@ -1,0 +1,31 @@
+---
+import { services } from "@lib/site";
+
+interface Props {
+  heading?: string;
+  /** Omit the page you are already on. */
+  exclude?: string;
+}
+const { heading = "What we do", exclude } = Astro.props;
+const shown = services.filter((s) => s.slug !== exclude);
+---
+
+<section>
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <div class="grid grid-3">
+      {
+        shown.map((s) => (
+          <article class="card">
+            <h3>{s.name}</h3>
+            <p>{s.blurb}</p>
+            <a class="card-link" href={`/${s.slug}/`}>
+              {s.name}
+              <span class="visually-hidden"> details</span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

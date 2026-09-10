@@ -1,0 +1,45 @@
+---
+import { site } from "@lib/site";
+import TrustBadges from "./TrustBadges.astro";
+
+interface Props {
+  h1: string;
+  lede: string;
+  showBadges?: boolean;
+}
+const { h1, lede, showBadges = true } = Astro.props;
+---
+
+<section class="hero">
+  <div class="wrap">
+    <h1>{h1}</h1>
+    <p class="lede">{lede}</p>
+
+    <div class="btn-row">
+      <a class="btn btn-call" href={site.phone.href}>
+        <span aria-hidden="true">&#9742;</span>
+        Call {site.phone.display}
+      </a>
+      <a class="btn btn-outline" href="/contact/">Get a quote</a>
+    </div>
+
+    {showBadges && <TrustBadges />}
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 7vw, 5rem);
+    background:
+      linear-gradient(180deg, #f7f9fb 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero h1 {
+    max-width: 18ch;
+  }
+
+  .hero .lede {
+    margin-bottom: 1.75rem;
+  }
+</style>

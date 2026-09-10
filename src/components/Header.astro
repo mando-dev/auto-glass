@@ -1,0 +1,130 @@
+---
+import { site, nav, PENDING } from "@lib/site";
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">{site.name}</a>
+
+    <nav aria-label="Primary">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={current === item.href ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn btn-call header-call" href={site.phone.href}>
+      <span aria-hidden="true">&#9742;</span>
+      {site.phone.display}
+    </a>
+  </div>
+
+  {
+    PENDING.phone && (
+      <p class="build-flag">
+        Build note — not for launch: phone number is a placeholder until the
+        client supplies the business line.
+      </p>
+    )
+  }
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(6px);
+    z-index: 20;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 0.75rem;
+  }
+
+  .brand {
+    font-weight: 800;
+    font-size: 1.15rem;
+    text-decoration: none;
+    color: var(--ink);
+    margin-right: auto;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding-block: 0.4rem;
+  }
+
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--brand);
+  }
+
+  .header-call {
+    padding: 0.6rem 1.05rem;
+    font-size: 0.98rem;
+    min-height: 44px;
+  }
+
+  .build-flag {
+    margin: 0;
+    background: #fff4e5;
+    border-top: 1px solid #ffd8a8;
+    color: #8a4b08;
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 0.4rem 1rem;
+  }
+
+  @media (max-width: 760px) {
+    /* A sticky header this tall would eat a quarter of the viewport. On small
+       screens it scrolls away and the fixed call bar below carries the CTA. */
+    .site-header {
+      position: static;
+    }
+    .bar {
+      justify-content: space-between;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+    }
+    nav ul {
+      gap: 0.9rem;
+    }
+    .brand {
+      margin-right: 0;
+    }
+    .header-call {
+      display: none;
+    }
+  }
+</style>

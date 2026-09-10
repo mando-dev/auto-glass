@@ -1,0 +1,111 @@
+import { site, cities, reviews, services, PENDING } from "./site";
+
+/**
+ * schema.org has no "AutoGlass" type. AutoRepair is the correct parent for
+ * windshield work — do not invent a type name.
+ */
+const BUSINESS_ID = `${site.url}/#business`;
+
+export function localBusinessSchema() {
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "@id": BUSINESS_ID,
+    name: site.name,
+    url: site.url,
+    description: site.tagline,
+  };
+
+  if (!PENDING.phone) schema.telephone = site.phone.display;
+
+  // A mobile-only operation should not publish a storefront address: Google
+  // treats a service-area business with a public address as a guideline problem.
+  if (!PENDING.address && site.hasWalkInShop) {
+    schema.address = {
+      "@type": "PostalAddress",
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.state,
+      postalCode: site.address.zip,
+      addressCountry: site.address.country,
+    };
+  }
+
+  if (!PENDING.cities) {
+    schema.areaServed = cities.map((c) => ({
+      "@type": "City",
+      name: `${c.name}, CA`,
+    }));
+  }
+
+  if (!PENDING.hours) {
+    schema.openingHoursSpecification = site.hours.map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.days,
+      opens: h.open,
+      closes: h.close,
+    }));
+  }
+
+  // Only ever emit review markup for reviews that actually exist on a public
+  // profile. Fabricated or self-authored review markup is a manual-action risk.
+  if (reviews.length > 0) {
+    schema.review = reviews.map((r) => ({
+      "@type": "Review",
+      reviewBody: r.quote,
+      author: { "@type": "Person", name: r.author },
+    }));
+  }
+
+  schema.hasOfferCatalog = {
+    "@type": "OfferCatalog",
+    name: "Auto glass services",
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.name, url: `${site.url}/${s.slug}/` },
+    })),
+  };
+
+  return schema;
+}
+
+export function serviceSchema(slug: string, name: string, description: string) {
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    serviceType: name,
+    url: `${site.url}/${slug}/`,
+    provider: { "@id": BUSINESS_ID },
+  };
+  if (!PENDING.cities) {
+    schema.areaServed = cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
+  }
+  return schema;
+}
+
+export function faqSchema(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+export function breadcrumbSchema(trail: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: t.name,
+      item: `${site.url}${t.url}`,
+    })),
+  };
+}

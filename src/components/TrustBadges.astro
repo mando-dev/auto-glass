@@ -1,0 +1,74 @@
+---
+import { site, PENDING } from "@lib/site";
+
+/**
+ * Renders only what the client has evidenced. Anything unconfirmed renders as a
+ * visibly dashed placeholder so gaps are obvious in client review instead of
+ * being quietly filled with a plausible-sounding claim.
+ */
+const badges = [
+  { label: "Insured", value: site.credentials.insured, pending: PENDING.identity },
+  {
+    label: "Certified",
+    value: site.credentials.certification,
+    pending: PENDING.identity,
+  },
+  {
+    label: "Serving Orange County",
+    value: "Mobile service countywide",
+    pending: false,
+  },
+];
+---
+
+<ul class="badges">
+  {
+    badges.map((b) => (
+      <li class:list={["badge", { pending: b.pending }]}>
+        <strong>{b.label}</strong>
+        <span>{b.pending ? "pending client confirmation" : b.value}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .badges {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .badge {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.9rem;
+    background: #fff;
+    font-size: 0.86rem;
+    line-height: 1.35;
+  }
+
+  .badge strong {
+    color: var(--ink);
+  }
+
+  .badge span {
+    color: var(--ink-soft);
+  }
+
+  .badge.pending {
+    border-style: dashed;
+    border-color: #f0a868;
+    background: #fffaf4;
+  }
+
+  .badge.pending span {
+    color: #8a4b08;
+    font-style: italic;
+  }
+</style>

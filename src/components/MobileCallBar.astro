@@ -1,0 +1,45 @@
+---
+import { site } from "@lib/site";
+---
+
+<div class="callbar">
+  <a class="btn btn-call" href={site.phone.href}>
+    <span aria-hidden="true">&#9742;</span>
+    Call {site.phone.display}
+  </a>
+  <a class="btn btn-quote" href="/contact/">Quote</a>
+</div>
+
+<style>
+  .callbar {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .callbar {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0.5rem;
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 30;
+      padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid var(--line);
+    }
+
+    .callbar .btn {
+      padding: 0.75rem 0.9rem;
+      font-size: 0.97rem;
+      width: 100%;
+      white-space: nowrap;
+    }
+
+    .btn-quote {
+      background: var(--bg-soft);
+      color: var(--brand);
+      border-color: var(--line);
+    }
+  }
+</style>

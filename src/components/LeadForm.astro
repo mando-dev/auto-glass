@@ -1,0 +1,244 @@
+---
+import { site, services, PENDING } from "@lib/site";
+
+interface Props {
+  /** Shows up in the email subject so the client knows which page converted. */
+  source: string;
+  heading?: string;
+}
+const { source, heading = "Get a quote" } = Astro.props;
+---
+
+<div class="formwrap">
+  <h2>{heading}</h2>
+
+  {
+    PENDING.web3forms && (
+      <p class="pending-note">
+        <strong>Build note — not for launch.</strong> No Web3Forms access key is
+        set, so this form will not deliver. Add the client's key as{" "}
+        <code>PUBLIC_WEB3FORMS_KEY</code> in the Vercel project environment
+        variables and in a local <code>.env</code>.
+      </p>
+    )
+  }
+
+  <form
+    class="lead"
+    action="https://api.web3forms.com/submit"
+    method="POST"
+    data-lead-form
+  >
+    <input type="hidden" name="access_key" value={site.web3forms.accessKey} />
+    <input type="hidden" name="subject" value={`New auto glass lead — ${source}`} />
+    <input type="hidden" name="from_name" value={site.name} />
+    <input type="hidden" name="page_source" value={source} />
+
+    {/* Web3Forms honeypot: bots fill it, humans never see it. */}
+    <input
+      type="checkbox"
+      name="botcheck"
+      class="visually-hidden"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+    />
+
+    <div class="row">
+      <label>
+        Your name
+        <input type="text" name="name" required autocomplete="name" />
+      </label>
+      <label>
+        Phone
+        <input type="tel" name="phone" required autocomplete="tel" />
+      </label>
+    </div>
+
+    <label>
+      Email
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+
+    <div class="row">
+      <label>
+        Vehicle (year, make, model)
+        <input type="text" name="vehicle" placeholder="2019 Toyota Tacoma" />
+      </label>
+      <label>
+        City
+        <input type="text" name="city" placeholder="Irvine" />
+      </label>
+    </div>
+
+    <label>
+      What's the damage?
+      <select name="service">
+        <option value="">Not sure — take a look</option>
+        {services.map((s) => <option value={s.name}>{s.name}</option>)}
+      </select>
+    </label>
+
+    <label class="check">
+      <input type="checkbox" name="fleet" value="Yes" />
+      This is a company or fleet vehicle
+    </label>
+
+    <label>
+      Anything else?
+      <textarea name="message" rows="4"></textarea>
+    </label>
+
+    <p class="photo-hint">
+      Got a photo of the chip? Text it to
+      <a href={site.phone.href}>{site.phone.display}</a> and we can usually tell you
+      repair or replace from the picture.
+    </p>
+
+    <button class="btn btn-call" type="submit">Send it over</button>
+
+    <p class="status" data-form-status role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<script>
+  // Progressive enhancement only. With JS off the form still POSTs natively to
+  // Web3Forms and lands on their default confirmation page.
+  document.querySelectorAll<HTMLFormElement>("[data-lead-form]").forEach((form) => {
+    const status = form.querySelector<HTMLElement>("[data-form-status]");
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!status || !button) return;
+
+      button.disabled = true;
+      status.textContent = "Sending…";
+      status.className = "status";
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (!response.ok) throw new Error(String(response.status));
+
+        form.reset();
+        status.textContent =
+          "Got it. We'll call you back shortly — usually within the hour during working hours.";
+        status.className = "status ok";
+      } catch {
+        status.innerHTML =
+          "That didn't go through. Please call us instead — the number is at the top of the page.";
+        status.className = "status err";
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .formwrap {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: #fff;
+  }
+
+  .lead {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 620px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  label {
+    display: grid;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.94rem;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    font: inherit;
+    font-weight: 400;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    width: 100%;
+    min-height: 46px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+
+  .check input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .photo-hint {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  button {
+    justify-self: start;
+  }
+
+  button:disabled {
+    opacity: 0.6;
+  }
+
+  .status:empty {
+    display: none;
+  }
+
+  .status {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .status.ok {
+    color: #15803d;
+  }
+  .status.err {
+    color: #b42318;
+  }
+
+  .pending-note {
+    border: 1px dashed #f0a868;
+    background: #fffaf4;
+    color: #8a4b08;
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    font-size: 0.9rem;
+  }
+</style>
