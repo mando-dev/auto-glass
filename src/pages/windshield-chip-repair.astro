@@ -1,0 +1,153 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import FAQ from "@components/FAQ.astro";
+import LeadForm from "@components/LeadForm.astro";
+import ServiceCards from "@components/ServiceCards.astro";
+import CTABand from "@components/CTABand.astro";
+import { serviceBySlug, site } from "@lib/site";
+import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
+
+const service = serviceBySlug("windshield-chip-repair")!;
+
+const faqs = [
+  {
+    q: "Is my chip repairable?",
+    a: "Usually, if it's smaller than about a quarter, isn't sitting in the driver's direct line of sight, hasn't reached the edge of the glass, and hasn't gone through both layers. Send a photo and we'll tell you before anybody books anything.",
+  },
+  {
+    q: "How long does rock chip repair take?",
+    a: "Most take twenty to thirty minutes from setup to finish. It's genuinely a job you can have done while the car sits in your work lot.",
+  },
+  {
+    q: "Will the chip disappear completely?",
+    a: "No, and be wary of anyone who promises it will. Resin repair restores the strength of the glass and stops the damage spreading. Cosmetically it usually improves a lot — often to a faint mark you have to look for — but a small blemish normally remains.",
+  },
+  {
+    q: "How soon should I get a chip repaired?",
+    a: "Sooner is genuinely better here, and not as a sales line. A chip is a stress point. Temperature swings, a speed bump, or a blast of cold air conditioning onto hot glass can run it into a crack, and once it's a long crack the cheap repair is off the table.",
+  },
+  {
+    q: "Can you repair a chip in Irvine at my workplace?",
+    a: "Yes. Chip repair is the easiest job to do mobile — we come to the car in Irvine or anywhere else we cover, and you carry on with whatever you were doing.",
+  },
+  {
+    q: "What if the chip turns out not to be repairable?",
+    a: "Then we say so before starting, not after. If it needs new glass we'll quote the replacement and you decide from there — there's no obligation attached to us having driven out.",
+  },
+];
+
+const schemas = [
+  serviceSchema(
+    service.slug,
+    "Windshield Chip and Crack Repair",
+    service.metaDescription,
+  ),
+  faqSchema(faqs),
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Chip & Crack Repair", url: "/windshield-chip-repair/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`${service.title} | ${site.name}`}
+  description={service.metaDescription}
+  path="/windshield-chip-repair/"
+  schemas={schemas}
+>
+  <Hero
+    h1={service.h1}
+    lede="A rock chip caught early is a resin fill that takes about half an hour. Left alone through a few hot afternoons and a cold night, it becomes a crack — and a crack means new glass."
+  />
+
+  <section>
+    <div class="wrap prose">
+      <h2>What a chip repair actually does</h2>
+      <p>
+        A windshield is two sheets of glass with a plastic layer bonded between
+        them. A stone strike breaks the outer sheet and leaves an air pocket
+        behind — that's the bright silver spot you can see. Repair means drawing
+        the air out of that pocket under vacuum, pushing a clear resin into the
+        space it left, and curing the resin hard.
+      </p>
+      <p>
+        What you get back is glass that's structurally sound again and damage
+        that has stopped travelling. The factory seal around the windshield is
+        never disturbed, which is the quiet advantage repair has over any
+        replacement, however carefully the replacement is done.
+      </p>
+
+      <h2>When to repair, and when it's past that</h2>
+      <div class="split">
+        <div class="card">
+          <h3>Usually repairable</h3>
+          <ul>
+            <li>Chips smaller than about a quarter</li>
+            <li>Star breaks and bullseyes away from the edge</li>
+            <li>Damage outside the driver's line of sight</li>
+            <li>Single-layer damage that hasn't gone through</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Usually needs replacing</h3>
+          <ul>
+            <li>Cracks longer than a dollar bill</li>
+            <li>Damage right at the edge of the glass</li>
+            <li>Anything sitting in the driver's sightline</li>
+            <li>Breaks that have gone through both layers</li>
+          </ul>
+        </div>
+      </div>
+      <p class="after-split">
+        These are guidelines rather than rules — edge cases exist, and a photo
+        settles it faster than a paragraph.
+        <a href="/windshield-replacement/">Read about replacement &rsaquo;</a>
+      </p>
+    </div>
+  </section>
+
+  <FAQ faqs={faqs} heading="Chip repair — common questions" />
+
+  <section>
+    <div class="wrap narrow">
+      <LeadForm source="Chip Repair page" heading="Send us the chip" />
+    </div>
+  </section>
+
+  <ServiceCards heading="Other services" exclude={service.slug} />
+  <CTABand
+    heading="Text a photo of the chip."
+    body={`Send it to ${site.phone.display} and we'll tell you whether it fills or needs new glass — usually within a few minutes.`}
+  />
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 74ch;
+  }
+
+  .split {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    margin-bottom: 1.5rem;
+  }
+
+  .split ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    color: var(--ink-soft);
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .after-split {
+    color: var(--ink-soft);
+  }
+
+  .narrow {
+    max-width: 760px;
+  }
+</style>

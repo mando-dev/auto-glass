@@ -1,0 +1,184 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import FAQ from "@components/FAQ.astro";
+import LeadForm from "@components/LeadForm.astro";
+import ServiceCards from "@components/ServiceCards.astro";
+import ServiceArea from "@components/ServiceArea.astro";
+import CTABand from "@components/CTABand.astro";
+import { serviceBySlug, site } from "@lib/site";
+import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
+
+const service = serviceBySlug("mobile-auto-glass")!;
+
+const steps = [
+  {
+    title: "Tell us where the car sits",
+    body: "Home driveway, office parking structure, warehouse yard. We need the address, the vehicle, and a rough idea of the damage.",
+  },
+  {
+    title: "We bring the glass to you",
+    body: "The van carries the resin kit, the urethane, the glass and the power. No shop, no tow, no ride to arrange.",
+  },
+  {
+    title: "You get on with your day",
+    body: "A chip fill is usually under half an hour. A full replacement takes longer, mostly waiting on adhesive — but you're waiting at your desk, not in a lobby.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Do you do same day windshield repair?",
+    a: "Often, yes — chip repairs are quick and we route around the county through the day. Call early and tell us the city you're in. Full replacements sometimes need a day to get the right glass for your specific vehicle.",
+  },
+  {
+    q: "What counts as an emergency windshield repair?",
+    a: "A crack spreading across the driver's line of sight, or glass that's come apart badly enough that the vehicle isn't safe or legal to drive. Call rather than fill in the form for those — we'll tell you honestly whether it's drivable and how soon we can get to you.",
+  },
+  {
+    q: "Can you do mobile rock chip repair in a parking garage?",
+    a: "Usually. Resin repair needs the glass out of direct rain and within a workable temperature range, and a covered garage is often better for that than an open lot in the sun. Underground structures with very low clearance are the one thing worth mentioning up front.",
+  },
+  {
+    q: "Does weather stop mobile service?",
+    a: "Rain does, for anything involving fresh adhesive or resin — moisture on the glass ruins the bond. Orange County doesn't give us many of those days, but if one lands on your appointment we'll move it rather than do the job badly.",
+  },
+  {
+    q: "How long before I can drive it?",
+    a: "After a chip repair, straight away. After a replacement, there's a safe drive-away time while the urethane cures — the tech will tell you the exact window for the adhesive used on your vehicle, and it isn't a number worth guessing at, because the windshield is a structural part of the roof in a rollover.",
+  },
+  {
+    q: "Do you handle mobile windshield chip repair on fleet vehicles?",
+    a: "Yes, and it's usually the most sensible way to do it — we work through several vehicles in one visit while they're parked overnight or between shifts, instead of pulling them off the road one at a time.",
+  },
+];
+
+const schemas = [
+  serviceSchema(service.slug, "Mobile Windshield Repair", service.metaDescription),
+  faqSchema(faqs),
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Mobile Auto Glass", url: "/mobile-auto-glass/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`${service.title} | ${site.name}`}
+  description={service.metaDescription}
+  path="/mobile-auto-glass/"
+  schemas={schemas}
+>
+  <Hero
+    h1={service.h1}
+    lede="Mobile auto glass repair anywhere in Orange County. We drive to the vehicle, do the work where it's parked, and you never book a day off to sit in a waiting room."
+  />
+
+  <section>
+    <div class="wrap prose">
+      <h2>Mobile auto glass repair, done at your address</h2>
+      <p>
+        A windshield is one of the few repairs where driving to a shop is the
+        most expensive part of the job — not in money, in your day. You drop the
+        car, arrange a ride, wait for a call, arrange another ride back. The
+        actual glass work is often the shortest part of that.
+      </p>
+      <p>
+        Mobile service removes all of it. The van carries everything the job
+        needs, so the repair happens in the space the car is already sitting in.
+        For a chip, that's typically half an hour with you inside doing something
+        else entirely.
+      </p>
+
+      <h2>How it works</h2>
+      <ol class="steps">
+        {
+          steps.map((step) => (
+            <li>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <h2>What we need from you</h2>
+      <ul class="needs">
+        <li>
+          <strong>A parking spot we can work around.</strong> Roughly a car
+          width of clear space on the passenger side is plenty.
+        </li>
+        <li>
+          <strong>Year, make and model.</strong> Windshields vary far more than
+          people expect between trim levels — rain sensors, heated wiper parks,
+          acoustic interlayers and camera brackets all change which glass fits.
+        </li>
+        <li>
+          <strong>A photo of the damage if you can.</strong> Text it over and we
+          can usually tell you repair or replace before anyone drives anywhere.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <FAQ faqs={faqs} heading="Mobile windshield repair — common questions" />
+
+  <section>
+    <div class="wrap narrow">
+      <LeadForm source="Mobile Auto Glass page" heading="Book mobile service" />
+    </div>
+  </section>
+
+  <ServiceArea />
+  <ServiceCards heading="Other services" exclude={service.slug} />
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 74ch;
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .steps li {
+    counter-increment: step;
+    border-left: 3px solid var(--brand);
+    padding-left: 1.1rem;
+  }
+
+  .steps h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .steps h3::before {
+    content: "Step " counter(step) " — ";
+    color: var(--brand);
+  }
+
+  .steps p {
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .needs {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .needs li {
+    color: var(--ink-soft);
+  }
+
+  .narrow {
+    max-width: 760px;
+  }
+</style>

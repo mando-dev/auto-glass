@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { site } from "@lib/site";
+---
+
+<BaseLayout
+  title={`Thanks — we've got it | ${site.name}`}
+  description="Your request came through."
+  path="/thanks/"
+  noindex={true}
+>
+  <section>
+    <div class="wrap narrow">
+      <h1>Got it.</h1>
+      <p class="lede">
+        We'll come back to you shortly — usually within the hour during working
+        hours.
+      </p>
+      <p>
+        If it's urgent, or the crack is spreading across your line of sight,
+        call rather than wait.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          Call {site.phone.display}
+        </a>
+        <a class="btn btn-outline" href="/">Back to the site</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 62ch;
+    padding-block: 2rem;
+  }
+</style>

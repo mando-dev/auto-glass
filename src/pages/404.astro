@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { site, services } from "@lib/site";
+---
+
+<BaseLayout
+  title={`Page not found | ${site.name}`}
+  description="That page doesn't exist."
+  path="/404/"
+  noindex={true}
+>
+  <section>
+    <div class="wrap narrow">
+      <h1>That page isn't here.</h1>
+      <p class="lede">Probably one of these instead:</p>
+      <ul>
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/${s.slug}/`}>{s.name}</a>
+            </li>
+          ))
+        }
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          Call {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 62ch;
+    padding-block: 2rem;
+  }
+
+  ul {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+</style>

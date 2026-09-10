@@ -1,0 +1,159 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import ServiceCards from "@components/ServiceCards.astro";
+import OwnerBio from "@components/OwnerBio.astro";
+import RecentWork from "@components/RecentWork.astro";
+import Reviews from "@components/Reviews.astro";
+import ServiceArea from "@components/ServiceArea.astro";
+import CTABand from "@components/CTABand.astro";
+import { site } from "@lib/site";
+
+const title = `Mobile Auto Glass Repair in Orange County | ${site.name}`;
+const description =
+  "Mobile windshield repair, chip repair and full windshield replacement across Orange County. We come to your driveway, office or yard — you don't lose a day to a shop.";
+
+/**
+ * Positioning drafted from what is structurally true of a mobile, independent
+ * operation. Every one of these still needs client sign-off before launch —
+ * see the build note rendered under the section.
+ */
+const reasons = [
+  {
+    title: "The van comes to you",
+    body: "Driveway, office lot, job site. You keep working, we do the glass. Nobody sits in a waiting room reading a two-year-old magazine.",
+  },
+  {
+    title: "You talk to the tech, not a call center",
+    body: "The person who picks up is the person who shows up. No dispatch queue, no being handed between three departments to book one windshield.",
+  },
+  {
+    title: "We'll tell you when you don't need new glass",
+    body: "Plenty of chips fill with resin for a fraction of a replacement. If yours is one of them we say so, even though the smaller job pays us less.",
+  },
+  {
+    title: "Fleets get one point of contact",
+    body: "Multiple vehicles get scheduled together and handled in one visit, so your trucks aren't going offline one at a time across three weeks.",
+  },
+];
+---
+
+<BaseLayout title={title} description={description} path="/">
+  <Hero
+    h1="Your windshield gets fixed where your car is parked."
+    lede="Mobile auto glass across Orange County — rock chip repair, crack repair and full windshield replacement, done at your home, your office or your yard. No shop visit, no lost afternoon."
+  />
+
+  <ServiceCards heading="What we do" />
+
+  <section class="section-soft">
+    <div class="wrap">
+      <h2>Why people call us back</h2>
+      <ol class="reasons">
+        {
+          reasons.map((r) => (
+            <li>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="pending-note">
+        <strong>Build note — not for launch.</strong> These four reasons are
+        drafted positioning, not client-supplied fact. Each needs a yes from the
+        client before launch — particularly #2 (who actually answers the phone)
+        and #4 (whether fleets really get consolidated scheduling).
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap fleet">
+      <div>
+        <h2>Running a fleet?</h2>
+        <p class="lede">
+          Vans, box trucks, work pickups, rideshare vehicles. A cracked
+          windshield is a vehicle that legally shouldn't be earning, and every
+          day it sits is a day of missed jobs.
+        </p>
+        <p>
+          Tell us how many vehicles you run and where they park overnight. Most
+          fleet glass work happens before the first shift so nothing comes off
+          the road during business hours.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-call" href={site.phone.href}>
+            Call {site.phone.display}
+          </a>
+          <a class="btn btn-outline" href="/contact/">Set up a fleet account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <OwnerBio />
+  <RecentWork />
+  <Reviews />
+  <ServiceArea />
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .reasons {
+    list-style: none;
+    counter-reset: reason;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  }
+
+  .reasons li {
+    counter-increment: reason;
+  }
+
+  .reasons h3::before {
+    content: counter(reason);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-size: 0.95rem;
+  }
+
+  .reasons h3 {
+    display: flex;
+    align-items: center;
+  }
+
+  .reasons p {
+    color: var(--ink-soft);
+  }
+
+  .fleet > div {
+    max-width: 68ch;
+  }
+
+  .fleet .btn-row {
+    margin-top: 1.5rem;
+  }
+
+  .pending-note {
+    margin-top: 2rem;
+    border: 1px dashed #f0a868;
+    background: #fffaf4;
+    color: #8a4b08;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    font-size: 0.92rem;
+    max-width: 70ch;
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LeadForm from "@components/LeadForm.astro";
+import ServiceArea from "@components/ServiceArea.astro";
+import { site, PENDING } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+
+const schemas = [
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Contact", url: "/contact/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`Contact ${site.name} | Orange County Auto Glass`}
+  description="Call or send a photo of the damage and we'll tell you repair or replace. Mobile auto glass across Orange County."
+  path="/contact/"
+  schemas={schemas}
+>
+  <section>
+    <div class="wrap cols">
+      <div class="intro">
+        <h1>Tell us what happened to the glass</h1>
+        <p class="lede">
+          Fastest route is a phone call. Second fastest is texting a photo of
+          the damage — most of the time that's enough to tell you whether it's a
+          repair or a replacement.
+        </p>
+
+        <dl class="details">
+          <div>
+            <dt>Phone</dt>
+            <dd>
+              <a class="big" href={site.phone.href}>{site.phone.display}</a>
+            </dd>
+          </div>
+
+          <div>
+            <dt>Hours</dt>
+            <dd>
+              {
+                PENDING.hours ? (
+                  <span class="pending">Pending client confirmation</span>
+                ) : (
+                  site.hours.map((h) => (
+                    <div>
+                      {h.days}: {h.open}–{h.close}
+                    </div>
+                  ))
+                )
+              }
+            </dd>
+          </div>
+
+          <div>
+            <dt>Service area</dt>
+            <dd>Mobile across Orange County, California</dd>
+          </div>
+        </dl>
+
+        <p class="note">
+          We're a mobile operation — there's no waiting room to visit. Everything
+          happens at your address.
+        </p>
+      </div>
+
+      <div>
+        <LeadForm source="Contact page" heading="Or send it in writing" />
+      </div>
+    </div>
+  </section>
+
+  <ServiceArea />
+</BaseLayout>
+
+<style>
+  .cols {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .cols {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .intro h1 {
+    font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+  }
+
+  .details {
+    margin: 2rem 0 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .details dt {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 0.2rem;
+  }
+
+  .details dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .big {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .pending {
+    font-style: italic;
+    color: #8a4b08;
+    font-weight: 500;
+  }
+
+  .note {
+    margin-top: 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+</style>
