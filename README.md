@@ -82,10 +82,27 @@ Needed from the client, in writing:
 
 ## Not yet built, deliberately
 
-- `/adas-calibration/` — service not confirmed
-- City pages — city list not confirmed. Data is staged in `site.ts`; the coverage
-  section and footer links switch on when `PENDING.cities` flips to `false`.
+**Phase 2 — gated on a written client answer:**
+
+- `/adas-calibration/` — 3 of 7 audited Orange County competitors run a dedicated
+  ADAS page, so this is a normal and legitimate service in this market and worth
+  putting to the client as evidence. It is still their call. Competitors offering
+  it is not confirmation that this client does, and this is the one page where
+  wrong copy is a safety claim rather than a marketing one.
+- City pages — the client provides the list. Do not copy a competitor's city list.
+  Data is staged in `site.ts`; the coverage section and footer links switch on
+  when `PENDING.cities` flips to `false`.
 - Careers link in the footer — add only if the client is hiring techs
+
+**Phase 3 — roadmap, not this build:** fleet subpages (work vans, multi-vehicle
+intake), make-specific pages (Tesla, BMW — gated on documented capability),
+expansion cities. Astro pages are cheap to add once there is real traffic data
+saying which are worth having. Building them now is guessing.
+
+**Anti-pattern, explicitly rejected:** one audited competitor runs 222 pages,
+mostly thin ZIP-code doorway pages for Texas, Florida and Ohio with no Orange
+County relevance. It ranks acceptably today. Do not imitate it — page count over
+substance is a pattern that ages badly. Fewer real pages.
 
 ## SEO notes
 
@@ -96,3 +113,20 @@ phrase in a title at all.
 
 Titles are kept under roughly 60 characters including the brand suffix so they do
 not truncate in results.
+
+The homepage leads with fleet and commercial content ahead of personal vehicles,
+matching the client's stated priority.
+
+### This repo is not the whole job
+
+Competitor research found the Local/Map Pack above organic results on every query
+tested. That means the client's **Google Business Profile does as much work as
+this site does**, and nothing in this repo can substitute for it. Whoever handles
+off-page work should treat the profile as first priority, then citations — Yelp
+first, since it was verified across the most competitors, then MapQuest, then
+smaller directories.
+
+Two on-page decisions already account for this: the service-area business keeps
+its address out of the schema unless the client has a real walk-in shop, and
+review markup only emits for reviews that exist on a public profile. Both keep
+the site consistent with what the Business Profile says.

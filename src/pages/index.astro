@@ -11,7 +11,7 @@ import { site } from "@lib/site";
 
 const title = `Mobile Auto Glass Repair in Orange County | ${site.name}`;
 const description =
-  "Mobile windshield repair, chip repair and full windshield replacement across Orange County. We come to your driveway, office or yard — you don't lose a day to a shop.";
+  "Mobile auto glass across Orange County. Fleet and commercial vehicles handled in your yard between shifts, plus chip repair and windshield replacement for personal cars. Nothing leaves the lot.";
 
 /**
  * Positioning drafted from what is structurally true of a mobile, independent
@@ -40,9 +40,63 @@ const reasons = [
 
 <BaseLayout title={title} description={description} path="/">
   <Hero
-    h1="Your windshield gets fixed where your car is parked."
-    lede="Mobile auto glass across Orange County — rock chip repair, crack repair and full windshield replacement, done at your home, your office or your yard. No shop visit, no lost afternoon."
+    h1="Your vehicles get fixed where they're parked."
+    lede="Mobile auto glass across Orange County. Fleet vans and work trucks handled in your yard, before the shift starts — and the car in your driveway too. Chip repair, crack repair and full windshield replacement, without anything leaving the lot."
   />
+
+  <section class="fleet-lead">
+    <div class="wrap">
+      <p class="eyebrow">Fleet &amp; commercial</p>
+      <h2>A cracked windshield is a vehicle that isn't earning</h2>
+      <p class="lede">
+        Vans, box trucks, work pickups, rideshare vehicles. Glass damage takes a
+        vehicle off the road on the day you can least spare it, and sending each
+        one to a shop individually turns one problem into a week of them.
+      </p>
+
+      <div class="fleet-points">
+        <div>
+          <h3>We come to the yard</h3>
+          <p>
+            Multiple vehicles handled in a single visit, where they already
+            park. Nothing gets driven anywhere for glass.
+          </p>
+        </div>
+        <div>
+          <h3>Scheduled around your shifts</h3>
+          <p>
+            Overnight or between runs, so vehicles aren't coming off the road
+            during the hours they're supposed to be working.
+          </p>
+        </div>
+        <div>
+          <h3>One point of contact</h3>
+          <p>
+            Tell us the vehicles and where they sit. You don't chase a dispatch
+            queue once per truck.
+          </p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          <span aria-hidden="true">&#9742;</span>
+          Call {site.phone.display}
+        </a>
+        <a class="btn btn-outline" href="/contact/">Set up a fleet account</a>
+      </div>
+
+      <p class="pending-note">
+        <strong>Build note — not for launch.</strong> Fleet is framed here as the
+        priority audience per the brief, using only claims that follow from
+        running a mobile operation. Anything commercial buyers usually ask about
+        next — net payment terms, invoicing, insurer billing, minimum vehicle
+        counts, whether there's a dedicated account contact — is deliberately
+        absent because none of it is confirmed. Ask the client which of those
+        they actually offer; each one is a strong addition and a bad guess.
+      </p>
+    </div>
+  </section>
 
   <ServiceCards heading="What we do" />
 
@@ -70,25 +124,21 @@ const reasons = [
   </section>
 
   <section>
-    <div class="wrap fleet">
-      <div>
-        <h2>Running a fleet?</h2>
-        <p class="lede">
-          Vans, box trucks, work pickups, rideshare vehicles. A cracked
-          windshield is a vehicle that legally shouldn't be earning, and every
-          day it sits is a day of missed jobs.
-        </p>
-        <p>
-          Tell us how many vehicles you run and where they park overnight. Most
-          fleet glass work happens before the first shift so nothing comes off
-          the road during business hours.
-        </p>
-        <div class="btn-row">
-          <a class="btn btn-call" href={site.phone.href}>
-            Call {site.phone.display}
-          </a>
-          <a class="btn btn-outline" href="/contact/">Set up a fleet account</a>
-        </div>
+    <div class="wrap personal">
+      <p class="eyebrow">Personal vehicles</p>
+      <h2>One car, same deal</h2>
+      <p class="lede">
+        We didn't build this around fleets to the exclusion of everyone else. If
+        it's your own car, the work happens in your driveway or your office lot
+        while you get on with the day — no drop-off, no arranging a ride home,
+        no afternoon in a waiting room.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          <span aria-hidden="true">&#9742;</span>
+          Call {site.phone.display}
+        </a>
+        <a class="btn btn-outline" href="/contact/">Get a quote</a>
       </div>
     </div>
   </section>
@@ -138,11 +188,44 @@ const reasons = [
     color: var(--ink-soft);
   }
 
-  .fleet > div {
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--brand);
+    margin-bottom: 0.4rem;
+  }
+
+  .fleet-lead {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fleet-lead h2 {
+    max-width: 20ch;
+  }
+
+  .fleet-points {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin: 2rem 0;
+  }
+
+  .fleet-points h3 {
+    margin-bottom: 0.3rem;
+  }
+
+  .fleet-points p {
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .personal {
     max-width: 68ch;
   }
 
-  .fleet .btn-row {
+  .personal .btn-row {
     margin-top: 1.5rem;
   }
 

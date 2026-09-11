@@ -60,11 +60,17 @@ export const site = {
   ],
 
   /**
-   * Credentials. Never populate these from assumption — auto glass work in CA
-   * does not require a CSLB license, so do not carry one over from another trade.
-   * Insurance and any manufacturer/AGSC certification must be evidenced by the client.
+   * Credentials. Never populate these from assumption.
+   *
+   * On the license specifically: do not assume one exists to be displayed. Auto
+   * glass work in California is not licensed the way contracting trades are, so
+   * a CSLB number does not carry over from a landscaping or construction build.
+   * Ask the client whether they hold any license or certification worth showing
+   * — the honest answer may be "none", and that is fine. No badge renders until
+   * the client evidences one.
    */
   credentials: {
+    licenseNumber: "[LICENSE_NUMBER_PENDING]",
     insured: "[INSURANCE_PENDING]",
     certification: "[CERTIFICATION_PENDING]",
     yearsInBusiness: "[YEARS_PENDING]",
