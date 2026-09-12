@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "check:placeholders": "node scripts/check-placeholders.mjs"
+    "check:nap": "node scripts/check-nap.mjs",
+    "check:placeholders": "node scripts/check-placeholders.mjs",
+    "check:launch": "npm run check:nap && npm run build && npm run check:placeholders"
   },
   "dependencies": {
     "astro": "^5.2.5",
