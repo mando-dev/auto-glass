@@ -14,7 +14,9 @@ npm run dev
 | `npm run dev` | Local dev server on :4321 |
 | `npm run build` | Static build to `dist/` |
 | `npm run preview` | Serve the production build |
+| `npm run check:nap` | Fails if business identity is written outside `site.ts` |
 | `npm run check:placeholders` | Fails if unresolved client placeholders are still in `dist/` |
+| `npm run check:launch` | Both checks plus a build. Run before shipping. |
 
 ## Where the business facts live
 
@@ -25,6 +27,18 @@ it once there and it changes everywhere, including the schema markup.
 The `PENDING` flags at the top of that file control what renders. While a flag is
 `true`, the matching section either hides or shows an orange build note instead of
 inventing content. Flip the flag once the client supplies the real information.
+
+`npm run check:nap` enforces this rather than trusting it to habit. It fails the
+build if a phone number, email or street address appears anywhere in `src/` other
+than `site.ts`.
+
+That check is worth more than tidiness here. A competitor audit across 12 Orange
+County auto glass sites found identity conflicts on all five of the most recently
+checked — address, phone or email disagreeing between a site's own schema, its
+footer and its directory listings, with one site carrying three different
+address/email combinations across its own pages. Consistent NAP is a genuine,
+evidenced edge in this specific market, and it only stays consistent if drift
+breaks a command instead of depending on the next person to edit a component.
 
 ## Environment
 
@@ -84,11 +98,24 @@ Needed from the client, in writing:
 
 **Phase 2 — gated on a written client answer:**
 
-- `/adas-calibration/` — 3 of 7 audited Orange County competitors run a dedicated
+- `/adas-calibration/` — 3 of 12 audited Orange County competitors run a dedicated
   ADAS page, so this is a normal and legitimate service in this market and worth
   putting to the client as evidence. It is still their call. Competitors offering
   it is not confirmation that this client does, and this is the one page where
   wrong copy is a safety claim rather than a marketing one.
+
+  **Set expectations before building it:** Semrush, Ahrefs and Google Trends all
+  came back empty or too sparse for ADAS terms in this market. There is no
+  defensible search volume, so this is a completeness and conversion page for
+  people already talking to the business — not a traffic play. Judge it on
+  whether it closes high-ticket jobs, not on sessions.
+
+  Structure to follow when it is confirmed (the shape, not anyone's wording):
+  definition → what about a windshield replacement triggers the need →
+  static / dynamic / dual calibration decision logic → vehicle and VIN
+  eligibility → pre-scan, calibration, post-scan, validation workflow → fleet
+  documentation and scheduling → where insurance coverage starts and stops →
+  quote form.
 - City pages — the client provides the list. Do not copy a competitor's city list.
   Data is staged in `site.ts`; the coverage section and footer links switch on
   when `PENDING.cities` flips to `false`.
@@ -129,4 +156,18 @@ smaller directories.
 Two on-page decisions already account for this: the service-area business keeps
 its address out of the schema unless the client has a real walk-in shop, and
 review markup only emits for reviews that exist on a public profile. Both keep
-the site consistent with what the Business Profile says.
+the site consistent with what the Business Profile says. The JSON-LD type should
+also stay aligned with the GBP category the client picks — competitors here use
+"Auto glass shop" or "Auto glass repair service", which `AutoRepair` matches.
+
+**Reviews — there is no number to chase.** A Local Pack snapshot across 10 Orange
+County queries found ranking businesses with anywhere from 6 to 719 reviews and
+no apparent minimum. A handful of real ones is fine. Nothing in this repo should
+ever generate review-solicitation copy or invent a testimonial to pad the count.
+
+**Backlinks — do not match competitor link counts.** Domain analysis on two of
+the stronger-looking competitors found low-quality profiles: most referring
+domains under 10 Authority Score, heavy foreign-country representation, spam
+anchor-text patterns, and one flagged "Dangerous" by Semrush's own toxicity
+score. A few real local citations — Yelp, then MapQuest — already beats that.
+Copying their volume would mean copying their problem.

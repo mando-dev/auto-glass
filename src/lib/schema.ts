@@ -3,6 +3,11 @@ import { site, cities, reviews, services, PENDING } from "./site";
 /**
  * schema.org has no "AutoGlass" type. AutoRepair is the correct parent for
  * windshield work — do not invent a type name.
+ *
+ * Keep this aligned with whatever category the client selects on their Google
+ * Business Profile ("Auto glass shop" or "Auto glass repair service" are the
+ * categories competitors in this market use). The markup and the profile
+ * disagreeing is exactly the kind of identity drift the NAP rule exists to stop.
  */
 const BUSINESS_ID = `${site.url}/#business`;
 
