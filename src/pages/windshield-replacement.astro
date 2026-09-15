@@ -90,32 +90,17 @@ const schemas = [
         <a href="/windshield-chip-repair/">See chip and crack repair &rsaquo;</a>
       </p>
 
-      <div class="pending-note">
-        <p>
-          <strong>Build note — not for launch. Needs a client decision.</strong>
-        </p>
-        <p>
-          Many vehicles from roughly 2018 onward mount a forward-facing camera to
-          the windshield for lane keeping and automatic emergency braking. On
-          those vehicles the camera must be recalibrated after the glass is
-          replaced or the driver-assist systems can read the road wrong.
-        </p>
-        <p>
-          This page deliberately says nothing about it yet. Three things to
-          settle with the client, in writing:
-        </p>
-        <ol>
-          <li>Do they perform ADAS calibration in house?</li>
-          <li>Do they sublet it to a partner shop?</li>
-          <li>Or do they decline camera-equipped vehicles entirely?</li>
-        </ol>
-        <p>
-          Any of those three is a fine answer and each produces different copy.
-          Guessing is not an option — this is the one topic on the site where
-          wrong copy is a safety claim, not a marketing claim. The
-          <code>/adas-calibration/</code> page stays unbuilt until this is answered.
-        </p>
-      </div>
+      <h2>If your vehicle has a camera on the windshield</h2>
+      <p>
+        Many vehicles from roughly 2018 onward mount a forward-facing camera to
+        the glass for lane keeping and automatic emergency braking. On those, the
+        camera's aim is tied to the windshield it's mounted to, so replacing the
+        glass affects it.
+      </p>
+      <p>
+        Tell us the year, make and model when you get in touch and we'll tell you
+        whether yours is one of them and how it gets handled.
+      </p>
     </div>
   </section>
 
@@ -144,23 +129,5 @@ const schemas = [
 
   .narrow {
     max-width: 760px;
-  }
-
-  .pending-note {
-    border: 1px dashed #f0a868;
-    background: #fffaf4;
-    color: #8a4b08;
-    border-radius: var(--radius);
-    padding: 1.25rem 1.4rem;
-    font-size: 0.92rem;
-    margin-top: 2.5rem;
-  }
-
-  .pending-note p:last-child {
-    margin-bottom: 0;
-  }
-
-  .pending-note ol {
-    padding-left: 1.2rem;
   }
 </style>

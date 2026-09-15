@@ -1,5 +1,5 @@
 ---
-import { site } from "@lib/site";
+import { site , phoneCta } from "@lib/site";
 
 interface Props {
   heading?: string;
@@ -20,7 +20,7 @@ const {
     <div class="btn-row">
       <a class="btn btn-call" href={site.phone.href}>
         <span aria-hidden="true">&#9742;</span>
-        Call {site.phone.display}
+        {phoneCta}
       </a>
       <a class="btn btn-light" href="/contact/">Send photos</a>
     </div>

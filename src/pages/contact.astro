@@ -37,22 +37,20 @@ const schemas = [
             </dd>
           </div>
 
-          <div>
-            <dt>Hours</dt>
-            <dd>
-              {
-                PENDING.hours ? (
-                  <span class="pending">Pending client confirmation</span>
-                ) : (
-                  site.hours.map((h) => (
+          {
+            !PENDING.hours && (
+              <div>
+                <dt>Hours</dt>
+                <dd>
+                  {site.hours.map((h) => (
                     <div>
                       {h.days}: {h.open}–{h.close}
                     </div>
-                  ))
-                )
-              }
-            </dd>
-          </div>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
 
           <div>
             <dt>Service area</dt>

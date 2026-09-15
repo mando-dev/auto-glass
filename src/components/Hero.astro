@@ -1,5 +1,5 @@
 ---
-import { site } from "@lib/site";
+import { site , phoneCta } from "@lib/site";
 import TrustBadges from "./TrustBadges.astro";
 
 interface Props {
@@ -18,7 +18,7 @@ const { h1, lede, showBadges = true } = Astro.props;
     <div class="btn-row">
       <a class="btn btn-call" href={site.phone.href}>
         <span aria-hidden="true">&#9742;</span>
-        Call {site.phone.display}
+        {phoneCta}
       </a>
       <a class="btn btn-outline" href="/contact/">Get a quote</a>
     </div>

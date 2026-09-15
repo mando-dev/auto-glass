@@ -2,11 +2,20 @@
 import { site } from "@lib/site";
 ---
 
+{/* Separate Call and Text actions — the full "Call or Text <number>" label does
+    not fit a 375px bar, and sms: is a better tap target than a hint to text. */}
 <div class="callbar">
   <a class="btn btn-call" href={site.phone.href}>
     <span aria-hidden="true">&#9742;</span>
-    Call {site.phone.display}
+    Call
   </a>
+  {
+    site.phone.acceptsText && (
+      <a class="btn btn-text" href={site.phone.sms}>
+        Text
+      </a>
+    )
+  }
   <a class="btn btn-quote" href="/contact/">Quote</a>
 </div>
 
@@ -18,7 +27,7 @@ import { site } from "@lib/site";
   @media (max-width: 760px) {
     .callbar {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
       position: fixed;
       inset: auto 0 0 0;
@@ -34,6 +43,11 @@ import { site } from "@lib/site";
       font-size: 0.97rem;
       width: 100%;
       white-space: nowrap;
+    }
+
+    .btn-text {
+      background: var(--brand);
+      color: #fff;
     }
 
     .btn-quote {

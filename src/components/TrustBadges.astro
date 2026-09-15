@@ -15,16 +15,17 @@ const isPlaceholder = (value: string) => /^\[[A-Z0-9_]+\]$/.test(value);
 const badges = [
   { label: "Insured", value: site.credentials.insured },
   { label: "Certified", value: site.credentials.certification },
-  { label: "Serving Orange County", value: "Mobile service countywide" },
-].map((badge) => ({ ...badge, pending: isPlaceholder(badge.value) }));
+  { label: "Mobile service", value: "Across Orange County" },
+  { label: "Call or text", value: "Photo quotes welcome" },
+].filter((badge) => !isPlaceholder(badge.value));
 ---
 
 <ul class="badges">
   {
     badges.map((b) => (
-      <li class:list={["badge", { pending: b.pending }]}>
+      <li class="badge">
         <strong>{b.label}</strong>
-        <span>{b.pending ? "pending client confirmation" : b.value}</span>
+        <span>{b.value}</span>
       </li>
     ))
   }

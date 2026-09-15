@@ -7,21 +7,20 @@ interface Props {
   heading?: string;
 }
 const { source, heading = "Get a quote" } = Astro.props;
+
+// Warned at build time rather than on the page: a visitor should never be shown
+// our TODO, but a form that silently fails to deliver is the worst bug this site
+// could ship, so it must not be possible to build without seeing this.
+if (PENDING.web3forms) {
+  console.warn(
+    `\n  [lead form] No PUBLIC_WEB3FORMS_KEY set — the form on "${source}" will NOT deliver.` +
+      `\n              Set it in the Vercel project env and in a local .env.\n`,
+  );
+}
 ---
 
 <div class="formwrap">
   <h2>{heading}</h2>
-
-  {
-    PENDING.web3forms && (
-      <p class="pending-note">
-        <strong>Build note — not for launch.</strong> No Web3Forms access key is
-        set, so this form will not deliver. Add the client's key as{" "}
-        <code>PUBLIC_WEB3FORMS_KEY</code> in the Vercel project environment
-        variables and in a local <code>.env</code>.
-      </p>
-    )
-  }
 
   <form
     class="lead"
@@ -231,14 +230,5 @@ const { source, heading = "Get a quote" } = Astro.props;
   }
   .status.err {
     color: #b42318;
-  }
-
-  .pending-note {
-    border: 1px dashed #f0a868;
-    background: #fffaf4;
-    color: #8a4b08;
-    border-radius: var(--radius);
-    padding: 0.9rem 1.1rem;
-    font-size: 0.9rem;
   }
 </style>

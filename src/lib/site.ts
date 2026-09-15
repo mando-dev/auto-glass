@@ -58,7 +58,8 @@ export const site = {
     display: "(949) 681-9416",
     /** tel: href form, digits only with country code. */
     href: "tel:+19496819416",
-    /** Same line takes SMS — say so next to the CTA, people use it for photos. */
+    /** Same line takes SMS — people send photos of the damage to it. */
+    sms: "sms:+19496819416",
     acceptsText: true,
   },
 
@@ -222,6 +223,11 @@ export const owner = {
 
 /** Drives the sitewide noindex and the robots.txt disallow. See LAUNCH_READY. */
 export const notReadyToIndex = !LAUNCH_READY;
+
+/** Primary CTA label. One place, so every button agrees. */
+export const phoneCta = site.phone.acceptsText
+  ? `Call or Text ${site.phone.display}`
+  : `Call ${site.phone.display}`;
 
 export const nav = [
   { label: "Mobile Service", href: "/mobile-auto-glass/" },

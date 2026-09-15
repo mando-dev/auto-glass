@@ -8,12 +8,11 @@ import { cities, PENDING } from "@lib/site";
 
     {
       PENDING.cities ? (
-        <p class="pending-note">
-          <strong>Build note — not for launch.</strong> City list and per-city
-          pages are staged in <code>src/lib/site.ts</code> but stay hidden until
-          the client confirms the actual service radius. Advertising a city the
-          techs will not drive to costs a refund and a one-star review, so this
-          is not a gap to fill by guessing.
+        // No city list until the client confirms the radius. Naming a city the
+        // techs won't drive to costs a refund and a one-star review.
+        <p class="lede">
+          Mobile service across Orange County. Tell us where the vehicle is
+          parked and we'll tell you straight away whether we cover it.
         </p>
       ) : (
         <>
@@ -56,15 +55,5 @@ import { cities, PENDING } from "@lib/site";
   .cities a:hover {
     border-color: var(--brand);
     background: #f4f8fc;
-  }
-
-  .pending-note {
-    border: 1px dashed #f0a868;
-    background: #fffaf4;
-    color: #8a4b08;
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
-    font-size: 0.92rem;
-    max-width: 70ch;
   }
 </style>

@@ -7,10 +7,7 @@ import { site, notReadyToIndex } from "@lib/site";
  * placeholder copy.
  */
 const body = notReadyToIndex
-  ? `# Pre-launch. Pages still carry unresolved placeholder copy and visible
-# build notes. Indexing now would put those in front of real searchers and
-# into Google's cache, where they outlast the fix.
-#
+  ? `# Pre-launch. Not ready to be indexed yet.
 # Lifts when LAUNCH_READY is set true in src/lib/site.ts.
 User-agent: *
 Disallow: /

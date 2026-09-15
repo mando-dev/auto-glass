@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { site } from "@lib/site";
+import { site , phoneCta } from "@lib/site";
 ---
 
 <BaseLayout
@@ -22,7 +22,7 @@ import { site } from "@lib/site";
       </p>
       <div class="btn-row">
         <a class="btn btn-call" href={site.phone.href}>
-          Call {site.phone.display}
+          {phoneCta}
         </a>
         <a class="btn btn-outline" href="/">Back to the site</a>
       </div>

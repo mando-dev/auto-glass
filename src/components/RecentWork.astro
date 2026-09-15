@@ -2,40 +2,30 @@
 import { recentWork } from "@lib/site";
 ---
 
-<section class="section-soft">
-  <div class="wrap">
-    <h2>Recent work</h2>
-
-    {
-      recentWork.length > 0 ? (
-        <>
-          <p class="lede">Shot on the job, not staged.</p>
-          <div class="grid grid-3">
-            {recentWork.map((photo) => (
-              <figure class="shot">
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  loading="lazy"
-                  width="600"
-                  height="400"
-                />
-                <figcaption>{photo.caption}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p class="pending-note">
-          <strong>Build note — not for launch.</strong> Needs 6–9 real job
-          photos from the client's phone: chip before/after, a glass set in
-          progress, the van on site. No stock photography — it reads as fake and
-          undoes the rest of the page.
-        </p>
-      )
-    }
-  </div>
-</section>
+{
+  recentWork.length > 0 && (
+    <section class="section-soft">
+      <div class="wrap">
+        <h2>Recent work</h2>
+        <p class="lede">Shot on the job, not staged.</p>
+        <div class="grid grid-3">
+          {recentWork.map((photo) => (
+            <figure class="shot">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <figcaption>{photo.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 <style>
   .shot {
@@ -54,15 +44,5 @@ import { recentWork } from "@lib/site";
     font-size: 0.9rem;
     color: var(--ink-soft);
     margin-top: 0.5rem;
-  }
-
-  .pending-note {
-    border: 1px dashed #f0a868;
-    background: #fffaf4;
-    color: #8a4b08;
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
-    font-size: 0.92rem;
-    max-width: 70ch;
   }
 </style>
