@@ -13,8 +13,7 @@
     "check:launch": "npm run check:nap && npm run build && npm run check:placeholders"
   },
   "dependencies": {
-    "astro": "^5.2.5",
-    "@astrojs/sitemap": "^3.2.1"
+    "astro": "^5.2.5"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

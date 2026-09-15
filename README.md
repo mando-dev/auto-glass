@@ -70,35 +70,36 @@ record is a site-down, not a warning.
 
 ## Going live — order matters
 
-Deploying to Vercel early is fine and worth doing. Attaching the real domain
-early is also fine. What must not happen is the real domain being **crawlable**
-while `site.url` is still the placeholder.
+The domain is **autoglasscrew.com**, set in `site.url` and in `SITE_URL` in
+`astro.config.mjs`. Those two must always match.
 
-While `site.url` contains `DOMAIN-PENDING`, two guards are active automatically:
+Deploying to Vercel now is fine. What must not happen is the site being
+**crawlable** while pages still render `[SITE_NAME]` and `[PHONE_PLACEHOLDER]`.
+
+So two guards are active, both keyed to `notReadyToIndex` in `site.ts`:
 
 - every page emits `<meta name="robots" content="noindex, nofollow">`
 - `/robots.txt` emits `Disallow: /`
 
-Both lift on their own the moment `site.url` becomes the real domain. Neither
-needs remembering, and neither can be left on by accident once the domain is set.
+They are keyed to the **copy being real**, not to the domain being set. Setting
+the domain deliberately does not lift them — placeholder text indexed once is
+expensive to live down, and Google re-crawls on its own schedule, not yours.
+
+Both lift automatically when `PENDING.identity` and `PENDING.phone` are cleared.
 
 The sequence:
 
-1. Deploy to Vercel. The `*.vercel.app` URL is safe to share for review — it is
-   noindexed while the domain is pending.
-2. Attach the client's domain in Vercel and add the Cloudflare records below.
-   Doing this early is good: DNS propagation and certificate issuance both take
-   time, and the site stays uncrawlable meanwhile.
-3. Fill in the real client information and flip the `PENDING` flags.
-4. Set `site.url` **and** `SITE_URL` in `astro.config.mjs` to the real domain.
-   These two are the switch that makes the site indexable.
-5. Run `npm run check:launch`. It must pass.
-6. Push. Then submit the sitemap in Search Console.
+1. Deploy to Vercel. The site is noindexed, so the live domain is safe to share
+   for client review.
+2. Fill in the real business name and phone in `site.ts`, clear
+   `PENDING.identity` and `PENDING.phone`.
+3. Work through the rest of the pending list below and strip the build notes.
+4. Run `npm run check:launch`. It must pass.
+5. Push, then submit `https://autoglasscrew.com/sitemap.xml` in Search Console.
 
-Step 4 is the one that bites if done out of order. Before it, every canonical,
-`og:url` and schema `@id` on the site names the placeholder host — indexed in
-that state, each page tells Google it is a duplicate of a URL that does not
-exist, which is a worse starting position than never having been crawled.
+Do not submit the sitemap before step 2. While the guards are up, `robots.txt`
+disallows everything, and submitting a sitemap Google is not allowed to fetch
+just logs errors against the property.
 
 ## Before launch
 

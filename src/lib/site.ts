@@ -30,8 +30,8 @@ export const site = {
   name: "[SITE_NAME]",
   legalName: "[LEGAL_BUSINESS_NAME]",
   tagline: "Mobile auto glass repair and windshield replacement in Orange County",
-  /** Set once the client's domain is registered. Must match SITE_URL in astro.config.mjs. */
-  url: "https://DOMAIN-PENDING.example.com",
+  /** Must match SITE_URL in astro.config.mjs. */
+  url: "https://autoglasscrew.com",
 
   phone: {
     display: "[PHONE_PLACEHOLDER]",
@@ -183,6 +183,20 @@ export const owner = {
   photo: "",
   bio: "[OWNER_BIO_PENDING]",
 };
+
+/**
+ * Whether the site would publish placeholder text if a crawler reached it.
+ *
+ * Drives the sitewide noindex and the robots.txt disallow. Keyed to the content
+ * being real rather than to the domain being set: the domain is now live, but
+ * every page still renders [SITE_NAME] and [PHONE_PLACEHOLDER], and those
+ * indexed once are expensive to live down.
+ *
+ * Flip PENDING.identity and PENDING.phone when the client supplies the real
+ * name and number, and indexing turns on by itself.
+ */
+export const notReadyToIndex =
+  PENDING.identity || PENDING.phone || site.url.includes("DOMAIN-PENDING");
 
 export const nav = [
   { label: "Mobile Service", href: "/mobile-auto-glass/" },
