@@ -211,18 +211,25 @@ export type Review = {
 export const reviews: Review[] = [];
 
 /**
- * Hero photograph. Takes the place of the illustration when set.
+ * Hero photograph. Replaces the illustration when `src` is set.
  *
- * To use one: put the file in `public/images/`, set `src` to its path and write
- * real alt text. Leave empty and the original SVG renders instead.
+ * Put the file in `public/images/` and point `src` at it.
  *
- * Only use an image the client owns or has licensed. A photo lifted from another
- * auto glass company's site is their copyright, and a stock shot with a person
- * in it needs a model release as well as an image licence. The client's own
+ * IMPORTANT — optimise it before adding. Files in public/ ship byte-for-byte,
+ * with no resizing and no format conversion. A straight-off-the-phone 4.3MB
+ * JPEG measured at LCP 23s and dropped Lighthouse mobile performance from 100
+ * to 74. Target WebP, roughly 1200px wide, under ~200KB.
+ * `npm run check:placeholders` warns about anything over 300KB.
+ *
+ * Only use an image the client owns or has licensed. A photo from another auto
+ * glass company's site is their copyright, and a stock shot with an identifiable
+ * person needs a model release as well as an image licence. The client's own
  * phone photos need neither and, per the brief, convert better anyway.
  */
 export const heroPhoto = {
+  /** e.g. "/images/hero.webp" — leave empty for the illustration. */
   src: "",
+  /** Describe the actual photo. Required whenever src is set. */
   alt: "",
 };
 

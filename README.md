@@ -212,9 +212,20 @@ confirms real pricing, a range could be added — but it needs to come from them
 ## Images
 
 The hero uses an original inline SVG illustration — no request on the LCP path,
-no licensing question. To swap in a photograph: put the file in `public/images/`,
-then set `heroPhoto.src` and real `alt` text in `site.ts`. The illustration is the
-fallback, so leaving it empty is always safe.
+no licensing question. To swap in a photograph:
+
+1. Put the file in `public/images/`
+2. Set `heroPhoto.src` (e.g. `/images/hero.webp`) and real `alt` text in `site.ts`
+
+Clear `src` to go back to the illustration; it is the fallback, so leaving it
+empty is always safe.
+
+**Optimise the file before adding it.** Everything in `public/` ships
+byte-for-byte — Astro does not resize or convert it. Measured on this site: a
+straight-off-the-phone 4.3MB JPEG produced an LCP of 23 seconds and took
+Lighthouse mobile performance from 100 to 74. Target WebP, roughly 1200px wide,
+under ~200KB. `npm run check:placeholders` lists any image over 300KB so this
+cannot go unnoticed.
 
 **Only use images the client owns or has licensed.** Two traps worth naming, both
 of which have already come up:
