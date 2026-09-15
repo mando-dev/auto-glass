@@ -19,6 +19,16 @@ interface Props {
 const { title, description, path, schemas = [], noindex = false } = Astro.props;
 const canonical = `${site.url}${path}`;
 const allSchemas = [localBusinessSchema(), ...schemas];
+
+/**
+ * Until the real domain is set, every canonical and og:url on the site points at
+ * the placeholder host. Indexed in that state, each page tells Google it is a
+ * copy of a URL that does not exist — which is a worse starting position than
+ * never having been crawled. So the whole site stays noindex until site.url is
+ * real, and lifts by itself the moment it is.
+ */
+const domainPending = site.url.includes("DOMAIN-PENDING");
+const blockIndexing = noindex || domainPending;
 ---
 
 <!doctype html>
@@ -29,7 +39,7 @@ const allSchemas = [localBusinessSchema(), ...schemas];
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {blockIndexing && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

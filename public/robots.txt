@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# Update the host once the client's domain is live, then resubmit in Search Console.
-Sitemap: https://DOMAIN-PENDING.example.com/sitemap-index.xml
