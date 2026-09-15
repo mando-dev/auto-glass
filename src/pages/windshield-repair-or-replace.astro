@@ -271,18 +271,18 @@ const schemas = [
   }
 
   .result.repair {
-    border-left-color: #15803d;
-    background: #f2fbf5;
+    border-left-color: var(--color-success);
+    background: var(--color-success-tint);
   }
 
   .result.replace {
-    border-left-color: var(--accent);
-    background: #fff7f3;
+    border-left-color: var(--color-accent);
+    background: var(--color-paper-sunk);
   }
 
   .result.unsure {
-    border-left-color: var(--brand);
-    background: #f4f8fc;
+    border-left-color: var(--color-ink);
+    background: var(--color-paper-sunk);
   }
 
   .result :global(h2) {
@@ -291,7 +291,7 @@ const schemas = [
   }
 
   .result :global(p) {
-    color: var(--ink-soft);
+    color: var(--color-on-light-soft);
   }
 
   .result :global(.caveat) {

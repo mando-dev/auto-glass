@@ -83,11 +83,11 @@ const {
     background:
       radial-gradient(
         820px 420px at 78% 8%,
-        rgba(56, 189, 248, 0.16) 0%,
+        rgba(127, 166, 156, 0.20) 0%,
         transparent 62%
       ),
-      linear-gradient(165deg, #0b2438 0%, var(--brand-deep) 58%, #050f1c 100%);
-    color: #ffffff;
+      linear-gradient(165deg, var(--color-ink-raised) 0%, var(--color-ink) 62%, var(--color-ink-deep) 100%);
+    color: var(--color-on-dark);
   }
 
   .layout {
@@ -107,7 +107,7 @@ const {
     letter-spacing: 0.1em;
     font-size: 0.79rem;
     font-weight: 800;
-    color: var(--glass);
+    color: var(--color-glass);
     margin-bottom: 0.9rem;
   }
 
@@ -117,12 +117,12 @@ const {
     line-height: 1.02;
     letter-spacing: -0.028em;
     max-width: 14ch;
-    color: #fff;
+    color: var(--color-on-dark);
     margin-bottom: 1.25rem;
   }
 
   .hero .lede {
-    color: #a9c3d8;
+    color: var(--color-on-dark-soft);
     font-size: clamp(1.08rem, 1.5vw, 1.22rem);
     max-width: 52ch;
     margin-bottom: 2.25rem;
@@ -139,24 +139,24 @@ const {
   }
 
   .btn-ghost {
-    border-color: rgba(255, 255, 255, 0.55);
-    color: #fff;
+    border-color: rgba(243, 241, 236, 0.5);
+    color: var(--color-on-dark);
     background: transparent;
   }
 
   .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #fff;
+    background: rgba(243, 241, 236, 0.12);
+    border-color: var(--color-on-dark);
   }
 
   .btn-quiet {
-    color: #cfe0ee;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-on-dark);
+    background: rgba(243, 241, 236, 0.09);
   }
 
   .btn-quiet:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: #fff;
+    background: rgba(243, 241, 236, 0.17);
+    color: var(--color-on-dark);
   }
 
   .art {
@@ -180,7 +180,7 @@ const {
   .art figcaption {
     margin-top: 0.7rem;
     font-size: 0.86rem;
-    color: #8fa9bf;
+    color: var(--color-on-dark-soft);
     max-width: 480px;
   }
 

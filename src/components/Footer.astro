@@ -66,8 +66,8 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: #0d1620;
-    color: #c7d0d9;
+    background: var(--color-ink);
+    color: var(--color-on-dark-soft);
     padding-block: 3rem 1.5rem;
     margin-top: 2rem;
   }
@@ -82,19 +82,19 @@ const year = new Date().getFullYear();
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: #8fa0b0;
+    color: var(--color-glass);
     margin-bottom: 0.75rem;
   }
 
   .fbrand {
     font-weight: 800;
     font-size: 1.1rem;
-    color: #fff;
+    color: var(--color-on-dark);
     margin-bottom: 0.35rem;
   }
 
   .muted {
-    color: #8fa0b0;
+    color: var(--color-on-dark-soft);
     font-size: 0.92rem;
   }
 
@@ -107,24 +107,24 @@ const year = new Date().getFullYear();
   }
 
   .site-footer a {
-    color: #c7d0d9;
+    color: var(--color-on-dark-soft);
     text-decoration: none;
     font-size: 0.95rem;
   }
 
   .site-footer a:hover {
-    color: #fff;
+    color: var(--color-on-dark);
     text-decoration: underline;
   }
 
   .fcall {
     font-weight: 700;
     font-size: 1.08rem !important;
-    color: #fff !important;
+    color: var(--color-on-dark) !important;
   }
 
   .legal {
-    border-top: 1px solid #23303e;
+    border-top: 1px solid var(--line-dark);
     margin-top: 2.5rem;
     padding-top: 1.25rem;
   }
@@ -132,6 +132,6 @@ const year = new Date().getFullYear();
   .legal p {
     margin: 0;
     font-size: 0.85rem;
-    color: #7c8b99;
+    color: var(--color-on-dark-soft);
   }
 </style>

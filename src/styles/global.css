@@ -2,27 +2,53 @@
  * System font stack only. A webfont costs an extra RTT on the LCP path and
  * risks CLS on the hero headline — not worth it for a phone-call-driven site.
  */
+/*
+ * One palette, four roles. Every colour on the site resolves to these — no
+ * component defines its own hex.
+ */
 :root {
-  --ink: #0d1723;
-  --ink-soft: #46535f;
-  --line: #dde4ea;
-  --bg: #ffffff;
-  --bg-soft: #f2f6fa;
+  /* Deep teal-charcoal. Every dark section site-wide, so the page reads as one
+     tone rather than two competing blues. */
+  --color-ink: #12262b;
+  --color-ink-raised: #173036;
+  /* Warm off-white for light sections. */
+  --color-paper: #f3f1ec;
+  --color-paper-sunk: #e9e6df;
+  /*
+   * Safety-orange. Primary CTAs and the urgency banner only — never decoration.
+   *
+   * #e15a2e is the hue, but it only reaches 3.7:1 behind light text and 4.49:1
+   * behind dark text — both fail AA for button-sized type. So the bright value
+   * is kept for marks that carry no text, and -deep (5.05:1 on paper) fills any
+   * surface with a label on it. Same hue, one family.
+   */
+  --color-accent: #e15a2e;
+  --color-accent-deep: #b2421e;
+  --color-accent-dark: #93361a;
+  /* Muted sage. Small accents: icons, dividers, secondary badges. Decorative
+     only — it measures 2.4:1 on paper, so it must never carry text. */
+  --color-glass: #7fa69c;
 
-  --brand: #0b5cab;
-  --brand-dark: #08406f;
-  /* Near-black navy for full-bleed dark sections. */
-  --brand-deep: #071a2c;
-  --brand-tint: #e7f0f9;
+  --color-on-dark: #f3f1ec;
+  --color-on-dark-soft: #b9c6c4;
+  --color-on-light: #16211f;
+  --color-on-light-soft: #4b5a57;
 
-  /* Dark enough to clear 4.5:1 against white button text (measures ~5.2:1). */
-  --accent: #c2410c;
-  --accent-dark: #9a3412;
-  --accent-tint: #fdf0e9;
+  --line: #d9d5cc;
+  --line-dark: rgba(243, 241, 236, 0.16);
 
-  /* Glass-cyan. Used for highlights on dark only — too light for white text. */
-  --glass: #38bdf8;
-  --glass-deep: #0e7490;
+  /* Deepest stop of the ink family, for gradient ends only. */
+  --color-ink-deep: #0c1d21;
+
+  /*
+   * Status colours sit outside the brand palette on purpose: "this succeeded"
+   * and "this failed" must not be expressible in the same hue as a CTA, or the
+   * form's error state reads as another button.
+   */
+  --color-success: #15803d;
+  --color-success-tint: #eef7f1;
+  --color-danger: #b42318;
+  --color-danger-tint: #fdf1ee;
 
   --radius: 10px;
   --wrap: 1120px;
@@ -46,8 +72,8 @@ body {
   font-family: var(--font);
   font-size: 17px;
   line-height: 1.6;
-  color: var(--ink);
-  background: var(--bg);
+  color: var(--color-on-light);
+  background: var(--color-paper);
 }
 
 h1,
@@ -73,7 +99,7 @@ p {
 }
 
 a {
-  color: var(--brand);
+  color: var(--color-ink);
 }
 
 img {
@@ -94,12 +120,12 @@ section {
 }
 
 .section-soft {
-  background: var(--bg-soft);
+  background: var(--color-paper-sunk);
 }
 
 .lede {
   font-size: 1.1rem;
-  color: var(--ink-soft);
+  color: var(--color-on-light-soft);
   max-width: 62ch;
 }
 
@@ -120,20 +146,20 @@ section {
 }
 
 .btn-call {
-  background: var(--accent);
-  color: #fff;
+  background: var(--color-accent-deep);
+  color: var(--color-on-dark);
 }
 .btn-call:hover {
-  background: var(--accent-dark);
+  background: var(--color-accent-dark);
 }
 
 .btn-outline {
   border-color: currentColor;
-  color: var(--brand);
+  color: var(--color-ink);
   background: transparent;
 }
 .btn-outline:hover {
-  background: rgba(11, 92, 171, 0.07);
+  background: rgba(18, 38, 43, 0.07);
 }
 
 .btn-row {
@@ -158,13 +184,13 @@ section {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.5rem;
-  background: var(--bg);
+  background: var(--color-paper);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card:hover {
-  border-color: #b9d3ea;
-  box-shadow: 0 6px 20px rgba(7, 26, 44, 0.07);
+  border-color: var(--color-glass);
+  box-shadow: 0 6px 20px rgba(18, 38, 43, 0.09);
 }
 
 .card h3 {
@@ -172,7 +198,7 @@ section {
 }
 
 .card p {
-  color: var(--ink-soft);
+  color: var(--color-on-light-soft);
   margin-bottom: 1rem;
 }
 
@@ -208,7 +234,7 @@ section {
 }
 
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--color-accent-deep);
   outline-offset: 2px;
 }
 

@@ -160,7 +160,7 @@ const reasons = [
     flex-shrink: 0;
     margin-right: 0.7rem;
     border-radius: 50%;
-    background: linear-gradient(145deg, var(--brand) 0%, var(--brand-dark) 100%);
+    background: linear-gradient(145deg, var(--color-ink) 0%, var(--color-ink) 100%);
     color: #fff;
     font-size: 0.98rem;
     font-weight: 700;
@@ -172,7 +172,7 @@ const reasons = [
   }
 
   .reasons p {
-    color: var(--ink-soft);
+    color: var(--color-on-light-soft);
   }
 
   .eyebrow {
@@ -180,57 +180,56 @@ const reasons = [
     letter-spacing: 0.09em;
     font-size: 0.78rem;
     font-weight: 800;
-    color: var(--brand);
+    color: var(--color-ink);
     margin-bottom: 0.4rem;
   }
 
-  /* Brand blue, not the hero's near-black. Fleet is the priority audience and
-     needs weight, but two near-identical dark bands read as one long slab. */
+  /*
+   * Same --color-ink as the hero, per the palette. The two are adjacent, so a
+   * sage rule divides them — without it they merge into one two-screen slab.
+   * The slightly raised tone does the rest of the separation.
+   */
   .fleet-lead {
     background:
       radial-gradient(
         760px 360px at 88% 0%,
-        rgba(255, 255, 255, 0.1) 0%,
+        rgba(127, 166, 156, 0.14) 0%,
         transparent 62%
       ),
-      var(--brand);
-    color: #d3e4f5;
+      var(--color-ink-raised);
+    color: var(--color-on-dark-soft);
+    border-top: 3px solid var(--color-glass);
   }
 
   .fleet-lead h2 {
     max-width: 20ch;
-    color: #fff;
+    color: var(--color-on-dark);
   }
 
-  /* Full glass-cyan only clears 3.1:1 on this blue, so the eyebrow is lightened
-     until it passes — it is small bold text, not large text. */
   .fleet-lead .eyebrow {
-    color: #a8e4ff;
+    color: var(--color-glass);
   }
 
-  .fleet-lead .lede {
-    color: #d3e4f5;
+  .fleet-lead .lede,
+  .fleet-lead .fleet-points p {
+    color: var(--color-on-dark-soft);
   }
 
   .fleet-lead .fleet-points h3 {
-    color: #fff;
-  }
-
-  .fleet-lead .fleet-points p {
-    color: #d3e4f5;
+    color: var(--color-on-dark);
   }
 
   .fleet-lead .fleet-points > div {
-    border-top: 2px solid rgba(255, 255, 255, 0.35);
+    border-top: 2px solid var(--line-dark);
     padding-top: 1rem;
   }
 
   .fleet-lead .btn-outline {
-    color: #fff;
+    color: var(--color-on-dark);
   }
 
   .fleet-lead .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(243, 241, 236, 0.1);
   }
 
   .fleet-points {
@@ -245,7 +244,7 @@ const reasons = [
   }
 
   .fleet-points p {
-    color: var(--ink-soft);
+    color: var(--color-on-light-soft);
     margin: 0;
   }
 

@@ -150,7 +150,7 @@ const schemas = [
 
   .steps li {
     counter-increment: step;
-    border-left: 3px solid var(--brand);
+    border-left: 3px solid var(--color-ink);
     padding-left: 1.1rem;
   }
 
@@ -160,11 +160,11 @@ const schemas = [
 
   .steps h3::before {
     content: "Step " counter(step) " — ";
-    color: var(--brand);
+    color: var(--color-ink);
   }
 
   .steps p {
-    color: var(--ink-soft);
+    color: var(--color-on-light-soft);
     margin: 0;
   }
 
@@ -175,7 +175,7 @@ const schemas = [
   }
 
   .needs li {
-    color: var(--ink-soft);
+    color: var(--color-on-light-soft);
   }
 
   .narrow {
