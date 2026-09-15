@@ -228,9 +228,16 @@ export const reviews: Review[] = [];
  */
 export const heroPhoto = {
   /** e.g. "/images/hero.webp" — leave empty for the illustration. */
-  src: "",
+  src: "/images/glass.jpeg",
   /** Describe the actual photo. Required whenever src is set. */
-  alt: "",
+  alt: "Car windshield shattered into a spiderweb of cracks",
+  /**
+   * Shown under the photo. Only worth writing for a real job shot, where saying
+   * what it is does credibility work — "Chip repair on a work van, Irvine".
+   * Leave empty for generic imagery: a caption claiming a photo is our own work
+   * when it isn't would be exactly the kind of invention this build avoids.
+   */
+  caption: "",
 };
 
 /** Real job photos only — shot on the job, not stock. Empty until supplied. */

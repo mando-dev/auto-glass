@@ -11,7 +11,7 @@ const { heading = "What we do", exclude } = Astro.props;
 const shown = services.filter((s) => s.slug !== exclude);
 ---
 
-<section>
+<section id="services">
   <div class="wrap">
     <h2>{heading}</h2>
     <div class="grid grid-3">

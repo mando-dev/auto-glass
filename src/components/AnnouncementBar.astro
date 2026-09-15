@@ -1,0 +1,127 @@
+---
+/**
+ * Promotes the repair-or-replace tool above the header.
+ *
+ * Rendered server-side and visible by default, then hidden synchronously by an
+ * inline script if this viewer dismissed it — hiding after paint would shift the
+ * whole page down on every load.
+ */
+---
+
+<div class="announce" data-announce hidden={false}>
+  <div class="wrap inner">
+    <p>
+      <strong>Not sure if your chip needs replacing?</strong> Check it in 30
+      seconds — no contact details needed.
+    </p>
+    <div class="actions">
+      <a class="cta" href="/windshield-repair-or-replace/">
+        Check my windshield <span aria-hidden="true">&rarr;</span>
+      </a>
+      <button type="button" data-announce-close aria-label="Dismiss this message">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Inline and synchronous so a dismissed bar never paints. Storage can throw
+  // in private windows and embedded previews, so every access is guarded.
+  (function () {
+    var KEY = "agc:announce-dismissed";
+    var bar = document.querySelector("[data-announce]");
+    if (!bar) return;
+
+    try {
+      if (localStorage.getItem(KEY) === "1") bar.hidden = true;
+    } catch (e) {}
+
+    bar.querySelector("[data-announce-close]").addEventListener("click", function () {
+      bar.hidden = true;
+      try {
+        localStorage.setItem(KEY, "1");
+      } catch (e) {}
+    });
+  })();
+</script>
+
+<style>
+  .announce {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.65rem;
+  }
+
+  .announce p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.4;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #fff;
+    color: #8a2f08;
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    min-height: 40px;
+  }
+
+  .cta:hover {
+    background: #ffeee5;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 0 0.4rem;
+    cursor: pointer;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 999px;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  @media (max-width: 820px) {
+    .inner {
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .announce p {
+      flex: 1 1 100%;
+    }
+
+    .actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+</style>
