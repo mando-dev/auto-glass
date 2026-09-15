@@ -184,17 +184,17 @@ const reasons = [
     margin-bottom: 0.4rem;
   }
 
-  /* Dark band: fleet is the priority audience and was reading as just another
-     white section between two others. */
+  /* Brand blue, not the hero's near-black. Fleet is the priority audience and
+     needs weight, but two near-identical dark bands read as one long slab. */
   .fleet-lead {
     background:
       radial-gradient(
-        700px 340px at 12% 0%,
-        rgba(56, 189, 248, 0.14) 0%,
-        transparent 60%
+        760px 360px at 88% 0%,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 62%
       ),
-      var(--brand-deep);
-    color: #dbe7f2;
+      var(--brand);
+    color: #d3e4f5;
   }
 
   .fleet-lead h2 {
@@ -202,12 +202,14 @@ const reasons = [
     color: #fff;
   }
 
+  /* Full glass-cyan only clears 3.1:1 on this blue, so the eyebrow is lightened
+     until it passes — it is small bold text, not large text. */
   .fleet-lead .eyebrow {
-    color: var(--glass);
+    color: #a8e4ff;
   }
 
   .fleet-lead .lede {
-    color: #a9c0d4;
+    color: #d3e4f5;
   }
 
   .fleet-lead .fleet-points h3 {
@@ -215,11 +217,11 @@ const reasons = [
   }
 
   .fleet-lead .fleet-points p {
-    color: #a9c0d4;
+    color: #d3e4f5;
   }
 
   .fleet-lead .fleet-points > div {
-    border-top: 2px solid var(--glass-deep);
+    border-top: 2px solid rgba(255, 255, 255, 0.35);
     padding-top: 1rem;
   }
 

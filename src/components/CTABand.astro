@@ -28,8 +28,15 @@ const {
 </section>
 
 <style>
+  /* Near-black, bookending the hero at the other end of the page. */
   .band {
-    background: var(--brand-dark);
+    background:
+      radial-gradient(
+        700px 320px at 15% 100%,
+        rgba(56, 189, 248, 0.14) 0%,
+        transparent 62%
+      ),
+      var(--brand-deep);
     color: #fff;
   }
 
