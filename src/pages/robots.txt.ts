@@ -7,12 +7,11 @@ import { site, notReadyToIndex } from "@lib/site";
  * placeholder copy.
  */
 const body = notReadyToIndex
-  ? `# Pre-launch. Pages still render placeholder copy ([SITE_NAME],
-# [PHONE_PLACEHOLDER]) and visible build notes. Indexing now would put that
-# in front of real searchers and into Google's cache.
+  ? `# Pre-launch. Pages still carry unresolved placeholder copy and visible
+# build notes. Indexing now would put those in front of real searchers and
+# into Google's cache, where they outlast the fix.
 #
-# This lifts automatically once the client's name and phone number are set
-# in src/lib/site.ts and the matching PENDING flags are cleared.
+# Lifts when LAUNCH_READY is set true in src/lib/site.ts.
 User-agent: *
 Disallow: /
 `

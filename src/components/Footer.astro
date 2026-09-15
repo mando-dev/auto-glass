@@ -1,5 +1,5 @@
 ---
-import { site, services, cities, PENDING } from "@lib/site";
+import { site, services, cities, contentPages, PENDING } from "@lib/site";
 const year = new Date().getFullYear();
 ---
 
@@ -48,8 +48,13 @@ const year = new Date().getFullYear();
     <div>
       <h2>Company</h2>
       <ul>
-        <li><a href="/about/">About</a></li>
-        <li><a href="/contact/">Contact</a></li>
+        {
+          contentPages.map((page) => (
+            <li>
+              <a href={page.href}>{page.label}</a>
+            </li>
+          ))
+        }
       </ul>
       {/* Careers link intentionally omitted — add only once the client confirms
           they are hiring techs. */}

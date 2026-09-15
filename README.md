@@ -76,28 +76,32 @@ The domain is **autoglasscrew.com**, set in `site.url` and in `SITE_URL` in
 Deploying to Vercel now is fine. What must not happen is the site being
 **crawlable** while pages still render `[SITE_NAME]` and `[PHONE_PLACEHOLDER]`.
 
-So two guards are active, both keyed to `notReadyToIndex` in `site.ts`:
+So two guards are active, both keyed to **one explicit switch** — `LAUNCH_READY`
+in `site.ts`, currently `false`:
 
 - every page emits `<meta name="robots" content="noindex, nofollow">`
 - `/robots.txt` emits `Disallow: /`
 
-They are keyed to the **copy being real**, not to the domain being set. Setting
-the domain deliberately does not lift them — placeholder text indexed once is
-expensive to live down, and Google re-crawls on its own schedule, not yours.
+It is a deliberate manual switch rather than something inferred from the `PENDING`
+flags. Real copy is necessary but not sufficient: the name and phone are now real,
+and the site is still not launch-ready, because build notes render on every page
+and nobody has reviewed the result. Inferring "ready" from "has a phone number"
+would have quietly published it.
 
-Both lift automatically when `PENDING.identity` and `PENDING.phone` are cleared.
+Lighthouse SEO reads 66 while this is on, and the only failing audit is
+`is-crawlable`. That is the guard doing its job — it returns to 100 the moment
+`LAUNCH_READY` is `true`.
 
 The sequence:
 
 1. Deploy to Vercel. The site is noindexed, so the live domain is safe to share
    for client review.
-2. Fill in the real business name and phone in `site.ts`, clear
-   `PENDING.identity` and `PENDING.phone`.
-3. Work through the rest of the pending list below and strip the build notes.
-4. Run `npm run check:launch`. It must pass.
+2. Work through the pending list below, strip the build notes.
+3. Run `npm run check:launch`. It must pass.
+4. Set `LAUNCH_READY = true`.
 5. Push, then submit `https://autoglasscrew.com/sitemap.xml` in Search Console.
 
-Do not submit the sitemap before step 2. While the guards are up, `robots.txt`
+Do not submit the sitemap before step 4. While the guard is up, `robots.txt`
 disallows everything, and submitting a sitemap Google is not allowed to fetch
 just logs errors against the property.
 
@@ -163,6 +167,55 @@ saying which are worth having. Building them now is guessing.
 mostly thin ZIP-code doorway pages for Texas, Florida and Ohio with no Orange
 County relevance. It ranks acceptably today. Do not imitate it — page count over
 substance is a pattern that ages badly. Fewer real pages.
+
+## Blog
+
+Astro content collection at `src/content/blog/`, schema in `src/content.config.ts`.
+Add a `.md` file with `title`, `description` and `pubDate`; it appears at
+`/blog/<filename>/`, in the index, and in the sitemap automatically. Set
+`draft: true` to keep one out of all three.
+
+The placeholder discipline is easier to break in prose than in page copy. No
+implied years in business, no customer counts, no "we've seen hundreds of these",
+no certifications. Write about the trade, not about a track record that does not
+exist yet. Article schema names the business as publisher and deliberately claims
+no author person, because no real author has been attributed.
+
+### On page count — the apparent contradiction
+
+Two instructions in the brief look like they conflict. They don't, and the
+distinction matters:
+
+- **Volume is the strategy.** joylawn.com does ~$1,500/month from ~60 pages at an
+  average position of 23.6 — page 2–3, not page 1. That revenue is many real
+  pages each ranking modestly, compounding. More pages is right.
+- **Thin doorway pages are the anti-pattern.** The 222-page competitor is mostly
+  ZIP-code stubs for three states it does not serve.
+
+The dividing line is whether a page would be worth reading if search did not
+exist. A guide explaining insurance claims earns its place. "Windshield repair
+[ZIP]" with the ZIP swapped does not. The blog is the volume engine precisely
+because posts clear that bar on their own.
+
+## Repair-or-replace tool
+
+`/windshield-repair-or-replace/` — four questions about observable properties of
+the damage, returning a likelihood and the reasoning.
+
+**Deliberately not a cost estimator.** The brief allows either; a price tool was
+rejected because no pricing is confirmed, and any range shown on a page reads as
+a quote to the person reading it. Every input is something the customer can see
+for themselves, every output names the physical reason, and the result carries an
+explicit line saying it is not an inspection or a quote. If the client later
+confirms real pricing, a range could be added — but it needs to come from them.
+
+## Pending, structural only
+
+- **Map / location section** — not built. A service-area business with no public
+  address has nothing accurate to put on a map. Revisit if a real shop exists.
+- **Facebook, YouTube, LinkedIn links** — keys exist in `site.social` and render
+  nothing while empty. Populate only once the accounts genuinely exist; an icon
+  linking to a dead profile reads as an abandoned business.
 
 ## SEO notes
 

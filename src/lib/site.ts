@@ -7,11 +7,26 @@
  * Never hardcode NAP, phone, hours or service area in a component. Import here.
  */
 
+/**
+ * The single switch that makes the site indexable.
+ *
+ * Deliberately explicit rather than inferred from the flags below. Real copy is
+ * necessary but not sufficient: build notes are still rendered on the page, and
+ * nobody has reviewed the result yet. Flip this only when `npm run check:launch`
+ * passes and the client has actually seen the site.
+ *
+ * While false: every page carries noindex, and robots.txt disallows everything.
+ */
+export const LAUNCH_READY = false;
+
 export const PENDING = {
-  /** Legal/DBA name and domain not finalized. */
-  identity: true,
-  /** No business line yet. No call-tracking number either. */
-  phone: true,
+  /**
+   * "Auto Glass Crew" is a working display name, not a finalised legal name.
+   * The trading name is real enough to render; the legal entity still is not.
+   */
+  identity: false,
+  /** Real business line. Also accepts SMS. No call-tracking number. */
+  phone: false,
   /** Physical address — needed for LocalBusiness schema + Google Business Profile. */
   address: true,
   /** Client has not supplied hours. */
@@ -27,16 +42,24 @@ export const PENDING = {
 } as const;
 
 export const site = {
-  name: "[SITE_NAME]",
+  /**
+   * Working display name, not a finalised legal name. Reads as a business
+   * rather than a URL — "AutoGlassCrew.com" in body copy looks like a domain
+   * string, not someone you'd call.
+   */
+  name: "Auto Glass Crew",
   legalName: "[LEGAL_BUSINESS_NAME]",
-  tagline: "Mobile auto glass repair and windshield replacement in Orange County",
+  tagline:
+    "Mobile auto glass repair and windshield replacement in Orange County",
   /** Must match SITE_URL in astro.config.mjs. */
   url: "https://autoglasscrew.com",
 
   phone: {
-    display: "[PHONE_PLACEHOLDER]",
+    display: "(949) 681-9416",
     /** tel: href form, digits only with country code. */
-    href: "tel:+1000000000",
+    href: "tel:+19496819416",
+    /** Same line takes SMS — say so next to the CTA, people use it for photos. */
+    acceptsText: true,
   },
 
   email: "[EMAIL_PENDING]",
@@ -56,7 +79,11 @@ export const site = {
   hasWalkInShop: false,
 
   hours: [
-    { days: "[DAYS_PENDING]", open: "[OPEN_PENDING]", close: "[CLOSE_PENDING]" },
+    {
+      days: "[DAYS_PENDING]",
+      open: "[OPEN_PENDING]",
+      close: "[CLOSE_PENDING]",
+    },
   ],
 
   /**
@@ -76,13 +103,22 @@ export const site = {
     yearsInBusiness: "[YEARS_PENDING]",
   },
 
+  /**
+   * Only ever populate a key here once the account genuinely exists. A header or
+   * footer icon linking to a dead profile is worse than no icon — it reads as an
+   * abandoned business. Empty strings render nothing.
+   */
   social: {
-    google: "[GOOGLE_BUSINESS_PROFILE_URL_PENDING]",
-    yelp: "[YELP_URL_PENDING]",
+    google: "",
+    yelp: "",
+    facebook: "",
+    youtube: "",
+    linkedin: "",
   },
 
   web3forms: {
-    accessKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "[WEB3FORMS_KEY_PENDING]",
+    accessKey:
+      import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "[WEB3FORMS_KEY_PENDING]",
     redirectTo: "/thanks/",
   },
 } as const;
@@ -184,24 +220,23 @@ export const owner = {
   bio: "[OWNER_BIO_PENDING]",
 };
 
-/**
- * Whether the site would publish placeholder text if a crawler reached it.
- *
- * Drives the sitewide noindex and the robots.txt disallow. Keyed to the content
- * being real rather than to the domain being set: the domain is now live, but
- * every page still renders [SITE_NAME] and [PHONE_PLACEHOLDER], and those
- * indexed once are expensive to live down.
- *
- * Flip PENDING.identity and PENDING.phone when the client supplies the real
- * name and number, and indexing turns on by itself.
- */
-export const notReadyToIndex =
-  PENDING.identity || PENDING.phone || site.url.includes("DOMAIN-PENDING");
+/** Drives the sitewide noindex and the robots.txt disallow. See LAUNCH_READY. */
+export const notReadyToIndex = !LAUNCH_READY;
 
 export const nav = [
   { label: "Mobile Service", href: "/mobile-auto-glass/" },
   { label: "Replacement", href: "/windshield-replacement/" },
   { label: "Chip Repair", href: "/windshield-chip-repair/" },
+  { label: "Repair or Replace?", href: "/windshield-repair-or-replace/" },
+  { label: "Guides", href: "/blog/" },
+  { label: "About", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
+];
+
+/** Non-service pages that belong in the sitemap and the footer. */
+export const contentPages = [
+  { label: "Repair or Replace?", href: "/windshield-repair-or-replace/" },
+  { label: "Guides", href: "/blog/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
 ];

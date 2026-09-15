@@ -1,24 +1,22 @@
 ---
-import { site, PENDING } from "@lib/site";
+import { site } from "@lib/site";
 
 /**
  * Renders only what the client has evidenced. Anything unconfirmed renders as a
  * visibly dashed placeholder so gaps are obvious in client review instead of
  * being quietly filled with a plausible-sounding claim.
+ *
+ * Pending state is derived from the value itself rather than a PENDING flag —
+ * credentials are supplied one at a time, and a shared flag either leaks a raw
+ * [PLACEHOLDER] into the page or hides a credential that has already arrived.
  */
+const isPlaceholder = (value: string) => /^\[[A-Z0-9_]+\]$/.test(value);
+
 const badges = [
-  { label: "Insured", value: site.credentials.insured, pending: PENDING.identity },
-  {
-    label: "Certified",
-    value: site.credentials.certification,
-    pending: PENDING.identity,
-  },
-  {
-    label: "Serving Orange County",
-    value: "Mobile service countywide",
-    pending: false,
-  },
-];
+  { label: "Insured", value: site.credentials.insured },
+  { label: "Certified", value: site.credentials.certification },
+  { label: "Serving Orange County", value: "Mobile service countywide" },
+].map((badge) => ({ ...badge, pending: isPlaceholder(badge.value) }));
 ---
 
 <ul class="badges">

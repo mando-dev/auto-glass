@@ -23,6 +23,15 @@ const { h1, lede, showBadges = true } = Astro.props;
       <a class="btn btn-outline" href="/contact/">Get a quote</a>
     </div>
 
+    {
+      site.phone.acceptsText && (
+        <p class="sms-note">
+          Same number takes texts — send a photo of the damage and we'll tell you
+          repair or replace.
+        </p>
+      )
+    }
+
     {showBadges && <TrustBadges />}
   </div>
 </section>
@@ -41,5 +50,12 @@ const { h1, lede, showBadges = true } = Astro.props;
 
   .hero .lede {
     margin-bottom: 1.75rem;
+  }
+
+  .sms-note {
+    margin: 0.9rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    max-width: 52ch;
   }
 </style>

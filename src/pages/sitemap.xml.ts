@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 import { site, services, cities, PENDING } from "@lib/site";
 
 /**
@@ -9,10 +10,15 @@ import { site, services, cities, PENDING } from "@lib/site";
  * Indexable pages only. /thanks/ and /404 carry noindex, and asking Google to
  * crawl a page you have told it not to index is a Search Console warning.
  */
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
 const paths = [
   "/",
   ...services.map((s) => `/${s.slug}/`),
+  "/windshield-repair-or-replace/",
   ...(PENDING.cities ? [] : cities.map((c) => `/${c.slug}/`)),
+  "/blog/",
+  ...posts.map((post) => `/blog/${post.id}/`),
   "/about/",
   "/contact/",
 ];
