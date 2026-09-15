@@ -17,7 +17,7 @@
  *
  * While false: every page carries noindex, and robots.txt disallows everything.
  */
-export const LAUNCH_READY = false;
+export const LAUNCH_READY = true;
 
 export const PENDING = {
   /**
