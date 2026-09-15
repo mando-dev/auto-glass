@@ -1,0 +1,303 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LeadForm from "@components/LeadForm.astro";
+import CTABand from "@components/CTABand.astro";
+import { site } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+
+/**
+ * Decision tool, deliberately NOT a cost estimator.
+ *
+ * A price calculator would have to invent numbers — no pricing is confirmed, and
+ * a range on a page reads as a quote to the person reading it. Every input here
+ * is a physical property of the damage the customer can observe, and the output
+ * is a likelihood plus a reason, never a figure and never a promise.
+ */
+const schemas = [
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Repair or Replace?", url: "/windshield-repair-or-replace/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`Windshield Repair or Replace? | ${site.name}`}
+  description="Answer four questions about your windshield damage and find out whether it's likely a resin repair or a full replacement — and why."
+  path="/windshield-repair-or-replace/"
+  schemas={schemas}
+>
+  <section>
+    <div class="wrap narrow">
+      <h1>Repair or replace?</h1>
+      <p class="lede">
+        Four questions about the damage itself. No contact details needed, and
+        nothing here is a quote — it tells you which way the job is likely to go
+        and what's driving that.
+      </p>
+
+      <form class="tool" id="tool">
+        <fieldset>
+          <legend>1. How big is it?</legend>
+          <label
+            ><input type="radio" name="size" value="small" required /> Smaller
+            than a quarter</label
+          >
+          <label
+            ><input type="radio" name="size" value="medium" /> Between a quarter
+            and a dollar bill</label
+          >
+          <label
+            ><input type="radio" name="size" value="large" /> Longer than a
+            dollar bill</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Where is it on the glass?</legend>
+          <label
+            ><input type="radio" name="location" value="clear" required /> Away
+            from the edges, not in front of the driver</label
+          >
+          <label
+            ><input type="radio" name="location" value="sightline" /> Directly in
+            the driver's line of sight</label
+          >
+          <label
+            ><input type="radio" name="location" value="edge" /> Within a couple
+            of inches of the edge</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Can you catch a fingernail on it from inside the car?</legend>
+          <label
+            ><input type="radio" name="depth" value="outer" required /> No —
+            inside feels smooth</label
+          >
+          <label
+            ><input type="radio" name="depth" value="through" /> Yes</label
+          >
+          <label
+            ><input type="radio" name="depth" value="unsure" /> Haven't
+            checked</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>4. How long has it been there?</legend>
+          <label
+            ><input type="radio" name="age" value="fresh" required /> Days</label
+          >
+          <label><input type="radio" name="age" value="weeks" /> Weeks</label>
+          <label
+            ><input type="radio" name="age" value="months" /> Months or
+            longer</label
+          >
+        </fieldset>
+
+        <button class="btn btn-call" type="submit">See what it needs</button>
+      </form>
+
+      <output
+        id="result"
+        class="result"
+        data-phone={site.phone.display}
+        aria-live="polite"></output>
+    </div>
+  </section>
+
+  <section class="section-soft">
+    <div class="wrap narrow">
+      <LeadForm
+        source="Repair or Replace tool"
+        heading="Want it confirmed by a person?"
+      />
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#tool");
+  const result = document.querySelector<HTMLElement>("#result");
+
+  type Verdict = { kind: "repair" | "replace" | "unsure"; head: string; why: string[] };
+
+  function assess(data: FormData): Verdict {
+    const size = data.get("size");
+    const location = data.get("location");
+    const depth = data.get("depth");
+    const age = data.get("age");
+
+    const why: string[] = [];
+
+    // Any one of these is decisive on its own.
+    if (location === "edge")
+      why.push(
+        "Damage near the edge sits in the part of the glass that bonds to the body and carries load, and cracks starting there tend to run.",
+      );
+    if (location === "sightline")
+      why.push(
+        "A repair leaves a faint distortion. Anywhere else that's cosmetic; directly in front of the driver it isn't acceptable.",
+      );
+    if (size === "large")
+      why.push(
+        "Past roughly a dollar bill in length, too much of the glass's strength would depend on the resin rather than the glass.",
+      );
+    if (depth === "through")
+      why.push(
+        "Catching a fingernail from inside means the break has gone through both layers, and resin can't cross the plastic interlayer.",
+      );
+
+    if (why.length > 0) {
+      return {
+        kind: "replace",
+        head: "Most likely a replacement",
+        why,
+      };
+    }
+
+    if (depth === "unsure") {
+      return {
+        kind: "unsure",
+        head: "Worth checking one thing first",
+        why: [
+          "Run a fingernail over the damage from inside the car. If it catches, the break has gone through both layers and needs replacing. If it's smooth, everything you've told us points to a repair.",
+        ],
+      };
+    }
+
+    if (age === "months")
+      why.push(
+        "Size and position are all repairable, but a break open for months collects dirt and moisture, and resin bonds properly to clean glass. It may still fill — it's worth looking at rather than assuming.",
+      );
+
+    if (size === "medium")
+      why.push(
+        "At this size it's borderline and depends on the exact shape of the break. Star breaks with long legs behave differently to a clean bullseye.",
+      );
+
+    if (why.length === 0)
+      why.push(
+        "Small, away from the edge, outside the driver's sightline and confined to the outer layer — that's the straightforward repair case. These usually take under half an hour.",
+      );
+
+    return {
+      kind: age === "months" || size === "medium" ? "unsure" : "repair",
+      head:
+        age === "months" || size === "medium"
+          ? "Probably repairable, worth a look"
+          : "Very likely a repair",
+      why,
+    };
+  }
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!result) return;
+
+    const verdict = assess(new FormData(form));
+
+    result.className = `result show ${verdict.kind}`;
+    result.innerHTML = `
+      <h2>${verdict.head}</h2>
+      ${verdict.why.map((line) => `<p>${line}</p>`).join("")}
+      <p class="caveat">This is guidance from what you've described, not an
+      inspection or a quote. Text a photo to ${result.dataset.phone ?? ""} and
+      you'll get a straight answer from someone looking at it.</p>
+    `;
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+</script>
+
+<style>
+  .narrow {
+    max-width: 720px;
+  }
+
+  .tool {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  fieldset {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.4rem;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  legend {
+    font-weight: 800;
+    padding: 0 0.4rem;
+  }
+
+  fieldset label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.45;
+  }
+
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .tool button {
+    justify-self: start;
+  }
+
+  .result {
+    display: none;
+  }
+
+  .result.show {
+    display: block;
+    margin-top: 2rem;
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--line);
+    border-left-width: 5px;
+  }
+
+  .result.repair {
+    border-left-color: #15803d;
+    background: #f2fbf5;
+  }
+
+  .result.replace {
+    border-left-color: var(--accent);
+    background: #fff7f3;
+  }
+
+  .result.unsure {
+    border-left-color: var(--brand);
+    background: #f4f8fc;
+  }
+
+  .result :global(h2) {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .result :global(p) {
+    color: var(--ink-soft);
+  }
+
+  .result :global(.caveat) {
+    font-size: 0.9rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.9rem;
+    margin-bottom: 0;
+  }
+</style>
