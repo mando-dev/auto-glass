@@ -210,6 +210,22 @@ export type Review = {
 };
 export const reviews: Review[] = [];
 
+/**
+ * Hero photograph. Takes the place of the illustration when set.
+ *
+ * To use one: put the file in `public/images/`, set `src` to its path and write
+ * real alt text. Leave empty and the original SVG renders instead.
+ *
+ * Only use an image the client owns or has licensed. A photo lifted from another
+ * auto glass company's site is their copyright, and a stock shot with a person
+ * in it needs a model release as well as an image licence. The client's own
+ * phone photos need neither and, per the brief, convert better anyway.
+ */
+export const heroPhoto = {
+  src: "",
+  alt: "",
+};
+
 /** Real job photos only — shot on the job, not stock. Empty until supplied. */
 export type WorkPhoto = { src: string; alt: string; caption: string };
 export const recentWork: WorkPhoto[] = [];

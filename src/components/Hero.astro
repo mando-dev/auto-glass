@@ -1,47 +1,88 @@
 ---
-import { site , phoneCta } from "@lib/site";
+import { site, phoneCta, heroPhoto } from "@lib/site";
 import TrustBadges from "./TrustBadges.astro";
+import HeroArt from "./HeroArt.astro";
 
 interface Props {
   h1: string;
   lede: string;
   showBadges?: boolean;
+  /** Service pages keep the art; About doesn't need it. */
+  showArt?: boolean;
 }
-const { h1, lede, showBadges = true } = Astro.props;
+const { h1, lede, showBadges = true, showArt = true } = Astro.props;
 ---
 
 <section class="hero">
-  <div class="wrap">
-    <h1>{h1}</h1>
-    <p class="lede">{lede}</p>
+  <div class:list={["wrap", "layout", { solo: !showArt }]}>
+    <div class="copy">
+      <h1>{h1}</h1>
+      <p class="lede">{lede}</p>
 
-    <div class="btn-row">
-      <a class="btn btn-call" href={site.phone.href}>
-        <span aria-hidden="true">&#9742;</span>
-        {phoneCta}
-      </a>
-      <a class="btn btn-outline" href="/contact/">Get a quote</a>
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          <span aria-hidden="true">&#9742;</span>
+          {phoneCta}
+        </a>
+        <a class="btn btn-outline" href="/contact/">Get a quote</a>
+      </div>
+
+      {
+        site.phone.acceptsText && (
+          <p class="sms-note">
+            Same number takes texts — send a photo of the damage and we'll tell
+            you repair or replace.
+          </p>
+        )
+      }
+
+      {showBadges && <TrustBadges />}
     </div>
 
     {
-      site.phone.acceptsText && (
-        <p class="sms-note">
-          Same number takes texts — send a photo of the damage and we'll tell you
-          repair or replace.
-        </p>
+      showArt && (
+        <div class="art">
+          {heroPhoto.src ? (
+            <img
+              class="hero-photo"
+              src={heroPhoto.src}
+              alt={heroPhoto.alt}
+              width="560"
+              height="420"
+              fetchpriority="high"
+              decoding="async"
+            />
+          ) : (
+            <HeroArt />
+          )}
+        </div>
       )
     }
-
-    {showBadges && <TrustBadges />}
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: clamp(2.5rem, 7vw, 5rem);
+    padding-block: clamp(2.5rem, 7vw, 4.5rem);
     background:
-      linear-gradient(180deg, #f7f9fb 0%, #ffffff 100%);
+      radial-gradient(
+        900px 420px at 88% 12%,
+        var(--brand-tint) 0%,
+        transparent 62%
+      ),
+      linear-gradient(180deg, #f8fbfe 0%, #ffffff 100%);
     border-bottom: 1px solid var(--line);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+
+  .layout.solo {
+    grid-template-columns: 1fr;
   }
 
   .hero h1 {
@@ -57,5 +98,32 @@ const { h1, lede, showBadges = true } = Astro.props;
     color: var(--ink-soft);
     font-size: 0.95rem;
     max-width: 52ch;
+  }
+
+  .art {
+    justify-self: center;
+  }
+
+  .hero-photo {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 12px 34px rgba(7, 26, 44, 0.16);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    /* Art sits below the CTA on small screens: the headline and the call
+       button should own the fold, not an illustration. */
+    .art {
+      order: 2;
+      max-width: 340px;
+      margin-top: 0.5rem;
+    }
   }
 </style>

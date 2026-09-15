@@ -1,5 +1,6 @@
 ---
 import { services } from "@lib/site";
+import ServiceIcon from "./ServiceIcon.astro";
 
 interface Props {
   heading?: string;
@@ -17,6 +18,7 @@ const shown = services.filter((s) => s.slug !== exclude);
       {
         shown.map((s) => (
           <article class="card">
+            <ServiceIcon slug={s.slug} />
             <h3>{s.name}</h3>
             <p>{s.blurb}</p>
             <a class="card-link" href={`/${s.slug}/`}>

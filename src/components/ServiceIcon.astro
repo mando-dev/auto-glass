@@ -1,0 +1,75 @@
+---
+/** Original line icons, one per service slug. Decorative — cards carry a heading. */
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<span class="icon" data-slug={slug}>
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {
+      slug === "mobile-auto-glass" && (
+        <>
+          <path d="M5 33V17a2 2 0 0 1 2-2h18v18H5Z" />
+          <path d="M25 21h8l6 7v5h-14" />
+          <circle cx="15" cy="35" r="3.2" />
+          <circle cx="34" cy="35" r="3.2" />
+          <path d="M18.5 35h12" />
+        </>
+      )
+    }
+    {
+      slug === "windshield-replacement" && (
+        <>
+          <path d="M10 34 16 15a2 2 0 0 1 2-1.4h12A2 2 0 0 1 32 15l6 19Z" />
+          <path d="M24 13.6V34" />
+          <path d="M39 12l4 4-4 4" />
+          <path d="M43 16H33" />
+        </>
+      )
+    }
+    {
+      slug === "windshield-chip-repair" && (
+        <>
+          <path d="M9 35 15.5 14a2 2 0 0 1 2-1.5h13a2 2 0 0 1 2 1.5L39 35Z" />
+          <circle cx="24" cy="23" r="3" />
+          <path d="M24 23l5-4M24 23l5 3M24 23l-1 6M24 23l-5 2M24 23l-3-5" />
+        </>
+      )
+    }
+  </svg>
+</span>
+
+<style>
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background: var(--brand-tint);
+    color: var(--brand);
+  }
+
+  .icon[data-slug="windshield-chip-repair"] {
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+
+  .icon svg {
+    width: 30px;
+    height: 30px;
+  }
+</style>

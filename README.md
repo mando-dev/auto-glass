@@ -209,6 +209,24 @@ for themselves, every output names the physical reason, and the result carries a
 explicit line saying it is not an inspection or a quote. If the client later
 confirms real pricing, a range could be added — but it needs to come from them.
 
+## Images
+
+The hero uses an original inline SVG illustration — no request on the LCP path,
+no licensing question. To swap in a photograph: put the file in `public/images/`,
+then set `heroPhoto.src` and real `alt` text in `site.ts`. The illustration is the
+fallback, so leaving it empty is always safe.
+
+**Only use images the client owns or has licensed.** Two traps worth naming, both
+of which have already come up:
+
+- A photo on another auto glass company's website is their copyright. Hotlinking
+  it also serves it from their server, so they can swap or remove it at any time.
+- Stock photos with an identifiable person need a model release as well as an
+  image licence, and per the brief they read as fake anyway.
+
+The client's own phone photos need neither permission and convert better. Ask for
+chip before/after, a glass set in progress, and the van on site.
+
 ## Pending, structural only
 
 - **Map / location section** — not built. A service-area business with no public
