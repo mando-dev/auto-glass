@@ -36,12 +36,9 @@ export function localBusinessSchema() {
     };
   }
 
-  if (!PENDING.cities) {
-    schema.areaServed = cities.map((c) => ({
-      "@type": "City",
-      name: `${c.name}, CA`,
-    }));
-  }
+  schema.areaServed = PENDING.cities
+    ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
+    : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
 
   if (!PENDING.hours) {
     schema.openingHoursSpecification = site.hours.map((h) => ({
@@ -84,9 +81,9 @@ export function serviceSchema(slug: string, name: string, description: string) {
     url: `${site.url}/${slug}/`,
     provider: { "@id": BUSINESS_ID },
   };
-  if (!PENDING.cities) {
-    schema.areaServed = cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
-  }
+  schema.areaServed = PENDING.cities
+    ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
+    : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
   return schema;
 }
 
