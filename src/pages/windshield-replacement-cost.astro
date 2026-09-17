@@ -1,0 +1,260 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LeadForm from "@components/LeadForm.astro";
+import CTABand from "@components/CTABand.astro";
+import FAQ from "@components/FAQ.astro";
+import { site } from "@lib/site";
+import { faqSchema, breadcrumbSchema } from "@lib/schema";
+
+/**
+ * Targets "windshield replacement cost" (Vol 320, KD 12) per the client's
+ * keyword research. Deliberately NOT a price calculator — no pricing is
+ * confirmed from the client, and a dollar figure on this page would read as a
+ * quote to the person reading it, quote or not. The tool below outputs the
+ * factors that move cost up or down, never a number, and every path ends at
+ * the same place: call or text for a real one.
+ */
+
+const faqs = [
+  {
+    q: "Why isn't there a price on this page?",
+    a: "Because a number here would be misleading. Windshield cost swings more than people expect based on the actual glass a specific vehicle needs — the same model year can take three or four different windshields depending on trim. A real number needs your year, make and model, not a general answer.",
+  },
+  {
+    q: "What actually drives the cost up?",
+    a: "The glass itself, mostly. A plain windshield with no extras is the cheapest part in the shop. A windshield with a rain sensor, a heating element, acoustic lamination, a head-up display projection area, or a bracket for a forward-facing camera costs meaningfully more — sometimes several times more — because it's a different, more complex part, not just labor on top.",
+  },
+  {
+    q: "Does a windshield with a camera cost more to replace?",
+    a: "The glass itself often does, and on vehicles where the camera reads through the windshield, replacement can also involve a calibration step afterward. Tell us the year, make and model and we'll tell you plainly what your vehicle needs.",
+  },
+  {
+    q: "Is mobile replacement more expensive than going to a shop?",
+    a: "Not inherently — the glass and labor are the same job either way. Mobile service removes the cost of your time, not the cost of the part.",
+  },
+  {
+    q: "Will insurance cover it?",
+    a: "That depends entirely on your policy and deductible. Comprehensive coverage often includes glass, and some insurers waive the deductible for a repair specifically because a cheap repair now is less than a full replacement claim later — but this varies by carrier and state, so it's worth a call to your insurer before you assume either way.",
+  },
+  {
+    q: "Is a repair always cheaper than a replacement?",
+    a: "Usually, yes, and it keeps the original factory seal intact too — which is worth something on its own. Not every chip qualifies. See our chip repair page for what makes damage repairable.",
+  },
+];
+
+const schemas = [
+  faqSchema(faqs),
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Windshield Replacement Cost", url: "/windshield-replacement-cost/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`Windshield Replacement Cost | ${site.name}`}
+  description="What actually drives windshield replacement cost — vehicle features, ADAS cameras, mobile vs. shop — and how to get a real number for your car."
+  path="/windshield-replacement-cost/"
+  schemas={schemas}
+>
+  <section>
+    <div class="wrap narrow">
+      <h1>What does windshield replacement cost?</h1>
+      <p class="lede">
+        Honest answer: it depends more on your specific vehicle than most
+        people expect, and any number that doesn't ask what car you drive is a
+        guess. Below is what actually moves the cost, not a made-up range.
+      </p>
+
+      <form class="tool" id="cost-tool">
+        <fieldset>
+          <legend>1. What are you driving?</legend>
+          <label
+            ><input type="radio" name="vehicle" value="economy" required />
+            Older or economy car — no extras on the glass</label
+          >
+          <label
+            ><input type="radio" name="vehicle" value="modern" /> Newer
+            sedan, SUV or truck — 2018 or later</label
+          >
+          <label
+            ><input type="radio" name="vehicle" value="premium" /> Luxury
+            vehicle or EV (Tesla, BMW, Mercedes, Rivian, etc.)</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Does your windshield have a camera mounted to it?</legend>
+          <label
+            ><input type="radio" name="camera" value="yes" required /> Yes —
+            lane keeping, automatic braking, or adaptive cruise</label
+          >
+          <label
+            ><input type="radio" name="camera" value="no" /> No</label
+          >
+          <label
+            ><input type="radio" name="camera" value="unsure" /> Not
+            sure</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Mobile at your address, or would you rather a shop?</legend>
+          <label
+            ><input type="radio" name="location" value="mobile" required />
+            Mobile — come to me</label
+          >
+          <label
+            ><input type="radio" name="location" value="either" /> Either
+            works</label
+          >
+        </fieldset>
+
+        <button class="btn btn-call" type="submit">See what applies to me</button>
+      </form>
+
+      <output id="cost-result" class="result" aria-live="polite"></output>
+    </div>
+  </section>
+
+  <section class="section-soft">
+    <div class="wrap narrow">
+      <LeadForm
+        source="Windshield Cost page"
+        heading="Get an actual number for your vehicle"
+      />
+    </div>
+  </section>
+
+  <FAQ faqs={faqs} heading="Windshield replacement cost — common questions" />
+
+  <CTABand
+    heading="One call gets you a real number."
+    body={`Tell us the year, make and model and we'll tell you exactly what your windshield needs — call or text ${site.phone.display}.`}
+  />
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#cost-tool");
+  const result = document.querySelector<HTMLElement>("#cost-result");
+
+  function explain(data: FormData): string[] {
+    const vehicle = data.get("vehicle");
+    const camera = data.get("camera");
+    const location = data.get("location");
+    const out: string[] = [];
+
+    if (vehicle === "economy")
+      out.push(
+        "An older car with no sensors on the glass is usually the simplest and least expensive windshield to source — the part itself is closer to a plain sheet of laminated glass.",
+      );
+    if (vehicle === "modern")
+      out.push(
+        "Most 2018-and-later vehicles have at least one feature built into the glass — a rain sensor or acoustic layer at minimum — which puts the part a step up from the simplest option.",
+      );
+    if (vehicle === "premium")
+      out.push(
+        "Luxury vehicles and EVs often combine several features in one windshield — heating elements, acoustic lamination, HUD projection, larger glass area — and that's reflected in the part cost, sometimes substantially.",
+      );
+
+    if (camera === "yes")
+      out.push(
+        "A windshield-mounted camera usually means a more expensive piece of glass with a specific bracket, and depending on the vehicle, a calibration step after the new glass goes in.",
+      );
+    if (camera === "unsure")
+      out.push(
+        "If you're not sure, look for a small black box or sensor cluster near the top-center of the windshield behind the mirror — that's usually it. We can also just check when we look at the vehicle.",
+      );
+
+    if (location === "mobile")
+      out.push(
+        "Mobile service doesn't add to the glass cost — you're paying for the part and the labor either way, not for us to drive out.",
+      );
+
+    out.push(
+      "None of this is a substitute for an actual number. Send the year, make and model below and we'll tell you exactly what it takes.",
+    );
+
+    return out;
+  }
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!result) return;
+    const lines = explain(new FormData(form));
+    result.className = "result show";
+    result.innerHTML = `<h2>What this means for your vehicle</h2>${lines
+      .map((l) => `<p>${l}</p>`)
+      .join("")}`;
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+</script>
+
+<style>
+  .narrow {
+    max-width: 720px;
+  }
+
+  .tool {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  fieldset {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.4rem;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  legend {
+    font-weight: 800;
+    padding: 0 0.4rem;
+  }
+
+  fieldset label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.45;
+  }
+
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .tool button {
+    justify-self: start;
+  }
+
+  .result {
+    display: none;
+  }
+
+  .result.show {
+    display: block;
+    margin-top: 2rem;
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--color-glass);
+    background: var(--color-paper-sunk);
+  }
+
+  .result :global(h2) {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .result :global(p) {
+    color: var(--color-on-light-soft);
+  }
+</style>

@@ -16,6 +16,7 @@ const paths = [
   "/",
   ...services.map((s) => `/${s.slug}/`),
   "/windshield-repair-or-replace/",
+  "/windshield-replacement-cost/",
   ...(PENDING.cities ? [] : cities.map((c) => `/${c.slug}/`)),
   "/blog/",
   ...posts.map((post) => `/blog/${post.id}/`),
