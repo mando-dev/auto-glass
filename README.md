@@ -25,8 +25,8 @@ Everything — name, phone, hours, service area, services, reviews — is in
 it once there and it changes everywhere, including the schema markup.
 
 The `PENDING` flags at the top of that file control what renders. While a flag is
-`true`, the matching section either hides or shows an orange build note instead of
-inventing content. Flip the flag once the client supplies the real information.
+`true`, the matching section hides instead of inventing content. Flip the flag
+once the client supplies the real information.
 
 `npm run check:nap` enforces this rather than trusting it to habit. It fails the
 build if a phone number, email or street address appears anywhere in `src/` other
@@ -77,33 +77,29 @@ Deploying to Vercel now is fine. What must not happen is the site being
 **crawlable** while pages still render `[SITE_NAME]` and `[PHONE_PLACEHOLDER]`.
 
 So two guards are active, both keyed to **one explicit switch** — `LAUNCH_READY`
-in `site.ts`, currently `false`:
+in `site.ts`, currently `true`:
 
 - every page emits `<meta name="robots" content="noindex, nofollow">`
 - `/robots.txt` emits `Disallow: /`
 
 It is a deliberate manual switch rather than something inferred from the `PENDING`
-flags. Real copy is necessary but not sufficient: the name and phone are now real,
-and the site is still not launch-ready, because build notes render on every page
-and nobody has reviewed the result. Inferring "ready" from "has a phone number"
-would have quietly published it.
+flags. It was set to `true` on 2026-09-16 and the site is now crawlable. If it
+ever needs to come back down (for example a broken deploy), set it to `false`
+and push — every page goes noindex and `robots.txt` disallows everything.
 
-Lighthouse SEO reads 66 while this is on, and the only failing audit is
-`is-crawlable`. That is the guard doing its job — it returns to 100 the moment
-`LAUNCH_READY` is `true`.
+Remaining launch gaps, in priority order:
 
-The sequence:
-
-1. Deploy to Vercel. The site is noindexed, so the live domain is safe to share
-   for client review.
-2. Work through the pending list below, strip the build notes.
-3. Run `npm run check:launch`. It must pass.
-4. Set `LAUNCH_READY = true`.
-5. Push, then submit `https://autoglasscrew.com/sitemap.xml` in Search Console.
-
-Do not submit the sitemap before step 4. While the guard is up, `robots.txt`
-disallows everything, and submitting a sitemap Google is not allowed to fetch
-just logs errors against the property.
+1. `PUBLIC_WEB3FORMS_KEY` is not set in the Vercel project. Every lead form on
+   the live site ships `[WEB3FORMS_KEY_PENDING]` and cannot deliver. This is the
+   client's Web3Forms account; they add the key under Vercel → Settings →
+   Environment Variables, then redeploy.
+2. Vercel currently has [www.autoglasscrew.com](https://www.autoglasscrew.com)
+   as the primary domain and redirects the apex to it. Every canonical,
+   `og:url`, the `robots.txt` sitemap line and every sitemap `<loc>` use the
+   apex. In Vercel → Settings → Domains, make `autoglasscrew.com` primary so
+   `www` redirects to the apex. Then in Search Console re-run "Test Live URL"
+   on `/sitemap.xml`.
+3. `npm run check:launch` must pass once item 1 is done.
 
 ## Before launch
 
@@ -211,8 +207,9 @@ confirms real pricing, a range could be added — but it needs to come from them
 
 ## Images
 
-The hero uses an original inline SVG illustration — no request on the LCP path,
-no licensing question. To swap in a photograph:
+The hero currently uses `public/images/glass.jpeg` (35KB, licence/provenance
+still to be confirmed with the client). An original inline SVG illustration is
+the fallback. To change the photograph:
 
 1. Put the file in `public/images/`
 2. Set `heroPhoto.src` (e.g. `/images/hero.webp`) and real `alt` text in `site.ts`
