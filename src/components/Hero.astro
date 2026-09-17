@@ -10,6 +10,8 @@ interface Props {
   /** Service pages keep the art; About doesn't need it. */
   showArt?: boolean;
   eyebrow?: string;
+  /** Hide the "See services" link on pages with no #services section. */
+  showServicesLink?: boolean;
 }
 const {
   h1,
@@ -17,6 +19,7 @@ const {
   showBadges = true,
   showArt = true,
   eyebrow = "Mobile auto glass · Orange County, CA",
+  showServicesLink = true,
 } = Astro.props;
 ---
 
@@ -41,7 +44,9 @@ const {
             </a>
           )
         }
-        <a class="btn btn-quiet" href="#services">See services</a>
+        {showServicesLink && (
+          <a class="btn btn-quiet" href="#services">See services</a>
+        )}
       </div>
 
       {showBadges && <TrustBadges />}
