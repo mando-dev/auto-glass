@@ -53,7 +53,7 @@ half-hour job on a Model 3 as on a Corolla.
 
 The caveat is what happens when it isn't repairable. On an EV the fallback
 is a more expensive, more specific part and a camera that cares about the
-glass it's mounted to. That's a good reason to have a Tesla rock chip
+glass it's mounted to. That's a good reason to get Tesla rock chip repair
 looked at early rather than waiting to see if it spreads.
 
 ## What this means if you're dealing with damage right now
