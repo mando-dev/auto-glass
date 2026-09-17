@@ -12,3 +12,4 @@ dist/
 
 # Local editor/agent tooling — not part of the client's project
 .claude/
+.git-rewrite/
