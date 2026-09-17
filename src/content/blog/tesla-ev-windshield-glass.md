@@ -1,5 +1,5 @@
 ---
-title: "Tesla and EV windshields: what's actually different"
+title: "Tesla and EV windshields: what's different"
 description: "Why Tesla and other EV windshields cost more, calibrate differently, and need more care to source correctly than a typical gas car's glass."
 pubDate: 2026-09-17
 ---
@@ -41,6 +41,20 @@ part, or a part missing a feature the vehicle actually needs, is a bigger
 problem on an EV than it is on an older gas car with a simpler windshield.
 Year, make, model and trim all matter before ordering glass — more so here
 than almost anywhere else.
+
+## Tesla windshield chip repair: same rules, one caveat
+
+A rock chip on a Tesla is judged the same way as on any other car — size,
+position, depth and age decide whether it's a resin repair or a replacement
+(the [repair-or-replace guide](/blog/repair-or-replace-windshield-damage/)
+walks through all four). Small, away from the edge, outside the driver's
+sightline, outer layer only: that's a chip repair, and it's the same
+half-hour job on a Model 3 as on a Corolla.
+
+The caveat is what happens when it isn't repairable. On an EV the fallback
+is a more expensive, more specific part and a camera that cares about the
+glass it's mounted to. That's a good reason to have a Tesla rock chip
+looked at early rather than waiting to see if it spreads.
 
 ## What this means if you're dealing with damage right now
 

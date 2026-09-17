@@ -1,5 +1,5 @@
 ---
-title: "Chip or crack: when a windshield can be repaired and when it can't"
+title: "Chip or crack: repair or replace?"
 description: "The four things that decide whether windshield damage takes a resin repair or a full replacement — size, location, depth, and how long it's been there."
 pubDate: 2026-09-15
 ---
