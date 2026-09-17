@@ -125,8 +125,7 @@ if (PENDING.web3forms) {
         if (!response.ok) throw new Error(String(response.status));
 
         form.reset();
-        status.textContent =
-          "Got it. We'll call you back shortly — usually within the hour during working hours.";
+        status.textContent = "Got it. We'll call you back as soon as we can.";
         status.className = "status ok";
       } catch {
         status.innerHTML =
