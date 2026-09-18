@@ -2,8 +2,9 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import CTABand from "@components/CTABand.astro";
-import { site } from "@lib/site";
+import { site, services } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
+import { cityBySlug, cityPath, type City } from "../../data/cities";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -36,6 +37,18 @@ const schemas = [
     { name: post.data.title, url: `/blog/${post.id}/` },
   ]),
 ];
+
+/**
+ * Related links. Every post supports one service page and a couple of city
+ * pages; rendering them from frontmatter guarantees the links exist even when
+ * the body forgets one. Unpublished cities silently drop out.
+ */
+const relatedService = post.data.relatedService
+  ? services.find((s) => `/${s.slug}/` === post.data.relatedService)
+  : undefined;
+const relatedCities = post.data.relatedCities
+  .map((slug) => cityBySlug(slug))
+  .filter((c): c is City => Boolean(c));
 
 const fmt = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -70,6 +83,26 @@ const fmt = (date: Date) =>
         <div class="body">
           <Content />
         </div>
+
+        {
+          (relatedService || relatedCities.length > 0) && (
+            <aside class="related">
+              <h2>Related</h2>
+              <ul>
+                {relatedService && (
+                  <li>
+                    <a href={`/${relatedService.slug}/`}>{relatedService.name}</a>
+                  </li>
+                )}
+                {relatedCities.map((c) => (
+                  <li>
+                    <a href={cityPath(c.slug)}>Windshield repair in {c.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )
+        }
       </div>
     </section>
   </article>
@@ -142,5 +175,37 @@ const fmt = (date: Date) =>
 
   .body :global(strong) {
     color: var(--color-on-light);
+  }
+
+  .related {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .related h2 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--color-on-light-soft);
+    margin-bottom: 0.6rem;
+  }
+
+  .related ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-weight: 600;
+  }
+
+  .related a {
+    text-decoration: none;
+  }
+
+  .related a:hover {
+    text-decoration: underline;
   }
 </style>

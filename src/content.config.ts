@@ -18,6 +18,12 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     /** Draft posts build locally but are excluded from the site and sitemap. */
     draft: z.boolean().default(false),
+    /** The search query the post is written to answer. Documentation, not rendered. */
+    targetQuery: z.string().optional(),
+    /** Path of the service page this post supports, e.g. "/windshield-replacement/". */
+    relatedService: z.string().optional(),
+    /** Slugs from src/data/cities.ts. Unpublished cities are skipped at render. */
+    relatedCities: z.array(z.string()).default([]),
   }),
 });
 

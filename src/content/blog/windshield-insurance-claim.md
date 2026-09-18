@@ -1,7 +1,10 @@
 ---
-title: "Windshield damage and insurance: how a claim actually works"
+title: "Does insurance cover a windshield in California?"
 description: "Comprehensive coverage, deductibles, and what to have ready before you call your insurer about a chipped or cracked windshield."
 pubDate: 2026-09-18
+targetQuery: "does insurance cover windshield replacement in california"
+relatedService: "/windshield-replacement/"
+relatedCities: ["irvine", "santa-ana"]
 ---
 
 Windshield damage is one of the more straightforward insurance claims you'll
@@ -40,11 +43,37 @@ Three things make the call faster on both ends:
 
 ## Choosing who does the work
 
-In most cases, you're entitled to choose your own glass shop rather than
-being routed to whichever one your insurer suggests first — check your policy
-or ask directly, since this can vary. If you already have a shop you trust,
-it's reasonable to ask them directly whether they handle insurance billing,
-or whether you pay out of pocket and submit the claim yourself.
+California is direct about this one. Insurance Code section 758.5 says: "No
+insurer shall require that an automobile be repaired at a specific automotive
+repair dealer." The section covers automobile repair generally rather than
+glass specifically, but your windshield is part of your automobile. An insurer
+can recommend a shop or run a network of them; it can't make using one a
+condition of the claim. You can read the section on the Legislature's site:
+[Insurance Code § 758.5](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=INS&sectionNum=758.5).
+
+In practice that means if you'd rather have the work done mobile in your
+driveway in [Irvine](/windshield-repair-irvine-ca/) or at the curb in
+[Santa Ana](/windshield-repair-santa-ana-ca/) than drive to whichever shop
+the claims line named first, you can. Ask the shop you choose whether they
+bill the insurer directly or whether you pay and submit the claim yourself.
+
+## What California law does and doesn't do for glass claims
+
+Two things people often assume about California that aren't the case:
+
+- **There is no zero-deductible glass law here.** A few states require
+  insurers to cover glass with no deductible. California is not one of them.
+  Whether your deductible applies to a windshield comes from your policy, not
+  from state law.
+- **Comprehensive coverage is optional.** California requires liability
+  coverage. Comprehensive — the part that pays for glass — is something you
+  chose to add, or didn't. If your policy is liability-only, a windshield is
+  usually out of pocket.
+
+What the state does do is protect your choice of shop, as above. Everything
+else — the deductible, whether a repair is waived, what the insurer will
+authorize — is between you and your policy, and the only reliable way to know
+is to ask.
 
 ## Is it even worth filing a claim for a small chip?
 
@@ -67,7 +96,9 @@ directly.
 None of this changes the actual repair-versus-replacement decision, which
 comes down to the damage itself — see our
 [repair or replace guide](/blog/repair-or-replace-windshield-damage/) for
-how that decision gets made.
+how that decision gets made, and the
+[windshield replacement](/windshield-replacement/) page for what a
+replacement involves if it comes to that.
 
 If you're standing at the car right now trying to work out what happens next,
 text us a photo of the damage through the [contact page](/contact/) and

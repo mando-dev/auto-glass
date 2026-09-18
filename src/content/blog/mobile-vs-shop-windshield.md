@@ -1,5 +1,5 @@
 ---
-title: "Mobile windshield service vs. going to a shop"
+title: "Mobile windshield service vs. a shop"
 description: "What mobile windshield repair actually needs to work, when a shop visit makes more sense, and what changes on a camera-equipped vehicle either way."
 pubDate: 2026-09-18
 ---
