@@ -1,0 +1,127 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import ServiceCards from "@components/ServiceCards.astro";
+import CTABand from "@components/CTABand.astro";
+import { serviceSchema, breadcrumbSchema } from "@lib/schema";
+import { citiesInCounty, cityPath } from "../data/cities";
+import { publishedCounties, countyPath, type County } from "../data/counties";
+
+/**
+ * County hub: one card per published city in the county. Unpublished counties
+ * (Los Angeles, until batch 2 goes live) do not build at all.
+ */
+export async function getStaticPaths() {
+  return publishedCounties.map((county) => ({
+    params: { county: county.slug },
+    props: { county },
+  }));
+}
+
+type Props = { county: County };
+const { county } = Astro.props;
+
+const path = countyPath(county.slug);
+const cities = citiesInCounty(county.key);
+
+/**
+ * One distinct detail per city, pulled from what makes that city different in
+ * src/data/cities.ts. Written here rather than templated so the hub reads as a
+ * page and not a directory.
+ */
+const blurbs: Record<string, string> = {
+  irvine:
+    "Office parks, parking structures and company fleets — most Irvine jobs happen in a structure during the working day.",
+  "santa-ana":
+    "Dense residential streets and working trucks. Driveway and curbside service across downtown, Floral Park, Delhi and the Metro side.",
+  anaheim:
+    "Resort-corridor hotel lots and rideshare vehicles on one side, Anaheim Hills canyon roads and the 91 on the other.",
+  "huntington-beach":
+    "Coastal air raises the stakes on pinch-weld prep. Driveways in the inland tracts, the Harbour and Sunset Beach.",
+  "costa-mesa":
+    "The 55/405 interchange and the South Coast Metro office lots. Work vans on the Westside, driveways on the Eastside.",
+};
+
+const title = `Windshield Repair & Replacement in ${county.name} | Mobile`;
+const description = `${county.name} auto glass, done mobile. Windshield repair and windshield replacement ${county.name.replace("County", "County-wide")}, at your home, office or yard, with a page for each city we cover.`;
+
+const trail = [
+  { name: "Home", url: "/" },
+  { name: county.name, url: path },
+];
+
+const schemas = [
+  serviceSchema(
+    path,
+    `Auto Glass Repair in ${county.name}`,
+    description,
+    { "@type": "AdministrativeArea", name: `${county.name}, CA` },
+  ),
+  breadcrumbSchema(trail),
+];
+---
+
+<BaseLayout title={title} description={description} path={path} schemas={schemas}>
+  <Breadcrumbs trail={trail} />
+
+  <Hero
+    h1={`Auto Glass Repair in ${county.name}`}
+    eyebrow={`Mobile auto glass · ${county.name}, CA`}
+    lede={`${county.name} auto glass without the shop visit. Chip repair, crack repair and windshield replacement at the address where the vehicle already sits — pick your city below, or just call.`}
+    showServicesLink={false}
+  />
+
+  <section>
+    <div class="wrap prose">
+      <h2>Windshield repair {county.name}-wide, one city at a time</h2>
+      <p>
+        Windshield replacement in {county.name} is a mobile job for us: the van
+        carries the glass, the resin kit, the urethane and the power, so the
+        work happens in your driveway, your office structure or your yard.
+        Each city below has its own page with the neighborhoods, freeways and
+        ZIP codes it covers and the questions people from that city actually
+        ask.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-soft">
+    <div class="wrap">
+      <h2>Cities we cover in {county.name}</h2>
+      <div class="grid grid-3">
+        {
+          cities.map((c) => (
+            <article class="card">
+              <h3>
+                <a href={cityPath(c.slug)}>{c.name}</a>
+              </h3>
+              <p>{blurbs[c.slug] ?? c.intro}</p>
+              <a class="card-link" href={cityPath(c.slug)}>
+                Windshield repair in {c.name}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ServiceCards heading="What we do across the county" />
+
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 74ch;
+  }
+
+  .card h3 a {
+    text-decoration: none;
+  }
+
+  .card h3 a:hover {
+    text-decoration: underline;
+  }
+</style>

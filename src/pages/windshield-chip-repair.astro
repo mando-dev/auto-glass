@@ -5,6 +5,7 @@ import FAQ from "@components/FAQ.astro";
 import LeadForm from "@components/LeadForm.astro";
 import ServiceCards from "@components/ServiceCards.astro";
 import CTABand from "@components/CTABand.astro";
+import CityLinks from "@components/CityLinks.astro";
 import { serviceBySlug, site } from "@lib/site";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
 
@@ -133,6 +134,7 @@ const schemas = [
   </section>
 
   <ServiceCards heading="Other services" exclude={service.slug} />
+  <CityLinks />
   <CTABand
     heading="Text a photo of the chip."
     body={`Send it to ${site.phone.display} and we'll tell you whether it fills or needs new glass — usually within a few minutes.`}
