@@ -96,6 +96,35 @@ const schemas = [
           >
         </fieldset>
 
+        <fieldset>
+          <legend>5. How many separate chips or breaks?</legend>
+          <label
+            ><input type="radio" name="count" value="one" required /> Just
+            one</label
+          >
+          <label
+            ><input type="radio" name="count" value="two-three" /> Two or
+            three</label
+          >
+          <label
+            ><input type="radio" name="count" value="more" /> More than
+            three</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>6. Is there a camera mounted behind the mirror?</legend>
+          <label
+            ><input type="radio" name="camera" value="yes" required /> Yes —
+            lane keeping, automatic braking or adaptive cruise</label
+          >
+          <label><input type="radio" name="camera" value="no" /> No</label>
+          <label
+            ><input type="radio" name="camera" value="unsure" /> Not
+            sure</label
+          >
+        </fieldset>
+
         <button class="btn btn-call" type="submit">See what it needs</button>
       </form>
 
@@ -123,13 +152,36 @@ const schemas = [
   const form = document.querySelector<HTMLFormElement>("#tool");
   const result = document.querySelector<HTMLElement>("#result");
 
-  type Verdict = { kind: "repair" | "replace" | "unsure"; head: string; why: string[] };
+  type Verdict = {
+    kind: "repair" | "replace" | "unsure";
+    head: string;
+    why: string[];
+    /** Lines that don't change the verdict but the reader should know. */
+    notes: string[];
+  };
+
+  // The camera question never changes the verdict — a chip is a chip. It adds
+  // one line so nobody is surprised by the calibration step if it becomes a
+  // replacement.
+  function cameraNote(camera: FormDataEntryValue | null): string[] {
+    if (camera === "yes")
+      return [
+        "If this ends up as a replacement, a camera-equipped vehicle typically needs an ADAS recalibration afterwards — ask about it when you book. A resin repair doesn't touch the camera.",
+      ];
+    if (camera === "unsure")
+      return [
+        "Not sure about the camera? Look behind the rear-view mirror for a sensor housing against the glass. If it's there, ask about recalibration if this becomes a replacement.",
+      ];
+    return [];
+  }
 
   function assess(data: FormData): Verdict {
     const size = data.get("size");
     const location = data.get("location");
     const depth = data.get("depth");
     const age = data.get("age");
+    const count = data.get("count");
+    const notes = cameraNote(data.get("camera"));
 
     const why: string[] = [];
 
@@ -156,6 +208,7 @@ const schemas = [
         kind: "replace",
         head: "Most likely a replacement",
         why,
+        notes,
       };
     }
 
@@ -166,8 +219,14 @@ const schemas = [
         why: [
           "Run a fingernail over the damage from inside the car. If it catches, the break has gone through both layers and needs replacing. If it's smooth, everything you've told us points to a repair.",
         ],
+        notes,
       };
     }
+
+    if (count === "more")
+      why.push(
+        "Each chip can be filled on its own, but past three or so separate breaks it's worth having the whole windshield looked at — several repairs across the glass can add up to more than a replacement is worth, and clustered damage sometimes hides a crack starting between them.",
+      );
 
     if (age === "months")
       why.push(
@@ -184,13 +243,12 @@ const schemas = [
         "Small, away from the edge, outside the driver's sightline and confined to the outer layer — that's the straightforward repair case. These usually take under half an hour.",
       );
 
+    const borderline = age === "months" || size === "medium" || count === "more";
     return {
-      kind: age === "months" || size === "medium" ? "unsure" : "repair",
-      head:
-        age === "months" || size === "medium"
-          ? "Probably repairable, worth a look"
-          : "Very likely a repair",
+      kind: borderline ? "unsure" : "repair",
+      head: borderline ? "Probably repairable, worth a look" : "Very likely a repair",
       why,
+      notes,
     };
   }
 
@@ -204,6 +262,7 @@ const schemas = [
     result.innerHTML = `
       <h2>${verdict.head}</h2>
       ${verdict.why.map((line) => `<p>${line}</p>`).join("")}
+      ${verdict.notes.map((line) => `<p class="note">${line}</p>`).join("")}
       <p class="caveat">This is guidance from what you've described, not an
       inspection or a quote. Text a photo to ${result.dataset.phone ?? ""} and
       you'll get a straight answer from someone looking at it.</p>
@@ -292,6 +351,12 @@ const schemas = [
 
   .result :global(p) {
     color: var(--color-on-light-soft);
+  }
+
+  .result :global(.note) {
+    font-size: 0.95rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--color-glass);
   }
 
   .result :global(.caveat) {
