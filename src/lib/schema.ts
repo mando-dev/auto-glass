@@ -71,19 +71,33 @@ export function localBusinessSchema() {
   return schema;
 }
 
-export function serviceSchema(slug: string, name: string, description: string) {
+/**
+ * @param path  Page path with leading and trailing slash. A bare slug is also
+ *              accepted for the three service pages.
+ * @param areaServed  Override for city and county pages, which serve one
+ *              place rather than the whole list.
+ */
+export function serviceSchema(
+  path: string,
+  name: string,
+  description: string,
+  areaServed?: Record<string, unknown>,
+) {
+  const url = path.startsWith("/") ? `${site.url}${path}` : `${site.url}/${path}/`;
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Service",
     name,
     description,
     serviceType: name,
-    url: `${site.url}/${slug}/`,
+    url,
     provider: { "@id": BUSINESS_ID },
   };
-  schema.areaServed = PENDING.cities
-    ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
-    : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
+  schema.areaServed =
+    areaServed ??
+    (PENDING.cities
+      ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
+      : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` })));
   return schema;
 }
 

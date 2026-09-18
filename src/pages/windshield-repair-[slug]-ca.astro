@@ -1,0 +1,217 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import FAQ from "@components/FAQ.astro";
+import LeadForm from "@components/LeadForm.astro";
+import ServiceIcon from "@components/ServiceIcon.astro";
+import CTABand from "@components/CTABand.astro";
+import { site, services, phoneCta } from "@lib/site";
+import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
+import { publishedCities, cityBySlug, cityPath, type City } from "../data/cities";
+import { countyForCity, countyPath } from "../data/counties";
+
+/**
+ * One template, one page per published city. Everything that makes a page
+ * specific to its city — intro, geography, FAQs, neighbours — comes from the
+ * city's entry in src/data/cities.ts. The three service blocks are shared on
+ * purpose: they describe the same service in every city.
+ */
+export async function getStaticPaths() {
+  return publishedCities.map((city) => ({
+    params: { slug: city.slug },
+    props: { city },
+  }));
+}
+
+type Props = { city: City };
+const { city } = Astro.props;
+
+const path = cityPath(city.slug);
+const county = countyForCity(city.county);
+const countyName = county?.name ?? "Orange County";
+const countyHref = county?.published ? countyPath(county.slug) : null;
+
+const neighbors = city.neighbors
+  .map((slug) => cityBySlug(slug))
+  .filter((c): c is City => Boolean(c));
+
+const title = `Windshield Repair ${city.name}, CA | Mobile Auto Glass Replacement`;
+const description = `Mobile windshield repair and replacement in ${city.name}, CA. Chip repair, full replacement and mobile auto glass service at your home, office or job site — nothing leaves the lot.`;
+
+const list = (items: string[]) =>
+  items.length <= 1
+    ? items.join("")
+    : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+
+const areaServed = {
+  "@type": "City",
+  name: `${city.name}, CA`,
+  containedInPlace: { "@type": "AdministrativeArea", name: `${countyName}, CA` },
+};
+
+const trail = [
+  { name: "Home", url: "/" },
+  ...(countyHref ? [{ name: countyName, url: countyHref }] : []),
+  { name: city.name, url: path },
+];
+
+const schemas = [
+  serviceSchema(
+    path,
+    `Windshield Repair and Replacement in ${city.name}`,
+    description,
+    areaServed,
+  ),
+  faqSchema(city.faq),
+  breadcrumbSchema(trail),
+];
+---
+
+<BaseLayout title={title} description={description} path={path} schemas={schemas}>
+  <Breadcrumbs trail={trail} />
+
+  <Hero
+    h1={`Windshield Repair & Replacement in ${city.name}, CA`}
+    eyebrow={`Mobile auto glass · ${city.name}`}
+    lede={`Chip repair, crack repair and full windshield replacement, done where the vehicle is parked in ${city.name}. Text a photo of the damage and we'll tell you repair or replace before anyone drives out.`}
+    showServicesLink={false}
+  />
+
+  <section>
+    <div class="wrap prose">
+      <h2>Auto glass in {city.name}, done at your address</h2>
+      <p>{city.intro}</p>
+    </div>
+  </section>
+
+  <section class="section-soft">
+    <div class="wrap prose">
+      <h2>Where we work in {city.name}</h2>
+      <p>
+        Mobile windshield repair in {city.name} runs across{" "}
+        {list(city.neighborhoods.slice(0, 5))}, and to the lots around{" "}
+        {list(city.landmarks.slice(0, 3))}. If you're near the{" "}
+        {list(city.freeways)}, we come to wherever the vehicle is parked — a
+        driveway, an office structure or a yard.
+      </p>
+      <p class="zips">ZIP codes covered include {city.zips.join(", ")}.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>{city.name} windshield services</h2>
+      <div class="grid grid-3">
+        {
+          services.map((s) => (
+            <article class="card">
+              <ServiceIcon slug={s.slug} />
+              <h3>{s.name}</h3>
+              <p>{s.blurb}</p>
+              <a class="card-link" href={`/${s.slug}/`}>
+                {s.name} in {city.name}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <p class="service-note">
+        {city.name} auto glass jobs are handled by the same mobile service as the
+        rest of the county — a <a href="/windshield-chip-repair/">windshield
+        repair</a> for a chip caught early, a <a href="/windshield-replacement/">windshield
+        replacement</a> when the damage has gone past that, and{" "}
+        <a href="/mobile-auto-glass/">mobile windshield repair</a> either way, so
+        nothing gets driven to a shop.
+      </p>
+    </div>
+  </section>
+
+  <FAQ faqs={city.faq} heading={`${city.name} — common questions`} />
+
+  <section>
+    <div class="wrap narrow">
+      <LeadForm
+        source={`City page — ${city.name}`}
+        heading={`Book mobile service in ${city.name}`}
+      />
+    </div>
+  </section>
+
+  {
+    (neighbors.length > 0 || countyHref) && (
+      <section class="nearby section-soft">
+        <div class="wrap">
+          <h2>Nearby</h2>
+          <ul>
+            {neighbors.map((n) => (
+              <li>
+                <a href={cityPath(n.slug)}>Windshield repair in {n.name}</a>
+              </li>
+            ))}
+            {countyHref && (
+              <li>
+                <a class="hub" href={countyHref}>
+                  All of {countyName}
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <CTABand
+    heading={`Text a photo of the damage from ${city.name}.`}
+    body={`Send it to ${site.phone.display} and we'll tell you whether it fills or needs new glass — then book a time that suits the vehicle, not the shop.`}
+  />
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 74ch;
+  }
+
+  .zips {
+    color: var(--color-on-light-soft);
+    font-size: 0.95rem;
+  }
+
+  .service-note {
+    margin-top: 1.5rem;
+    max-width: 74ch;
+    color: var(--color-on-light-soft);
+  }
+
+  .narrow {
+    max-width: 760px;
+  }
+
+  .nearby ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .nearby a {
+    display: block;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .nearby a:hover {
+    border-color: var(--color-ink);
+  }
+
+  .nearby .hub {
+    color: var(--color-accent-deep);
+  }
+</style>

@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { site, services, cities, PENDING } from "@lib/site";
+import { publishedCounties, countyPath } from "../data/counties";
 
 /**
  * Hand-rolled rather than via @astrojs/sitemap so the file lands at /sitemap.xml
@@ -17,7 +18,8 @@ const paths = [
   ...services.map((s) => `/${s.slug}/`),
   "/windshield-repair-or-replace/",
   "/windshield-replacement-cost/",
-  ...(PENDING.cities ? [] : cities.map((c) => `/${c.slug}/`)),
+  ...publishedCounties.map((c) => countyPath(c.slug)),
+  ...(PENDING.cities ? [] : cities.map((c) => c.href)),
   "/blog/",
   ...posts.map((post) => `/blog/${post.id}/`),
   "/about/",

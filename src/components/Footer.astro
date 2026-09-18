@@ -1,5 +1,6 @@
 ---
 import { site, services, cities, contentPages, PENDING } from "@lib/site";
+import { publishedCounties, countyPath } from "../data/counties";
 const year = new Date().getFullYear();
 ---
 
@@ -35,7 +36,12 @@ const year = new Date().getFullYear();
           <ul>
             {cities.map((c) => (
               <li>
-                <a href={`/${c.slug}/`}>{c.name}</a>
+                <a href={c.href}>{c.name}</a>
+              </li>
+            ))}
+            {publishedCounties.map((county) => (
+              <li>
+                <a href={countyPath(county.slug)}>All of {county.name}</a>
               </li>
             ))}
           </ul>

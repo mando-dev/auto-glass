@@ -1,3 +1,5 @@
+import { publishedCities, cityPath } from "../data/cities";
+
 /**
  * Single source of truth for all business facts.
  *
@@ -31,8 +33,8 @@ export const PENDING = {
   address: true,
   /** Client has not supplied hours. */
   hours: true,
-  /** City list unconfirmed — see `cities` below. */
-  cities: true,
+  /** Batch-1 city list confirmed 2026-09-18 — see `cities` below. */
+  cities: false,
   /** No Google Business Profile reviews pulled yet. */
   reviews: true,
   /** Owner name/photo/bio not supplied. */
@@ -184,22 +186,18 @@ export const serviceBySlug = (slug: string) =>
   services.find((s) => s.slug === slug);
 
 /**
- * Orange County cities.
+ * Cities with a live page. The list, the geography and the per-city copy live
+ * in `src/data/cities.ts`; this is the published subset in the shape the
+ * footer, coverage section, sitemap and schema consume.
  *
- * NOT CONFIRMED. This list is staged from the market-size shortlist in the build
- * brief, not from the client. Coverage section and city pages stay hidden until
- * the client confirms the actual service radius — advertising a city the techs
- * will not drive to is a refund and a bad review, not a lead.
- *
- * To go live: confirm the list, then set PENDING.cities = false.
+ * The batch-1 Orange County list was supplied by the client on 2026-09-18.
+ * Adding a city means filling in its entry there and flipping `published`.
  */
-export const cities: { name: string; slug: string }[] = [
-  { name: "Irvine", slug: "irvine" },
-  { name: "Santa Ana", slug: "santa-ana" },
-  { name: "Anaheim", slug: "anaheim" },
-  { name: "Huntington Beach", slug: "huntington-beach" },
-  { name: "Costa Mesa", slug: "costa-mesa" },
-];
+export const cities = publishedCities.map((c) => ({
+  name: c.name,
+  slug: c.slug,
+  href: cityPath(c.slug),
+}));
 
 /** Real Google/Yelp reviews only, quoted verbatim. Empty until pulled. */
 export type Review = {
@@ -265,6 +263,7 @@ export const nav = [
   { label: "Chip Repair", href: "/windshield-chip-repair/" },
   { label: "Repair or Replace?", href: "/windshield-repair-or-replace/" },
   { label: "Cost", href: "/windshield-replacement-cost/" },
+  { label: "Service Areas", href: "/orange-county/" },
   { label: "Guides", href: "/blog/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
