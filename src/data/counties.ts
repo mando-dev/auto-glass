@@ -3,9 +3,9 @@ import type { City } from "./cities";
 /**
  * County hub pages. A hub lists the published cities in its county.
  *
- * Los Angeles County stays unpublished until the first LA cities go live —
- * a hub with no cities under it is an empty page, and there is no keyword
- * research for LA yet either.
+ * A county hub publishes once it has cities under it — a hub with none is an
+ * empty page. Los Angeles went live with Cerritos and Whittier, the two LA
+ * cities whose keyword research came back usable.
  */
 export type County = {
   name: string;
@@ -16,7 +16,7 @@ export type County = {
 
 export const counties: County[] = [
   { name: "Orange County", slug: "orange-county", key: "orange", published: true },
-  { name: "Los Angeles County", slug: "los-angeles-county", key: "los-angeles", published: false },
+  { name: "Los Angeles County", slug: "los-angeles-county", key: "los-angeles", published: true },
 ];
 
 export const publishedCounties = counties.filter((c) => c.published);

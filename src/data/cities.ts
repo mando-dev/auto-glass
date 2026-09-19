@@ -253,14 +253,83 @@ export const cities: City[] = [
     ],
   },
 
-  // Batch 2 — unpublished. Name, slug and county only; the rich fields stay
-  // empty until each city is researched and confirmed.
-  stub("Cerritos", "los-angeles"),
+  // Batch 2 — Cerritos and Whittier confirmed by keyword research and built.
+  // The rest stay unpublished: their keyword pulls came back off-topic and
+  // need re-running with the full service phrase as the seed.
+  {
+    name: "Cerritos",
+    slug: "cerritos",
+    county: "los-angeles",
+    published: true,
+    zips: ["90703"],
+    freeways: ["I-605", "SR-91"],
+    // Cerritos is master-planned and its tract names are not in common public
+    // use, so none are listed rather than inventing them. The commercial
+    // districts below are the landmarks people actually navigate by.
+    neighborhoods: [],
+    landmarks: [
+      "Cerritos Auto Square",
+      "Los Cerritos Center",
+      "the Cerritos Center for the Performing Arts",
+    ],
+    neighbors: ["lakewood", "norwalk", "la-mirada", "long-beach"],
+    intro:
+      "Cerritos runs on the 605 and the 91, and a lot of its daily traffic is dealership and commercial vehicles moving between Cerritos Auto Square and the freeways either side of it. That mix produces two kinds of glass damage: freeway rock chips picked up at speed, and lot damage on vehicles that spend all day parked. Both get handled where the vehicle sits.",
+    faq: [
+      {
+        q: "Do you do windshield repair in Cerritos the same day?",
+        a: "Often, for a chip. Chip repairs are quick and Cerritos sits right on the 605, so it's an easy stop to route to. A full replacement sometimes needs a day to get the correct glass for your specific vehicle — tell us the year, make and model and we'll say which one you're looking at.",
+      },
+      {
+        q: "Can you come to a dealership or business lot in Cerritos?",
+        a: "Yes, and it's common here. Vehicles parked at a lot near Cerritos Auto Square or one of the business parks get handled in place, as long as there's roughly a car width of clear space beside the vehicle and it's out of the rain.",
+      },
+      {
+        q: "Which ZIP code does Cerritos use?",
+        a: "Cerritos is 90703. If the vehicle is just over the line in Lakewood, Norwalk or La Mirada, that's fine too — text us the cross streets and we'll confirm we can get to you.",
+      },
+    ],
+  },
+  {
+    name: "Whittier",
+    slug: "whittier",
+    county: "los-angeles",
+    published: true,
+    zips: ["90601", "90602", "90603", "90604", "90605", "90606"],
+    freeways: ["I-605", "SR-72"],
+    neighborhoods: [
+      "Uptown Whittier",
+      "East Whittier",
+      "Friendly Hills",
+      "Whittwood",
+    ],
+    landmarks: [
+      "Whittier College",
+      "Whittwood Town Center",
+      "Rose Hills Memorial Park",
+    ],
+    neighbors: ["la-mirada", "norwalk", "downey", "cerritos"],
+    intro:
+      "Whittier spreads across six ZIP codes and a lot of hill roads, which is a harder mix for glass than a flat grid: the climbs out toward Friendly Hills and Rose Hills put a windshield through more flex than freeway miles do, and that is exactly what turns a stable chip into a running crack. Uptown's street parking and the older driveways through the middle of town are both workable for a mobile visit. Auto glass repair in Whittier, CA is a mobile job either way — the van comes to the vehicle, not the other way round.",
+    faq: [
+      {
+        q: "Do you cover all of Whittier, including the hill areas?",
+        a: "Yes — Uptown, East Whittier, Friendly Hills, Whittwood and the streets around Whittier College. The hill roads are no problem for a mobile visit; we just need somewhere reasonably level to work with about a car width of clear space beside the vehicle.",
+      },
+      {
+        q: "Is auto glass repair Whittier drivers book done at my address?",
+        a: "Yes. The van carries the glass, the resin kit and the urethane, so auto glass repair in Whittier happens in your driveway or your work lot rather than you driving across town and waiting on a lobby chair.",
+      },
+      {
+        q: "I searched car window repair Whittier — is that the same thing?",
+        a: "If the damage is on the windshield, yes, that's what we handle: chip repair, crack repair and full windshield replacement. If you mean a side or rear window, text us a photo first and we'll tell you honestly whether it's something we can take on before anyone drives out.",
+      },
+    ],
+  },
   stub("Lakewood", "los-angeles"),
   stub("Long Beach", "los-angeles"),
   stub("La Mirada", "los-angeles"),
   stub("Norwalk", "los-angeles"),
-  stub("Whittier", "los-angeles"),
   stub("Downey", "los-angeles"),
 
   // Batch 3 — unpublished, same rule.
