@@ -44,6 +44,23 @@ const list = (items: string[]) =>
     ? items.join("")
     : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 
+/**
+ * The "where we work" paragraph is assembled from whichever geography a city
+ * actually has. Empty arrays are expected: the rule is to omit a fact rather
+ * than guess it, so a city with verified freeways but unverified neighborhood
+ * names still gets a clean sentence instead of "runs across , and to".
+ */
+const hasHoods = city.neighborhoods.length > 0;
+const areaClauses = [
+  hasHoods && `runs across ${list(city.neighborhoods.slice(0, 5))}`,
+  city.landmarks.length > 0 &&
+    // Carries the verb when there are no neighborhoods to carry it.
+    `${hasHoods ? "out to" : "runs out to"} the lots around ${list(
+      city.landmarks.slice(0, 3),
+    )}`,
+  city.freeways.length > 0 && `and anywhere near the ${list(city.freeways)}`,
+].filter((clause): clause is string => Boolean(clause));
+
 const areaServed = {
   "@type": "City",
   name: `${city.name}, CA`,
@@ -89,13 +106,15 @@ const schemas = [
     <div class="wrap prose">
       <h2>Where we work in {city.name}</h2>
       <p>
-        Mobile windshield repair in {city.name} runs across{" "}
-        {list(city.neighborhoods.slice(0, 5))}, and to the lots around{" "}
-        {list(city.landmarks.slice(0, 3))}. If you're near the{" "}
-        {list(city.freeways)}, we come to wherever the vehicle is parked — a
-        driveway, an office structure or a yard.
+        Mobile windshield repair in {city.name} {areaClauses.join(", ")}. We
+        come to wherever the vehicle is parked — a driveway, an office
+        structure or a yard.
       </p>
-      <p class="zips">ZIP codes covered include {city.zips.join(", ")}.</p>
+      {
+        city.zips.length > 0 && (
+          <p class="zips">ZIP codes covered include {city.zips.join(", ")}.</p>
+        )
+      }
     </div>
   </section>
 
