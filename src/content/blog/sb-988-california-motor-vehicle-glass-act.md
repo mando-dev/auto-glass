@@ -1,6 +1,6 @@
 ---
 title: "SB 988, the California Motor Vehicle Glass Act"
-description: "What California's SB 988 would require of auto glass shops and insurers — ADAS disclosure, written estimates, no steering incentives — and where the bill stands right now."
+description: "What California's SB 988 would require of auto glass shops: ADAS disclosure, written estimates, no steering incentives. Where the bill stands now."
 pubDate: 2026-09-18
 updatedDate: 2026-09-18
 targetQuery: "sb 988 california motor vehicle glass act"

@@ -175,7 +175,7 @@ export const services: Service[] = [
     name: "Chip & Crack Repair",
     title: "Windshield Repair Irvine, CA | Chip Repair",
     metaDescription:
-      "Windshield repair near me? Mobile chip and crack repair across Orange County, based in Irvine. Caught early, most chips are a resin repair instead of a full replacement.",
+      "Windshield repair near me? Mobile chip and crack repair across Orange County, based in Irvine. Caught early, most chips fill with resin.",
     blurb:
       "A chip caught early is a resin fill, not a new windshield. Most take under half an hour.",
     h1: "Windshield Chip & Crack Repair in Irvine",

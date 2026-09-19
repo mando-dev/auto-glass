@@ -272,7 +272,7 @@ export const cities: City[] = [
       "Los Cerritos Center",
       "the Cerritos Center for the Performing Arts",
     ],
-    neighbors: ["lakewood", "norwalk", "la-mirada", "long-beach"],
+    neighbors: ["whittier", "lakewood", "norwalk", "la-mirada", "long-beach"],
     intro:
       "Cerritos runs on the 605 and the 91, and a lot of its daily traffic is dealership and commercial vehicles moving between Cerritos Auto Square and the freeways either side of it. That mix produces two kinds of glass damage: freeway rock chips picked up at speed, and lot damage on vehicles that spend all day parked. Both get handled where the vehicle sits.",
     faq: [
@@ -310,15 +310,15 @@ export const cities: City[] = [
     ],
     neighbors: ["la-mirada", "norwalk", "downey", "cerritos"],
     intro:
-      "Whittier spreads across six ZIP codes and a lot of hill roads, which is a harder mix for glass than a flat grid: the climbs out toward Friendly Hills and Rose Hills put a windshield through more flex than freeway miles do, and that is exactly what turns a stable chip into a running crack. Uptown's street parking and the older driveways through the middle of town are both workable for a mobile visit. Auto glass repair in Whittier, CA is a mobile job either way — the van comes to the vehicle, not the other way round.",
+      "Whittier spreads across six ZIP codes, from Uptown's older streets out to the hill roads past Friendly Hills and Rose Hills. Most of it is driveway and street-parking territory rather than structures, which suits a mobile visit: the van needs about a car width of clear space beside the vehicle and somewhere reasonably level to work. Auto glass repair here is done at the address the vehicle already sits at, whether that is a home in Whittwood or a work lot off Whittier Boulevard.",
     faq: [
       {
         q: "Do you cover all of Whittier, including the hill areas?",
         a: "Yes — Uptown, East Whittier, Friendly Hills, Whittwood and the streets around Whittier College. The hill roads are no problem for a mobile visit; we just need somewhere reasonably level to work with about a car width of clear space beside the vehicle.",
       },
       {
-        q: "Is auto glass repair Whittier drivers book done at my address?",
-        a: "Yes. The van carries the glass, the resin kit and the urethane, so auto glass repair in Whittier happens in your driveway or your work lot rather than you driving across town and waiting on a lobby chair.",
+        q: "Is auto glass repair in Whittier done at my address?",
+        a: "Yes. The van carries the glass, the resin kit and the urethane, so the work happens in your driveway or your work lot rather than you driving across town and waiting on a lobby chair.",
       },
       {
         q: "I searched car window repair Whittier — is that the same thing?",
