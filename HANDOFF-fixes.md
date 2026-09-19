@@ -26,12 +26,7 @@ rules section.
    `astro.config.mjs`, or anything in `PENDING`.
 6. **Commit, do not push.** Pushing to `main` deploys to production. Make one
    commit per numbered task below (or group tasks 1–4 into one "copy fixes"
-   commit). Commit messages: short imperative subject line, then a blank line,
-   then this exact trailer:
-
-   ```
-   Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
-   ```
+   commit). Commit messages: short imperative subject line, then a blank line.
 
 7. Astro files use `---` frontmatter fences. Keep existing indentation and
    quoting style. Do not reformat files you are not editing.

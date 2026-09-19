@@ -11,7 +11,7 @@ without looking at the code.
 
 ## 0. Ground rules
 
-1. **There is no `CLAUDE.md`.** The rules live in `README.md` and the header
+1. **There is no separate rules file.** The rules live in `README.md` and the header
    comments of `src/lib/site.ts`. Read both before touching anything.
 2. **`src/lib/site.ts` is the single source of business facts.** Never type the
    phone number, an email, or a street address anywhere else. `npm run check:nap`
@@ -31,12 +31,6 @@ without looking at the code.
    commits, one per numbered section or smaller. **Push only that branch**
    (`git push -u origin feat/ranking-expansion`) so Vercel builds a preview.
    Never push `main`, never merge.
-7. **Commit trailer** on every commit, after a blank line:
-
-   ```
-   Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
-   ```
-
 8. `trailingSlash: "always"` is set. Every internal `href` ends with `/`.
 9. Astro 5, static output, no framework islands. Keep it that way.
 10. `npm run check:placeholders` will report exactly one item,
