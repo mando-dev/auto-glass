@@ -1,6 +1,6 @@
 ---
 title: "Is a cracked windshield illegal in California?"
-description: "What California Vehicle Code section 26710 actually says about cracked windshields, the 48-hour correction notice, and what 'impairs the driver's vision' means in practice."
+description: "What California Vehicle Code section 26710 actually says about cracked windshields, the 48-hour correction notice, and the impaired-vision test."
 pubDate: 2026-09-18
 targetQuery: "is it illegal to drive with a cracked windshield in california"
 relatedService: "/windshield-replacement/"
