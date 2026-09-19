@@ -1,0 +1,72 @@
+---
+/**
+ * Visible breadcrumb trail. Pair it with `breadcrumbSchema()` from the same
+ * array so the markup and the JSON-LD never disagree.
+ */
+interface Props {
+  trail: { name: string; url: string }[];
+}
+const { trail } = Astro.props;
+const last = trail.length - 1;
+---
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol>
+      {
+        trail.map((t, i) => (
+          <li>
+            {i === last ? (
+              <span aria-current="page">{t.name}</span>
+            ) : (
+              <a href={t.url}>{t.name}</a>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .crumbs {
+    background: var(--color-paper-sunk);
+    border-bottom: 1px solid var(--line);
+    font-size: 0.86rem;
+  }
+
+  .crumbs .wrap {
+    padding-block: 0.55rem;
+  }
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    color: var(--color-on-light-soft);
+  }
+
+  li + li::before {
+    content: "›";
+    margin-right: 0.35rem;
+    opacity: 0.6;
+  }
+
+  a {
+    color: var(--color-on-light-soft);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-ink);
+    text-decoration: underline;
+  }
+
+  [aria-current="page"] {
+    color: var(--color-on-light);
+    font-weight: 600;
+  }
+</style>

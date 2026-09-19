@@ -1,5 +1,6 @@
 ---
 import { cities, PENDING } from "@lib/site";
+import { publishedCounties, countyPath } from "../data/counties";
 ---
 
 <section class="area">
@@ -17,13 +18,20 @@ import { cities, PENDING } from "@lib/site";
       ) : (
         <>
           <p class="lede">
-            Mobile service across Orange County. Every city below has a tech
-            assigned to it.
+            Mobile service across Orange County. Each city below has its own
+            page with the neighborhoods, freeways and ZIP codes it covers.
           </p>
           <ul class="cities">
             {cities.map((c) => (
               <li>
-                <a href={`/${c.slug}/`}>{c.name}</a>
+                <a href={c.href}>{c.name}</a>
+              </li>
+            ))}
+            {publishedCounties.map((county) => (
+              <li>
+                <a class="hub" href={countyPath(county.slug)}>
+                  All of {county.name}
+                </a>
               </li>
             ))}
           </ul>
@@ -62,5 +70,9 @@ import { cities, PENDING } from "@lib/site";
   .cities a:hover {
     border-color: var(--color-ink);
     background: var(--color-paper-sunk);
+  }
+
+  .cities .hub {
+    color: var(--color-accent-deep);
   }
 </style>

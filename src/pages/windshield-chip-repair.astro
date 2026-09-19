@@ -5,6 +5,7 @@ import FAQ from "@components/FAQ.astro";
 import LeadForm from "@components/LeadForm.astro";
 import ServiceCards from "@components/ServiceCards.astro";
 import CTABand from "@components/CTABand.astro";
+import CityLinks from "@components/CityLinks.astro";
 import { serviceBySlug, site } from "@lib/site";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
 
@@ -22,6 +23,10 @@ const faqs = [
   {
     q: "Will the chip disappear completely?",
     a: "No, and be wary of anyone who promises it will. Resin repair restores the strength of the glass and stops the damage spreading. Cosmetically it usually improves a lot — often to a faint mark you have to look for — but a small blemish normally remains.",
+  },
+  {
+    q: "Does a chip repair affect the camera behind my mirror?",
+    a: "No. A resin repair fills the break in the outer layer of glass and leaves the windshield, its mounting and the camera bracket exactly where they were, so it does not trigger an ADAS recalibration. A full replacement is different: the camera is re-mounted to new glass, and on camera-equipped vehicles the manufacturer typically specifies a recalibration afterwards. That's one more reason to repair a chip while it's still a chip.",
   },
   {
     q: "How soon should I get a chip repaired?",
@@ -129,6 +134,7 @@ const schemas = [
   </section>
 
   <ServiceCards heading="Other services" exclude={service.slug} />
+  <CityLinks />
   <CTABand
     heading="Text a photo of the chip."
     body={`Send it to ${site.phone.display} and we'll tell you whether it fills or needs new glass — usually within a few minutes.`}

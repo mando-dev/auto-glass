@@ -2,6 +2,9 @@
 title: "Chip or crack: repair or replace?"
 description: "The four things that decide whether windshield damage takes a resin repair or a full replacement — size, location, depth, and how long it's been there."
 pubDate: 2026-09-15
+targetQuery: "windshield chip repair or replace"
+relatedService: "/windshield-chip-repair/"
+relatedCities: ["irvine", "huntington-beach"]
 ---
 
 Most people find out their windshield damage needed a different fix than they
@@ -65,6 +68,13 @@ won't take a repair cleanly even when its size and location say it should.
 Both of those point the same direction: the window where the cheap option is
 available closes on its own.
 
+If you can't get it repaired straight away, two things help in the meantime:
+keep the car out of direct sun where you can, and ease the air conditioning
+on rather than blasting it at a hot windshield. Neither fixes anything, but
+both slow down the temperature swings that turn a chip into a crack. A piece
+of clear tape over the chip keeps dirt and water out of the break until the
+resin goes in.
+
 ## The short version
 
 | Usually repairable | Usually needs replacing |
@@ -91,3 +101,13 @@ Vehicles from roughly 2018 onward often have a forward-facing camera mounted to
 the windshield for lane keeping and automatic emergency braking. On those, the
 camera's relationship to the glass matters after a replacement — worth asking
 about specifically when you book, whoever you book with.
+
+## Where this gets decided
+
+Whichever way it lands, the decision is made at the vehicle, not on the phone.
+A [chip repair](/windshield-chip-repair/) happens where the car is parked —
+an office structure in [Irvine](/windshield-repair-irvine-ca/), a driveway in
+[Huntington Beach](/windshield-repair-huntington-beach-ca/), a yard full of
+work vans — and a replacement does too, provided the spot is dry. Text a
+photo through the [contact page](/contact/) and you'll get a straight answer
+on which one it is.

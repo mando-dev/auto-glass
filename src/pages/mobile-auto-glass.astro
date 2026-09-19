@@ -6,6 +6,7 @@ import LeadForm from "@components/LeadForm.astro";
 import ServiceCards from "@components/ServiceCards.astro";
 import ServiceArea from "@components/ServiceArea.astro";
 import CTABand from "@components/CTABand.astro";
+import CityLinks from "@components/CityLinks.astro";
 import { serviceBySlug, site } from "@lib/site";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
 
@@ -136,6 +137,7 @@ const schemas = [
 
   <ServiceArea />
   <ServiceCards heading="Other services" exclude={service.slug} />
+  <CityLinks />
   <CTABand />
 </BaseLayout>
 

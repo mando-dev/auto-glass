@@ -1,0 +1,72 @@
+---
+import { cities } from "@lib/site";
+import { publishedCounties, countyPath } from "../data/counties";
+
+/**
+ * One-line list of published city pages, for the bottom of service pages.
+ * Renders nothing while there are no published cities.
+ */
+interface Props {
+  heading?: string;
+}
+const { heading = "Cities we cover" } = Astro.props;
+---
+
+{
+  cities.length > 0 && (
+    <section class="citylinks">
+      <div class="wrap">
+        <h2>{heading}</h2>
+        <p>
+          {cities.map((c, i) => (
+            <>
+              <a href={c.href}>{c.name}</a>
+              {i < cities.length - 1 && <span aria-hidden="true"> · </span>}
+            </>
+          ))}
+          {publishedCounties.map((county) => (
+            <>
+              <span aria-hidden="true"> · </span>
+              <a class="hub" href={countyPath(county.slug)}>
+                All of {county.name}
+              </a>
+            </>
+          ))}
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .citylinks {
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .citylinks h2 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--color-on-light-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .citylinks p {
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.8;
+  }
+
+  .citylinks a {
+    text-decoration: none;
+  }
+
+  .citylinks a:hover {
+    text-decoration: underline;
+  }
+
+  .hub {
+    color: var(--color-accent-deep);
+  }
+</style>
