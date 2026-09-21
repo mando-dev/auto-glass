@@ -54,7 +54,7 @@ export const site = {
   tagline:
     "Mobile auto glass repair and windshield replacement in Orange County",
   /** Must match SITE_URL in astro.config.mjs. */
-  url: "https://autoglasscrew.com",
+  url: "https://www.autoglasscrew.com",
 
   phone: {
     display: "(949) 681-9416",
