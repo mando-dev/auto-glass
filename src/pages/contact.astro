@@ -4,6 +4,9 @@ import LeadForm from "@components/LeadForm.astro";
 import ServiceArea from "@components/ServiceArea.astro";
 import { site, PENDING } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
+import { publishedCounties } from "../data/counties";
+
+const countyNames = publishedCounties.map((c) => c.name).join(" & ");
 
 const schemas = [
   breadcrumbSchema([
@@ -14,8 +17,8 @@ const schemas = [
 ---
 
 <BaseLayout
-  title={`Contact ${site.name} | Orange County Auto Glass`}
-  description="Call or send a photo of the damage and we'll tell you repair or replace. Mobile auto glass across Orange County."
+  title={`Contact ${site.name} | Orange & LA County Auto Glass`}
+  description={`Call or send a photo of the damage and we'll tell you repair or replace. Mobile auto glass across ${countyNames}.`}
   path="/contact/"
   schemas={schemas}
 >
@@ -54,7 +57,7 @@ const schemas = [
 
           <div>
             <dt>Service area</dt>
-            <dd>Mobile across Orange County, California</dd>
+            <dd>Mobile across {countyNames}, California</dd>
           </div>
         </dl>
 

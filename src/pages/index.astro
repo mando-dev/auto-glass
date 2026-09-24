@@ -8,6 +8,9 @@ import Reviews from "@components/Reviews.astro";
 import ServiceArea from "@components/ServiceArea.astro";
 import CTABand from "@components/CTABand.astro";
 import { site , phoneCta } from "@lib/site";
+import { publishedCounties } from "../data/counties";
+
+const countyNames = publishedCounties.map((c) => c.name).join(" and ");
 
 const title = `Auto Glass Repair — Orange & LA County | ${site.name}`;
 const description =
@@ -41,7 +44,7 @@ const reasons = [
 <BaseLayout title={title} description={description} path="/">
   <Hero
     h1="Your vehicles get fixed where they're parked."
-    lede="Mobile auto glass across Orange County. Fleet vans and work trucks handled in your yard, before the shift starts — and the car in your driveway too. Chip repair, crack repair and full windshield replacement, without anything leaving the lot."
+    lede={`Mobile auto glass across ${countyNames}. Fleet vans and work trucks handled in your yard, before the shift starts — and the car in your driveway too. Chip repair, crack repair and full windshield replacement, without anything leaving the lot.`}
   />
 
   <section class="fleet-lead">

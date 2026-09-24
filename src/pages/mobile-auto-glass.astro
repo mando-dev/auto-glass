@@ -9,8 +9,10 @@ import CTABand from "@components/CTABand.astro";
 import CityLinks from "@components/CityLinks.astro";
 import { serviceBySlug, site } from "@lib/site";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@lib/schema";
+import { publishedCounties } from "../data/counties";
 
 const service = serviceBySlug("mobile-auto-glass")!;
+const countyNames = publishedCounties.map((c) => c.name).join(" or ");
 
 const steps = [
   {
@@ -80,7 +82,7 @@ const schemas = [
 >
   <Hero
     h1={service.h1}
-    lede="Mobile auto glass repair anywhere in Orange County. We drive to the vehicle, do the work where it's parked, and you never book a day off to sit in a waiting room."
+    lede={`Mobile auto glass repair anywhere in ${countyNames}. We drive to the vehicle, do the work where it's parked, and you never book a day off to sit in a waiting room.`}
   />
 
   <section>

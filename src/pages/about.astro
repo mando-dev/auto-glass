@@ -8,6 +8,9 @@ import ServiceArea from "@components/ServiceArea.astro";
 import CTABand from "@components/CTABand.astro";
 import { site } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
+import { publishedCounties } from "../data/counties";
+
+const countyNames = publishedCounties.map((c) => c.name).join(" & ");
 
 const schemas = [
   breadcrumbSchema([
@@ -18,8 +21,8 @@ const schemas = [
 ---
 
 <BaseLayout
-  title={`About ${site.name} | Orange County Auto Glass`}
-  description="Who we are, how we work, and what we will and won't tell you about your windshield. Mobile auto glass across Orange County."
+  title={`About ${site.name} | Orange & LA County Auto Glass`}
+  description={`Who we are, how we work, and what we will and won't tell you about your windshield. Mobile auto glass across ${countyNames}.`}
   path="/about/"
   schemas={schemas}
 >
