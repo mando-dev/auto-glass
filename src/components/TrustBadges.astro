@@ -1,5 +1,6 @@
 ---
 import { site } from "@lib/site";
+import { publishedCounties } from "../data/counties";
 
 /**
  * Quiet inline row, not boxed chips.
@@ -12,10 +13,19 @@ import { site } from "@lib/site";
  */
 const isPlaceholder = (value: string) => /^\[[A-Z0-9_]+\]$/.test(value);
 
+// Derived from publishedCounties rather than hardcoded — this said "Mobile
+// across Orange County" everywhere, including on LA County pages, from the
+// day Cerritos and Whittier went live. Same class of drift as the nav link
+// that pointed "Service Areas" at only the OC hub.
+const coverageLabel =
+  publishedCounties.length > 1
+    ? `Mobile across ${publishedCounties.map((c) => c.name).join(" & ")}`
+    : `Mobile across ${publishedCounties[0]?.name ?? "the area"}`;
+
 const claims = [
   site.credentials.insured,
   site.credentials.certification,
-  "Mobile across Orange County",
+  coverageLabel,
   site.phone.acceptsText ? "Call or text — photo quotes welcome" : "",
 ].filter((claim) => claim && !isPlaceholder(claim));
 ---

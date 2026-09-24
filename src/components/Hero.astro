@@ -2,6 +2,19 @@
 import { site, heroPhoto } from "@lib/site";
 import TrustBadges from "./TrustBadges.astro";
 import HeroArt from "./HeroArt.astro";
+import { publishedCounties } from "../data/counties";
+
+/**
+ * Derived rather than hardcoded, same reasoning as TrustBadges' coverage
+ * line — this fed the default eyebrow on 8 pages (home, every core service
+ * page, both tools, contact, about) and stayed "Orange County, CA" only for
+ * weeks after Los Angeles County actually published. City and county pages
+ * override this with their own single-place eyebrow, so this default only
+ * ever needs to represent the whole coverage area.
+ */
+const defaultEyebrow = `Mobile auto glass · ${publishedCounties
+  .map((c) => c.name)
+  .join(" & ")}, CA`;
 
 interface Props {
   h1: string;
@@ -18,7 +31,7 @@ const {
   lede,
   showBadges = true,
   showArt = true,
-  eyebrow = "Mobile auto glass · Orange County, CA",
+  eyebrow = defaultEyebrow,
   showServicesLink = true,
 } = Astro.props;
 ---

@@ -51,8 +51,12 @@ export const site = {
    */
   name: "Auto Glass Crew",
   legalName: "[LEGAL_BUSINESS_NAME]",
+  // Feeds the business-level schema description and the footer tagline — keep
+  // this in step with publishedCounties in src/data/counties.ts. It said
+  // "Orange County" only for weeks after LA County actually published,
+  // disagreeing with its own areaServed (see defaultAreaServed in schema.ts).
   tagline:
-    "Mobile auto glass repair and windshield replacement in Orange County",
+    "Mobile auto glass repair and windshield replacement in Orange County and LA County",
   /** Must match SITE_URL in astro.config.mjs. */
   url: "https://www.autoglasscrew.com",
 
@@ -263,7 +267,7 @@ export const nav = [
   { label: "Chip Repair", href: "/windshield-chip-repair/" },
   { label: "Repair or Replace?", href: "/windshield-repair-or-replace/" },
   { label: "Cost", href: "/windshield-replacement-cost/" },
-  { label: "Service Areas", href: "/orange-county/" },
+  { label: "Service Areas", href: "/service-area/" },
   { label: "Guides", href: "/blog/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
@@ -273,6 +277,7 @@ export const nav = [
 export const contentPages = [
   { label: "Repair or Replace?", href: "/windshield-repair-or-replace/" },
   { label: "Replacement Cost", href: "/windshield-replacement-cost/" },
+  { label: "Service Area", href: "/service-area/" },
   { label: "Guides", href: "/blog/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },

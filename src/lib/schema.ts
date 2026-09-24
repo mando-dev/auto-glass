@@ -1,4 +1,6 @@
-import { site, cities, reviews, services, PENDING } from "./site";
+import { site, reviews, services, PENDING } from "./site";
+import { publishedCities } from "../data/cities";
+import { publishedCounties } from "../data/counties";
 
 /**
  * schema.org has no "AutoGlass" type. AutoRepair is the correct parent for
@@ -10,6 +12,36 @@ import { site, cities, reviews, services, PENDING } from "./site";
  * disagreeing is exactly the kind of identity drift the NAP rule exists to stop.
  */
 const BUSINESS_ID = `${site.url}/#business`;
+
+/**
+ * The one areaServed list every page that doesn't serve a single specific
+ * place (a city or county page) should use. Two published counties as
+ * AdministrativeArea, plus every published city nested under the county it
+ * actually belongs to — not a flat list, and not "Orange County" alone once
+ * a second county has real published cities under it.
+ *
+ * Previously this checked PENDING.cities, which has been false since
+ * 2026-09-18 — so the "just Orange County" fallback never fired and every
+ * page's areaServed silently became a flat 7-city list with no county entity
+ * at all from the day Cerritos and Whittier published. Deriving this from
+ * publishedCounties/publishedCities instead means it can't drift that way
+ * again: a county with no published cities under it just contributes nothing.
+ */
+function defaultAreaServed() {
+  return publishedCounties.map((county) => {
+    const citiesInThisCounty = publishedCities.filter((c) => c.county === county.key);
+    return {
+      "@type": "AdministrativeArea",
+      name: `${county.name}, CA`,
+      ...(citiesInThisCounty.length > 0 && {
+        containsPlace: citiesInThisCounty.map((c) => ({
+          "@type": "City",
+          name: `${c.name}, CA`,
+        })),
+      }),
+    };
+  });
+}
 
 export function localBusinessSchema() {
   const schema: Record<string, unknown> = {
@@ -36,9 +68,7 @@ export function localBusinessSchema() {
     };
   }
 
-  schema.areaServed = PENDING.cities
-    ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
-    : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` }));
+  schema.areaServed = defaultAreaServed();
 
   if (!PENDING.hours) {
     schema.openingHoursSpecification = site.hours.map((h) => ({
@@ -93,11 +123,7 @@ export function serviceSchema(
     url,
     provider: { "@id": BUSINESS_ID },
   };
-  schema.areaServed =
-    areaServed ??
-    (PENDING.cities
-      ? { "@type": "AdministrativeArea", name: "Orange County, CA" }
-      : cities.map((c) => ({ "@type": "City", name: `${c.name}, CA` })));
+  schema.areaServed = areaServed ?? defaultAreaServed();
   return schema;
 }
 

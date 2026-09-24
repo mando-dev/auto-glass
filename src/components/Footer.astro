@@ -2,6 +2,7 @@
 import { site, services, cities, contentPages, PENDING } from "@lib/site";
 import { publishedCounties, countyPath } from "../data/counties";
 const year = new Date().getFullYear();
+const countyNames = publishedCounties.map((c) => c.name).join(" & ");
 ---
 
 <footer class="site-footer">
@@ -31,7 +32,7 @@ const year = new Date().getFullYear();
       <h2>Service Area</h2>
       {
         PENDING.cities ? (
-          <p class="muted">Mobile service across Orange County, California.</p>
+          <p class="muted">Mobile service across {countyNames}, California.</p>
         ) : (
           <ul>
             {cities.map((c) => (
@@ -66,7 +67,7 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="wrap legal">
-    <p>&copy; {year} {site.name}. Orange County, California.</p>
+    <p>&copy; {year} {site.name}. {countyNames}, California.</p>
   </div>
 </footer>
 

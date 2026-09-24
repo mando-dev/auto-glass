@@ -1,6 +1,13 @@
 ---
 import { cities, PENDING } from "@lib/site";
 import { publishedCounties, countyPath } from "../data/counties";
+
+/**
+ * Compact homepage version. The full page at /service-area/ has the coverage
+ * graphic and cities grouped by county — this stays a flat quick-scan list on
+ * purpose, with a link into the full page for anyone who wants the detail.
+ */
+const countyNames = publishedCounties.map((c) => c.name).join(" & ");
 ---
 
 <section class="area">
@@ -12,13 +19,13 @@ import { publishedCounties, countyPath } from "../data/counties";
         // No city list until the client confirms the radius. Naming a city the
         // techs won't drive to costs a refund and a one-star review.
         <p class="lede">
-          Mobile service across Orange County. Tell us where the vehicle is
+          Mobile service across {countyNames}. Tell us where the vehicle is
           parked and we'll tell you straight away whether we cover it.
         </p>
       ) : (
         <>
           <p class="lede">
-            Mobile service across Orange County. Each city below has its own
+            Mobile service across {countyNames}. Each city below has its own
             page with the neighborhoods, freeways and ZIP codes it covers.
           </p>
           <ul class="cities">
@@ -35,6 +42,9 @@ import { publishedCounties, countyPath } from "../data/counties";
               </li>
             ))}
           </ul>
+          <p class="full-link">
+            <a href="/service-area/">See the full coverage map &rsaquo;</a>
+          </p>
         </>
       )
     }
@@ -74,5 +84,10 @@ import { publishedCounties, countyPath } from "../data/counties";
 
   .cities .hub {
     color: var(--color-accent-deep);
+  }
+
+  .full-link {
+    margin: 1.25rem 0 0;
+    font-weight: 600;
   }
 </style>
