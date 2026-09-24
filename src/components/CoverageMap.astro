@@ -1,0 +1,156 @@
+---
+import { publishedCities } from "../data/cities";
+import { publishedCounties } from "../data/counties";
+
+/**
+ * Original illustration, not a real map.
+ *
+ * A live Google Maps embed was the first choice, but Google now routes even
+ * the old no-key embed trick through the real Maps Embed API, which either
+ * needs a billing-enabled API key (the client's Google Cloud account — out of
+ * scope to provision) or ships a "for development purposes only" watermark
+ * across the map. Neither is acceptable to put in front of a customer, so
+ * this is a stylised coverage graphic instead — same reasoning as HeroArt.astro
+ * and the favicon: original art costs nothing, needs no key, and carries no
+ * licensing question.
+ *
+ * It deliberately does not claim geographic precision — no traced county
+ * boundaries, no real coastline. It is two soft regions positioned roughly as
+ * OC/LA sit relative to each other, with a dot per published city and a
+ * caption saying plainly that the linked list below is the actual reference.
+ * That is also *why* it can't be a pin-on-an-address map: there is no public
+ * business address to pin, and pinning one would be inventing a fact.
+ */
+const laCities = publishedCities.filter((c) => c.county === "los-angeles");
+const ocCities = publishedCities.filter((c) => c.county === "orange");
+---
+
+<figure class="coverage">
+  <svg
+    viewBox="0 0 520 360"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-labelledby="coverage-title coverage-desc"
+  >
+    <title id="coverage-title">Service coverage — Los Angeles and Orange County</title>
+    <desc id="coverage-desc">
+      A stylised illustration, not a precise map. Los Angeles County sits
+      northwest, Orange County southeast, with a dot for each city we cover —
+      {laCities.map((c) => c.name).join(", ")} in LA County and{" "}
+      {ocCities.map((c) => c.name).join(", ")} in Orange County.
+    </desc>
+
+    <defs>
+      <radialGradient id="laFill" cx="35%" cy="35%" r="75%">
+        <stop offset="0%" stop-color="#b4c9c4" stop-opacity="0.55" />
+        <stop offset="100%" stop-color="#7fa69c" stop-opacity="0.28" />
+      </radialGradient>
+      <radialGradient id="ocFill" cx="60%" cy="45%" r="75%">
+        <stop offset="0%" stop-color="#e8b7a2" stop-opacity="0.5" />
+        <stop offset="100%" stop-color="#e15a2e" stop-opacity="0.22" />
+      </radialGradient>
+    </defs>
+
+    <!-- LA County region — soft blob, not a traced boundary -->
+    <path
+      d="M60 70 Q40 130 70 190 Q90 240 160 250 Q230 258 250 210 Q265 165 230 120 Q210 85 160 68 Q105 52 60 70 Z"
+      fill="url(#laFill)"
+      stroke="#7fa69c"
+      stroke-width="2"
+      stroke-dasharray="6 5"
+    />
+
+    <!-- OC region — soft blob, overlapping edge where the counties meet -->
+    <path
+      d="M220 175 Q210 220 250 265 Q290 305 360 300 Q430 294 450 240 Q465 195 430 155 Q395 118 330 120 Q265 122 220 175 Z"
+      fill="url(#ocFill)"
+      stroke="#e15a2e"
+      stroke-width="2"
+      stroke-dasharray="6 5"
+    />
+
+    <!-- LA County label + city dots -->
+    <text x="130" y="45" text-anchor="middle" class="region-label la">Los Angeles County</text>
+    <g class="city">
+      <circle cx="150" cy="150" r="5" />
+      <text x="150" y="135">Cerritos</text>
+    </g>
+    <g class="city">
+      <circle cx="195" cy="195" r="5" />
+      <text x="195" y="215" class="below">Whittier</text>
+    </g>
+
+    <!-- OC label + city dots -->
+    <text x="345" y="335" text-anchor="middle" class="region-label oc">Orange County</text>
+    <g class="city">
+      <circle cx="345" cy="175" r="5" />
+      <text x="345" y="160">Anaheim</text>
+    </g>
+    <g class="city">
+      <circle cx="300" cy="230" r="5" />
+      <text x="270" y="245" class="below">Santa Ana</text>
+    </g>
+    <g class="city">
+      <circle cx="365" cy="220" r="5" />
+      <text x="380" y="215">Irvine</text>
+    </g>
+    <g class="city">
+      <circle cx="415" cy="205" r="5" />
+      <text x="430" y="195">Huntington Beach</text>
+    </g>
+    <g class="city">
+      <circle cx="405" cy="250" r="5" />
+      <text x="405" y="270" class="below">Costa Mesa</text>
+    </g>
+  </svg>
+
+  <figcaption>
+    Illustrative, not a precise boundary map — the city list below is the
+    actual reference.
+  </figcaption>
+</figure>
+
+<style>
+  .coverage {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  .coverage svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    background: var(--color-paper);
+    border: 1px solid var(--line);
+  }
+
+  .region-label {
+    font: 700 15px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
+  }
+  .region-label.la {
+    fill: #4f6b64;
+  }
+  .region-label.oc {
+    fill: #9a3d1f;
+  }
+
+  .city circle {
+    fill: var(--color-ink);
+    stroke: var(--color-paper);
+    stroke-width: 2;
+  }
+
+  .city text {
+    font: 600 11px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+    fill: var(--color-on-light);
+    text-anchor: middle;
+  }
+
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--color-on-light-soft);
+  }
+</style>

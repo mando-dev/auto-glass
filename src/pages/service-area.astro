@@ -1,0 +1,145 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import CoverageMap from "@components/CoverageMap.astro";
+import CTABand from "@components/CTABand.astro";
+import { site } from "@lib/site";
+import { serviceSchema, breadcrumbSchema } from "@lib/schema";
+import { publishedCities, cityPath } from "../data/cities";
+import { publishedCounties, countyPath } from "../data/counties";
+
+/**
+ * One page covering both counties together — distinct from the per-county
+ * hubs at /orange-county/ and /los-angeles-county/, which each list only
+ * their own cities. This is the "where do you cover, overall" answer, with
+ * the coverage graphic and a link into each county hub for the full detail.
+ *
+ * Bounded deliberately: published cities only, each a real link. No
+ * unpublished-city placeholders, no auto-generated matrix — see
+ * src/data/cities.ts for why (WindshieldHub's 2,798 near-duplicate
+ * city/service URLs is the anti-pattern this avoids).
+ */
+const path = "/service-area/";
+const title = "Service Area — Orange County & LA County";
+const description =
+  "Mobile windshield repair and replacement across Orange County and Los Angeles County. See every city we cover and get to its page in one click.";
+
+const trail = [
+  { name: "Home", url: "/" },
+  { name: "Service Area", url: path },
+];
+
+const schemas = [
+  serviceSchema(path, "Mobile Auto Glass Service Area", description),
+  breadcrumbSchema(trail),
+];
+
+const byCounty = publishedCounties.map((county) => ({
+  county,
+  cities: publishedCities.filter((c) => c.county === county.key),
+}));
+---
+
+<BaseLayout title={`${title} | ${site.name}`} description={description} path={path} schemas={schemas}>
+  <Breadcrumbs trail={trail} />
+
+  <Hero
+    h1="Where we cover"
+    eyebrow="Mobile auto glass · Orange County & LA County"
+    lede="Chip repair, crack repair and full windshield replacement, done at the address where the vehicle already sits — across both counties. Pick your city below, or just call."
+    showArt={false}
+    showServicesLink={false}
+  />
+
+  <section>
+    <div class="wrap two-col">
+      <div class="prose">
+        <h2>Two counties, one mobile service</h2>
+        <p>
+          There's no public shop to drive to — the van comes to you, so
+          "coverage area" means everywhere we're willing to drive, not a
+          radius around an address. Right now that's the cities listed below
+          in Orange County and Los Angeles County. If you're just outside one
+          of them, call or text and we'll tell you straight away whether we
+          can get there.
+        </p>
+      </div>
+      <CoverageMap />
+    </div>
+  </section>
+
+  {
+    byCounty.map(({ county, cities: countyCities }) => (
+      <section class="section-soft">
+        <div class="wrap">
+          <h2>{county.name}</h2>
+          <ul class="cities">
+            {countyCities.map((c) => (
+              <li>
+                <a href={cityPath(c.slug)}>{c.name}</a>
+              </li>
+            ))}
+          </ul>
+          <p class="hub-link">
+            <a href={countyPath(county.slug)}>
+              More on {county.name} coverage &rsaquo;
+            </a>
+          </p>
+        </div>
+      </section>
+    ))
+  }
+
+  <CTABand
+    heading="Not sure we reach you?"
+    body={`Text your city and the damage to ${site.phone.display} — we'll say plainly whether we can get there and when.`}
+  />
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 60ch;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .cities {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .cities a {
+    display: block;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--color-paper);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .cities a:hover {
+    border-color: var(--color-ink);
+  }
+
+  .hub-link {
+    margin: 1.25rem 0 0;
+    font-weight: 600;
+  }
+</style>

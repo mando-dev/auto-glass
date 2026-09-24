@@ -18,6 +18,7 @@ const paths = [
   ...services.map((s) => `/${s.slug}/`),
   "/windshield-repair-or-replace/",
   "/windshield-replacement-cost/",
+  "/service-area/",
   ...publishedCounties.map((c) => countyPath(c.slug)),
   ...(PENDING.cities ? [] : cities.map((c) => c.href)),
   "/blog/",
