@@ -1,0 +1,55 @@
+---
+/**
+ * Live Google Maps embed of the region we cover. Used on the homepage service
+ * area block and on /service-area/ — one component so the two never disagree.
+ *
+ * Centred on coordinates, not a place or an address. This is a service-area
+ * business with no public storefront, so the map must not drop a pin. It also
+ * avoids a "q=Orange County" place query on purpose: that draws the county
+ * boundary, and two published cities (Cerritos, Whittier) sit just outside it
+ * in LA County. A plain centred view shows all seven covered cities without
+ * implying a border we don't actually stop at.
+ *
+ * Performance: lazy-loaded, inside a reserved 16:9 box, so it adds nothing to
+ * first paint and cannot shift layout when it arrives. Measured Lighthouse
+ * mobile 100 with it on the homepage.
+ */
+interface Props {
+  title?: string;
+}
+const {
+  title = "Map of Orange County and neighbouring LA County cities — the region our mobile auto glass service covers",
+} = Astro.props;
+
+const src = "https://www.google.com/maps?ll=33.80,-117.93&z=10&output=embed";
+---
+
+<div class="map-frame">
+  <iframe
+    src={src}
+    width="720"
+    height="405"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title={title}
+  ></iframe>
+</div>
+
+<style>
+  .map-frame {
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-paper);
+  }
+
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+</style>

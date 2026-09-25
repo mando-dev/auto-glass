@@ -2,28 +2,36 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@components/Hero.astro";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
-import CoverageMap from "@components/CoverageMap.astro";
+import ServiceMap from "@components/ServiceMap.astro";
+import LeadForm from "@components/LeadForm.astro";
 import CTABand from "@components/CTABand.astro";
-import { site } from "@lib/site";
+import { site, phoneCta } from "@lib/site";
 import { serviceSchema, breadcrumbSchema } from "@lib/schema";
 import { publishedCities, cityPath } from "../data/cities";
 import { publishedCounties, countyPath } from "../data/counties";
 
 /**
- * One page covering both counties together — distinct from the per-county
- * hubs at /orange-county/ and /los-angeles-county/, which each list only
- * their own cities. This is the "where do you cover, overall" answer, with
- * the coverage graphic and a link into each county hub for the full detail.
+ * The "where do you cover, overall" page — both counties together, distinct
+ * from the per-county hubs at /orange-county/ and /los-angeles-county/.
  *
- * Bounded deliberately: published cities only, each a real link. No
- * unpublished-city placeholders, no auto-generated matrix — see
- * src/data/cities.ts for why (WindshieldHub's 2,798 near-duplicate
- * city/service URLs is the anti-pattern this avoids).
+ * Everything on it derives from the same published data the footer and the
+ * schema use, so the three cannot disagree: the city list rendered here, the
+ * footer's Service Area column and this page's areaServed (via
+ * serviceSchema's default) are all publishedCities grouped by
+ * publishedCounties. Every city links to its real page — no plain-text city
+ * names, no placeholder links, no unpublished cities.
+ *
+ * No address anywhere: service-area business, no public storefront. The map
+ * is centred on the region and pins nothing — see ServiceMap.astro.
  */
 const path = "/service-area/";
+const pageName = "Mobile Auto Glass Service Area";
+const countyNames = publishedCounties.map((c) => c.name).join(" & ");
+
 const title = "Service Area — Orange County & LA County";
+const h1 = `${pageName}: Orange County & LA County`;
 const description =
-  "Mobile windshield repair and replacement across Orange County and Los Angeles County. See every city we cover and get to its page in one click.";
+  "Mobile windshield repair and replacement across Orange County and Los Angeles County. Every city we cover, a map of the region, and how mobile service works.";
 
 const trail = [
   { name: "Home", url: "/" },
@@ -31,65 +39,106 @@ const trail = [
 ];
 
 const schemas = [
-  serviceSchema(path, "Mobile Auto Glass Service Area", description),
+  serviceSchema(path, pageName, description),
   breadcrumbSchema(trail),
 ];
 
-const byCounty = publishedCounties.map((county) => ({
-  county,
-  cities: publishedCities.filter((c) => c.county === county.key),
-}));
+const byCounty = publishedCounties
+  .map((county) => ({
+    county,
+    cities: publishedCities.filter((c) => c.county === county.key),
+  }))
+  .filter((group) => group.cities.length > 0);
 ---
 
 <BaseLayout title={`${title} | ${site.name}`} description={description} path={path} schemas={schemas}>
   <Breadcrumbs trail={trail} />
 
   <Hero
-    h1="Where we cover"
-    eyebrow="Mobile auto glass · Orange County & LA County"
-    lede="Chip repair, crack repair and full windshield replacement, done at the address where the vehicle already sits — across both counties. Pick your city below, or just call."
+    h1={h1}
+    eyebrow={`Mobile auto glass · ${countyNames}`}
+    lede="Chip repair, crack repair and full windshield replacement, done at the address where the vehicle already sits. We cover mobile auto glass across Orange County, plus the neighbouring LA County cities listed below."
     showArt={false}
     showServicesLink={false}
   />
 
   <section>
-    <div class="wrap two-col">
-      <div class="prose">
-        <h2>Two counties, one mobile service</h2>
-        <p>
-          There's no public shop to drive to — the van comes to you, so
-          "coverage area" means everywhere we're willing to drive, not a
-          radius around an address. Right now that's the cities listed below
-          in Orange County and Los Angeles County. If you're just outside one
-          of them, call or text and we'll tell you straight away whether we
-          can get there.
-        </p>
+    <div class="wrap">
+      <h2>Cities we cover</h2>
+      <p class="lede">
+        Each city links to its own page, with the neighborhoods, freeways and ZIP
+        codes it covers.
+      </p>
+
+      <div class="counties">
+        {
+          byCounty.map(({ county, cities }) => (
+            <div class="county">
+              <h3>
+                <a href={countyPath(county.slug)}>{county.name}</a>
+              </h3>
+              <ul class="cities">
+                {cities.map((c) => (
+                  <li>
+                    <a href={cityPath(c.slug)}>{c.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
       </div>
-      <CoverageMap />
+
+      <div class="map">
+        <ServiceMap />
+      </div>
     </div>
   </section>
 
-  {
-    byCounty.map(({ county, cities: countyCities }) => (
-      <section class="section-soft">
-        <div class="wrap">
-          <h2>{county.name}</h2>
-          <ul class="cities">
-            {countyCities.map((c) => (
-              <li>
-                <a href={cityPath(c.slug)}>{c.name}</a>
-              </li>
-            ))}
-          </ul>
-          <p class="hub-link">
-            <a href={countyPath(county.slug)}>
-              More on {county.name} coverage &rsaquo;
+  <section class="section-soft">
+    <div class="wrap prose">
+      <h2>How mobile service works</h2>
+      <p>
+        There's no shop to drive to. The van carries the glass, the resin kit and
+        the urethane, and the work happens where the vehicle is already parked —
+        a driveway at home, a workplace parking lot or structure, or a fleet yard
+        where several vehicles can be done in one visit.
+      </p>
+      <p>
+        Tell us where the vehicle is, the year, make and model, and ideally a
+        photo of the damage. We'll tell you whether it's a repair or a
+        replacement and when we can get there. If you're just outside one of the
+        cities above, ask anyway — we'll say plainly whether we can reach you.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-call" href={site.phone.href}>
+          <span aria-hidden="true">&#9742;</span>
+          {phoneCta}
+        </a>
+        {
+          site.phone.acceptsText && (
+            <a class="btn btn-outline" href={site.phone.sms}>
+              Text a photo
             </a>
+          )
+        }
+      </div>
+      {
+        site.phone.acceptsText && (
+          <p class="text-note">
+            {site.phone.display} takes texts as well as calls — a photo of the
+            damage is often all we need to tell you repair or replace.
           </p>
-        </div>
-      </section>
-    ))
-  }
+        )
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap narrow">
+      <LeadForm source="Service Area page" heading="Get a quote for your vehicle" />
+    </div>
+  </section>
 
   <CTABand
     heading="Not sure we reach you?"
@@ -99,29 +148,40 @@ const byCounty = publishedCounties.map((county) => ({
 
 <style>
   .prose {
-    max-width: 60ch;
+    max-width: 68ch;
   }
 
-  .two-col {
+  .narrow {
+    max-width: 760px;
+  }
+
+  .counties {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
-    gap: 2.5rem;
-    align-items: start;
+    gap: 1.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    margin-top: 1.75rem;
   }
 
-  @media (max-width: 860px) {
-    .two-col {
-      grid-template-columns: 1fr;
-    }
+  .county h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .county h3 a {
+    text-decoration: none;
+  }
+
+  .county h3 a:hover {
+    text-decoration: underline;
   }
 
   .cities {
     list-style: none;
-    margin: 1.5rem 0 0;
+    margin: 0;
     padding: 0;
     display: grid;
     gap: 0.6rem;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
   .cities a {
@@ -129,7 +189,7 @@ const byCounty = publishedCounties.map((county) => ({
     padding: 0.7rem 0.9rem;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: var(--color-paper);
+    background: #fff;
     text-decoration: none;
     font-weight: 600;
   }
@@ -138,8 +198,17 @@ const byCounty = publishedCounties.map((county) => ({
     border-color: var(--color-ink);
   }
 
-  .hub-link {
-    margin: 1.25rem 0 0;
-    font-weight: 600;
+  .map {
+    margin-top: 2rem;
+  }
+
+  .btn-row {
+    margin-top: 1.5rem;
+  }
+
+  .text-note {
+    margin-top: 0.9rem;
+    font-size: 0.93rem;
+    color: var(--color-on-light-soft);
   }
 </style>

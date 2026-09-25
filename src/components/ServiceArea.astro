@@ -1,17 +1,15 @@
 ---
 import { cities, PENDING } from "@lib/site";
 import { publishedCounties, countyPath } from "../data/counties";
+import ServiceMap from "./ServiceMap.astro";
 
 /**
  * Compact version used on the homepage and elsewhere. The full page at
  * /service-area/ has cities grouped by county — this stays a flat quick-scan
  * list, with a link into the full page for anyone who wants the detail.
  *
- * The homepage adds a live Google Maps embed (showMap). It is a region query,
- * not an address: this is a service-area business with no public storefront,
- * so the map shows the county it covers and never pins a location. Lazy-loaded
- * inside a fixed aspect-ratio box so it costs nothing at first paint and
- * cannot shift layout when it arrives.
+ * The homepage adds the live map (showMap) — see ServiceMap.astro for why it
+ * is centred on coordinates rather than pinned to anything.
  */
 interface Props {
   /** Homepage only — keeps the iframe off the pages that reuse this component. */
@@ -56,15 +54,8 @@ const countyNames = publishedCounties.map((c) => c.name).join(" & ");
           </ul>
 
           {showMap && (
-            <div class="map-frame">
-              <iframe
-                src="https://www.google.com/maps?q=Orange+County,+CA&z=9&output=embed"
-                width="720"
-                height="405"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Map of Orange County, California — the region our mobile auto glass service covers"
-              ></iframe>
+            <div class="map-wrap">
+              <ServiceMap />
             </div>
           )}
 
@@ -117,23 +108,7 @@ const countyNames = publishedCounties.map((c) => c.name).join(" & ");
     font-weight: 600;
   }
 
-  /* Reserved 16:9 box: the lazy iframe fills space that already exists, so
-     it cannot shift layout when it loads. Full width on mobile. */
-  .map-frame {
+  .map-wrap {
     margin: 1.5rem 0 0;
-    width: 100%;
-    max-width: 720px;
-    aspect-ratio: 16 / 9;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--color-paper);
-  }
-
-  .map-frame iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
   }
 </style>
