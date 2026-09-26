@@ -1,7 +1,7 @@
 ---
 title: "Windshield Replacement Cost, Explained"
 description: "What windshield replacement cost can vary based on: vehicle, OEM vs aftermarket glass, ADAS recalibration and mobile vs shop. General ranges, not a quote."
-pubDate: 2026-09-27
+pubDate: 2026-09-26
 targetQuery: "windshield replacement cost"
 relatedService: "/windshield-replacement/"
 relatedCities: ["irvine", "huntington-beach"]
