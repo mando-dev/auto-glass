@@ -36,7 +36,8 @@ const neighbors = city.neighbors
   .map((slug) => cityBySlug(slug))
   .filter((c): c is City => Boolean(c));
 
-const title = `Windshield Repair ${city.name}, CA | Mobile Auto Glass Replacement`;
+const title = city.title ?? `Windshield Repair ${city.name}, CA | Mobile Auto Glass Replacement`;
+const h1 = city.h1 ?? `Windshield Repair & Replacement in ${city.name}, CA`;
 const description = `Mobile windshield repair and replacement in ${city.name}, CA. Chip repair, crack repair and full replacement at your home, office or job site.`;
 
 const list = (items: string[]) =>
@@ -89,7 +90,7 @@ const schemas = [
   <Breadcrumbs trail={trail} />
 
   <Hero
-    h1={`Windshield Repair & Replacement in ${city.name}, CA`}
+    h1={h1}
     eyebrow={`Mobile auto glass · ${city.name}`}
     lede={`Chip repair, crack repair and full windshield replacement, done where the vehicle is parked in ${city.name}. Text a photo of the damage and we'll tell you repair or replace before anyone drives out.`}
     showServicesLink={false}

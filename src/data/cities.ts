@@ -27,6 +27,13 @@ export type City = {
   neighbors: string[];
   /** 2–3 sentences unique to this city. */
   intro: string;
+  /**
+   * Optional per-city <title> and H1. Only set where real Search Console data
+   * shows a different phrasing is what people actually search — otherwise the
+   * template default applies.
+   */
+  title?: string;
+  h1?: string;
   /** 2–3 city-specific Q&As. */
   faq: { q: string; a: string }[];
 };
@@ -195,9 +202,26 @@ export const cities: City[] = [
       "Bella Terra",
     ],
     neighbors: ["costa-mesa", "santa-ana", "irvine", "anaheim"],
+    // Search Console shows "windshield replacement huntington beach" and
+    // "huntington beach windshield repair" growing weekly, so this page leads
+    // with replacement rather than the template's repair-first title.
+    title: "Windshield Replacement & Repair in Huntington Beach, CA",
+    h1: "Windshield Replacement & Repair in Huntington Beach, CA",
     intro:
-      "Huntington Beach vehicles live with salt air, sand and the stop-start traffic on Pacific Coast Highway and Beach Boulevard. Salt doesn't damage glass, but it does mean the pinch weld under a windshield needs to be clean and properly primed before new glass goes in — a step that gets skipped when a replacement is rushed. Most jobs here are driveways in the inland tracts and the Harbour, with the occasional beachfront lot when the tide of parking allows.",
+      "Huntington Beach vehicles live with salt air, sand and the stop-start traffic on Pacific Coast Highway and Beach Boulevard. Salt doesn't damage glass, but it does mean the pinch weld under a windshield needs to be clean and properly primed before new glass goes in — a step that gets skipped when a replacement is rushed. Whether you searched windshield replacement Huntington Beach, windshield repair Huntington Beach or auto glass repair Huntington Beach, it's the same mobile service: a driveway in the inland tracts or the Harbour, a workplace lot off Beach Boulevard, or a fleet yard where several vehicles can be done in one visit.",
     faq: [
+      {
+        q: "Do you do windshield replacement in Huntington Beach at my home or work?",
+        a: "Yes. Windshield replacement in Huntington Beach is done where the vehicle is parked — a driveway, a workplace lot or a fleet yard — as long as the spot is dry. Give us the year, make, model and trim so we bring the right glass, and we'll tell you the safe drive-away time for the adhesive used.",
+      },
+      {
+        q: "Is Huntington Beach windshield repair possible, or will I need a new windshield?",
+        a: "Often it's a repair. A chip smaller than about a quarter, away from the edge and out of the driver's line of sight, usually fills with resin in under half an hour. Text a photo of the damage and we'll tell you which one it is before anyone drives out.",
+      },
+      {
+        q: "How fast can I get windshield repair in Huntington Beach?",
+        a: "Chip repairs are quick and often same day, depending on the day's route — call or text with where you are and we'll give you a real time rather than a promise. A replacement sometimes needs a day to get the correct glass for your vehicle.",
+      },
       {
         q: "Does the coastal air change anything about a replacement in Huntington Beach?",
         a: "Not the glass, but it raises the stakes on the prep. Any bare metal exposed on the pinch weld has to be primed before the urethane goes on, or salt air gets to it and corrosion starts under the new bond. It's a normal part of doing the job properly — just one that matters more a mile from the water.",
