@@ -2,8 +2,9 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import CTABand from "@components/CTABand.astro";
+import FAQ from "@components/FAQ.astro";
 import { site, services } from "@lib/site";
-import { breadcrumbSchema } from "@lib/schema";
+import { breadcrumbSchema, faqSchema } from "@lib/schema";
 import { cityBySlug, cityPath, type City } from "../../data/cities";
 
 export async function getStaticPaths() {
@@ -36,6 +37,7 @@ const schemas = [
     { name: "Blog", url: "/blog/" },
     { name: post.data.title, url: `/blog/${post.id}/` },
   ]),
+  ...(post.data.faq.length > 0 ? [faqSchema(post.data.faq)] : []),
 ];
 
 /**
@@ -106,6 +108,8 @@ const fmt = (date: Date) =>
       </div>
     </section>
   </article>
+
+  {post.data.faq.length > 0 && <FAQ faqs={post.data.faq} heading="Common questions" />}
 
   <CTABand />
 </BaseLayout>

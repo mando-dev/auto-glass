@@ -24,6 +24,11 @@ const blog = defineCollection({
     relatedService: z.string().optional(),
     /** Slugs from src/data/cities.ts. Unpublished cities are skipped at render. */
     relatedCities: z.array(z.string()).default([]),
+    /**
+     * Optional FAQ. Rendered as a visible FAQ section and as FAQPage JSON-LD
+     * from this one array, so the markup can never drift from the page text.
+     */
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),
 });
 
