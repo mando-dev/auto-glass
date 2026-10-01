@@ -17,6 +17,8 @@ interface Props {
   noindex?: boolean;
   /** Share image path under public/. Defaults to the site-wide card. */
   image?: string;
+  /** Open Graph type: "article" for blog posts, "website" for everything else. */
+  ogType?: "website" | "article";
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   schemas = [],
   noindex = false,
   image = "/og-image.png",
+  ogType = "website",
 } = Astro.props;
 const canonical = `${site.url}${path}`;
 // Absolute: crawlers that read og:image do not resolve it against the page.
@@ -46,7 +49,7 @@ const blockIndexing = noindex || notReadyToIndex;
     <link rel="canonical" href={canonical} />
     {blockIndexing && <meta name="robots" content="noindex, nofollow" />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
