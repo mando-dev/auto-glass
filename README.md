@@ -70,8 +70,12 @@ record is a site-down, not a warning.
 
 ## Going live — order matters
 
-The domain is **autoglasscrew.com**, set in `site.url` and in `SITE_URL` in
-`astro.config.mjs`. Those two must always match.
+The canonical host is **https://www.autoglasscrew.com**, set in `site.url` and in
+`SITE_URL` in `astro.config.mjs`. Those two must always match, and must match
+what Vercel serves: the apex (`autoglasscrew.com`) 308-redirects to `www`.
+Never change either value back to the apex — canonical, `og:url`, the sitemap
+and `robots.txt` all derive from `site.url`, and pointing them at a host that
+redirects away splits Google's indexing across both hosts.
 
 Deploying to Vercel now is fine. What must not happen is the site being
 **crawlable** while pages still render `[SITE_NAME]` and `[PHONE_PLACEHOLDER]`.
@@ -93,13 +97,7 @@ Remaining launch gaps, in priority order:
    the live site ships `[WEB3FORMS_KEY_PENDING]` and cannot deliver. This is the
    client's Web3Forms account; they add the key under Vercel → Settings →
    Environment Variables, then redeploy.
-2. Vercel currently has [www.autoglasscrew.com](https://www.autoglasscrew.com)
-   as the primary domain and redirects the apex to it. Every canonical,
-   `og:url`, the `robots.txt` sitemap line and every sitemap `<loc>` use the
-   apex. In Vercel → Settings → Domains, make `autoglasscrew.com` primary so
-   `www` redirects to the apex. Then in Search Console re-run "Test Live URL"
-   on `/sitemap.xml`.
-3. `npm run check:launch` must pass once item 1 is done.
+2. `npm run check:launch` must pass once item 1 is done.
 
 ## Before launch
 
