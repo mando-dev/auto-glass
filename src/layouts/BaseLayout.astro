@@ -15,10 +15,22 @@ interface Props {
   /** Extra JSON-LD blocks for this page. */
   schemas?: Record<string, unknown>[];
   noindex?: boolean;
+  /** Share image path under public/. Defaults to the site-wide card. */
+  image?: string;
 }
 
-const { title, description, path, schemas = [], noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  path,
+  schemas = [],
+  noindex = false,
+  image = "/og-image.png",
+} = Astro.props;
 const canonical = `${site.url}${path}`;
+// Absolute: crawlers that read og:image do not resolve it against the page.
+const ogImage = `${site.url}${image}`;
+const ogImageAlt = `${site.name} — mobile auto glass repair and windshield replacement`;
 const allSchemas = [localBusinessSchema(), ...schemas];
 
 const blockIndexing = noindex || notReadyToIndex;
@@ -39,7 +51,15 @@ const blockIndexing = noindex || notReadyToIndex;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#12262b" />

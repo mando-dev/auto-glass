@@ -52,6 +52,29 @@ const relatedCities = post.data.relatedCities
   .map((slug) => cityBySlug(slug))
   .filter((c): c is City => Boolean(c));
 
+/**
+ * "More guides": the next three posts in a fixed rotation, so every post ends
+ * up with exactly three incoming links from other posts. Without this each
+ * post is linked only from the blog index, which leaves a page with a single
+ * internal link pointing at it.
+ *
+ * A "same topic first, then newest" ordering was tried and rejected: it piles
+ * every link onto the same few posts and starves the rest. Posts are grouped
+ * by the service they support, so neighbours in the rotation are mostly
+ * related, and the order is deterministic so a build never reshuffles links.
+ */
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const ordered = [...allPosts].sort(
+  (a, b) =>
+    (a.data.relatedService ?? "").localeCompare(b.data.relatedService ?? "") ||
+    a.id.localeCompare(b.id),
+);
+const at = ordered.findIndex((p) => p.id === post.id);
+const moreGuides = Array.from(
+  { length: Math.min(3, ordered.length - 1) },
+  (_, k) => ordered[(at + 1 + k) % ordered.length],
+);
+
 const fmt = (date: Date) =>
   date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -99,6 +122,21 @@ const fmt = (date: Date) =>
                 {relatedCities.map((c) => (
                   <li>
                     <a href={cityPath(c.slug)}>Windshield repair in {c.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )
+        }
+
+        {
+          moreGuides.length > 0 && (
+            <aside class="more">
+              <h2>More guides</h2>
+              <ul>
+                {moreGuides.map((p) => (
+                  <li>
+                    <a href={`/blog/${p.id}/`}>{p.data.title}</a>
                   </li>
                 ))}
               </ul>
@@ -179,6 +217,35 @@ const fmt = (date: Date) =>
 
   .body :global(strong) {
     color: var(--color-on-light);
+  }
+
+  .more {
+    margin-top: 1.75rem;
+  }
+
+  .more h2 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--color-on-light-soft);
+    margin-bottom: 0.6rem;
+  }
+
+  .more ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    font-weight: 600;
+  }
+
+  .more a {
+    text-decoration: none;
+  }
+
+  .more a:hover {
+    text-decoration: underline;
   }
 
   .related {
