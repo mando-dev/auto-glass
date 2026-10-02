@@ -1,7 +1,8 @@
 ---
-import { site, heroPhoto } from "@lib/site";
+import { heroPhoto } from "@lib/site";
 import TrustBadges from "./TrustBadges.astro";
 import HeroArt from "./HeroArt.astro";
+import CallTextButtons from "./CallTextButtons.astro";
 import { publishedCounties } from "../data/counties";
 
 /**
@@ -44,19 +45,7 @@ const {
       <p class="lede">{lede}</p>
 
       <div class="btn-row">
-        {/* "Call" not "Call or Text" — the Text button beside it says that
-            already, and the longer label wrapped the row onto two lines. */}
-        <a class="btn btn-call" href={site.phone.href}>
-          <span aria-hidden="true">&#9742;</span>
-          Call {site.phone.display}
-        </a>
-        {
-          site.phone.acceptsText && (
-            <a class="btn btn-ghost" href={site.phone.sms}>
-              Text us
-            </a>
-          )
-        }
+        <CallTextButtons />
         {showServicesLink && (
           <a class="btn btn-quiet" href="#services">See services</a>
         )}
@@ -154,17 +143,6 @@ const {
      width the copy column actually gets — it overflowed by ~6px otherwise. */
   .hero .btn {
     padding-inline: 1.3rem;
-  }
-
-  .btn-ghost {
-    border-color: rgba(243, 241, 236, 0.5);
-    color: var(--color-on-dark);
-    background: transparent;
-  }
-
-  .btn-ghost:hover {
-    background: rgba(243, 241, 236, 0.12);
-    border-color: var(--color-on-dark);
   }
 
   .btn-quiet {

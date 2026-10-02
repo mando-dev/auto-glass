@@ -168,6 +168,14 @@ section {
   gap: 0.75rem;
 }
 
+/* Call and Text (CallTextButtons) stack full width on a phone: two equal,
+   thumb-sized targets instead of one wide button and one that wraps. */
+@media (max-width: 600px) {
+  .btn-row > .cta-pair {
+    flex: 1 1 100%;
+  }
+}
+
 /* Cards -------------------------------------------------------------- */
 .grid {
   display: grid;

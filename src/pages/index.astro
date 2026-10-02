@@ -7,7 +7,8 @@ import RecentWork from "@components/RecentWork.astro";
 import Reviews from "@components/Reviews.astro";
 import ServiceArea from "@components/ServiceArea.astro";
 import CTABand from "@components/CTABand.astro";
-import { site , phoneCta } from "@lib/site";
+import { site } from "@lib/site";
+import CallTextButtons from "@components/CallTextButtons.astro";
 import { publishedCounties } from "../data/counties";
 
 const countyNames = publishedCounties.map((c) => c.name).join(" and ");
@@ -82,10 +83,7 @@ const reasons = [
       </div>
 
       <div class="btn-row">
-        <a class="btn btn-call" href={site.phone.href}>
-          <span aria-hidden="true">&#9742;</span>
-          {phoneCta}
-        </a>
+        <CallTextButtons />
         <a class="btn btn-outline" href="/contact/">Set up a fleet account</a>
       </div>
 
@@ -122,10 +120,7 @@ const reasons = [
         no afternoon in a waiting room.
       </p>
       <div class="btn-row">
-        <a class="btn btn-call" href={site.phone.href}>
-          <span aria-hidden="true">&#9742;</span>
-          {phoneCta}
-        </a>
+        <CallTextButtons />
         <a class="btn btn-outline" href="/contact/">Get a quote</a>
       </div>
     </div>

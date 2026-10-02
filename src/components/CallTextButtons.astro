@@ -1,0 +1,33 @@
+---
+import { site } from "@lib/site";
+
+/**
+ * The call and text buttons, as an equal pair.
+ *
+ * Both use the same solid primary style on purpose: texting a photo of the
+ * damage is how a lot of people would rather start, and a ghost or outlined
+ * Text button next to a solid Call button quietly tells them it is the lesser
+ * option. Renders as a fragment, so drop it straight into a `.btn-row`.
+ *
+ * The label says exactly what a tap does: this is a tel: link, so it says
+ * Call, not "Call or Text".
+ */
+interface Props {
+  /** Text button label. "Text a photo" suits the closing banners. */
+  textLabel?: string;
+}
+const { textLabel = "Text us" } = Astro.props;
+---
+
+<a class="btn btn-call cta-pair" href={site.phone.href}>
+  <span aria-hidden="true">&#9742;</span>
+  Call {site.phone.display}
+</a>
+{
+  site.phone.acceptsText && (
+    <a class="btn btn-call cta-pair" href={site.phone.sms}>
+      <span aria-hidden="true">&#9993;</span>
+      {textLabel}
+    </a>
+  )
+}

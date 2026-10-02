@@ -1,5 +1,5 @@
 ---
-import { site , phoneCta } from "@lib/site";
+import CallTextButtons from "./CallTextButtons.astro";
 
 interface Props {
   heading?: string;
@@ -18,11 +18,7 @@ const {
       <p>{body}</p>
     </div>
     <div class="btn-row">
-      <a class="btn btn-call" href={site.phone.href}>
-        <span aria-hidden="true">&#9742;</span>
-        {phoneCta}
-      </a>
-      <a class="btn btn-light" href="/contact/">Send photos</a>
+      <CallTextButtons textLabel="Text a photo" />
     </div>
   </div>
 </section>
