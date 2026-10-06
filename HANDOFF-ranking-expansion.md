@@ -1,5 +1,7 @@
 # Handoff: ranking-focused expansion of autoglasscrew.com (OC + LA)
 
+> **Superseded:** the canonical host is `https://www.autoglasscrew.com`. The apex 308-redirects to www. Ignore any instruction below to make the bare domain primary. See README.
+
 Paste this whole file as the first message to the model working in
 `/Users/b/Desktop/auto-glass`. It merges the employer's task spec with (a) the
 actual state of the repo as audited on 2026-09-18, (b) the keyword research the

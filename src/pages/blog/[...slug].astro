@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import CTABand from "@components/CTABand.astro";
 import FAQ from "@components/FAQ.astro";
+import CallTextButtons from "@components/CallTextButtons.astro";
 import { site, services } from "@lib/site";
 import { breadcrumbSchema, faqSchema } from "@lib/schema";
 import { cityBySlug, cityPath, type City } from "../../data/cities";
@@ -109,6 +110,25 @@ const fmt = (date: Date) =>
         <div class="body">
           <Content />
         </div>
+
+        {
+          relatedService && (
+            <aside class="get-fixed">
+              <h2>Get it fixed</h2>
+              <p>
+                Ready to have it looked at? See how{" "}
+                <a href={`/${relatedService.slug}/`}>
+                  {relatedService.name.toLowerCase()}
+                </a>{" "}
+                works, or call or text {site.phone.display} with the year, make
+                and model and a photo of the damage.
+              </p>
+              <div class="btn-row">
+                <CallTextButtons textLabel="Text a photo" />
+              </div>
+            </aside>
+          )
+        }
 
         {
           (relatedService || relatedCities.length > 0) && (
@@ -218,6 +238,24 @@ const fmt = (date: Date) =>
 
   .body :global(strong) {
     color: var(--color-on-light);
+  }
+
+  .get-fixed {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--color-glass);
+    border-radius: var(--radius);
+    background: var(--color-paper-sunk);
+  }
+
+  .get-fixed h2 {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .get-fixed p {
+    color: var(--color-on-light-soft);
   }
 
   .more {

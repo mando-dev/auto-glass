@@ -2,6 +2,7 @@
 title: "Tesla and EV windshields: what's different"
 description: "Why Tesla and other EV windshields cost more, calibrate differently, and need more care to source correctly than a typical gas car's glass."
 pubDate: 2026-09-17
+relatedService: "/windshield-replacement/"
 ---
 
 EV windshields get treated as a special case for real reasons, not marketing.

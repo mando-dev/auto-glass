@@ -100,8 +100,8 @@ recalibration afterwards — the [replacement page](/windshield-replacement/)
 covers what to expect.
 
 If it's a chip or a short crack away from the driver's view, it may be a
-resin repair, and a repair is quick, keeps the factory seal, and doesn't need
-cure time before you drive. Either way the work can be done mobile — at a
+[quick resin fill](/windshield-chip-repair/), and a repair is quick, keeps the factory seal, and doesn't need
+cure time before you drive. Either way the work can be done [on site, at your address](/mobile-auto-glass/) — at a
 driveway in [Santa Ana](/windshield-repair-santa-ana-ca/), a hotel lot in
 [Anaheim](/windshield-repair-anaheim-ca/), or wherever the vehicle is
 parked — so there's no reason to drive on it longer than you have to.

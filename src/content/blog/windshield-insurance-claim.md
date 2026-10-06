@@ -24,7 +24,7 @@ directly what your policy includes before you assume either way.
 
 Some insurers waive the deductible for a windshield **repair** specifically,
 even when the deductible applies to a full **replacement**. The logic is
-simple from their side: a resin repair is a small cost that stops a chip from
+simple from their side: a [resin repair](/windshield-chip-repair/) is a small cost that stops a chip from
 turning into a claim for an entire windshield later. Not every insurer does
 this, and not every state requires it, so it's worth asking your insurer
 directly rather than assuming your policy works the same way a friend's does.
@@ -51,7 +51,7 @@ can recommend a shop or run a network of them; it can't make using one a
 condition of the claim. You can read the section on the Legislature's site:
 [Insurance Code § 758.5](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=INS&sectionNum=758.5).
 
-In practice that means if you'd rather have the work done mobile in your
+In practice that means if you'd rather have the work [done mobile](/mobile-auto-glass/) in your
 driveway in [Irvine](/windshield-repair-irvine-ca/) or at the curb in
 [Santa Ana](/windshield-repair-santa-ana-ca/) than drive to whichever shop
 the claims line named first, you can. Ask the shop you choose whether they

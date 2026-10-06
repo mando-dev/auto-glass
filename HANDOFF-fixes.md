@@ -1,5 +1,7 @@
 # Handoff: fixes for autoglasscrew.com (Astro site)
 
+> **Superseded:** the canonical host is `https://www.autoglasscrew.com`. The apex 308-redirects to www. Ignore any instruction below to make the bare domain primary. See README.
+
 Paste this whole file as the first message to the model working in the repo at
 `/Users/b/Desktop/auto-glass`. Work through the tasks in order. Do not skip the
 rules section.

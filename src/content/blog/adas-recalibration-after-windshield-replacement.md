@@ -98,7 +98,7 @@ putting the camera back on speaking terms with the car. The first is visible
 and the second isn't, which is exactly why it's worth asking about.
 
 The [windshield replacement](/windshield-replacement/) page describes the
-glass side of the job. Mobile replacements happen where the vehicle sits —
+glass side of the job. [Mobile replacements](/mobile-auto-glass/) happen where the vehicle sits —
 an office structure in [Irvine](/windshield-repair-irvine-ca/), a lot in
 [Costa Mesa](/windshield-repair-costa-mesa-ca/), a driveway anywhere in the
 county — and when you get in touch, tell us the year, make, model and trim so

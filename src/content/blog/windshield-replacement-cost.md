@@ -110,7 +110,7 @@ For a work vehicle or a fleet, that's often the part that matters most.
 
 The cheapest windshield replacement is the one you don't need. A chip smaller
 than about a quarter, away from the edge and out of the driver's line of
-sight, is usually a resin repair for a fraction of the cost of new glass. The
+sight, is usually a [resin chip repair](/windshield-chip-repair/) for a fraction of the cost of new glass. The
 [repair-or-replace tool](/windshield-repair-or-replace/) walks through it in
 about thirty seconds.
 
