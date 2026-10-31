@@ -1,5 +1,7 @@
 ---
-import { reviews, site } from "@lib/site";
+import { publishedReviews, site } from "@lib/site";
+
+const reviews = publishedReviews();
 
 /** Renders nothing until real reviews exist. Never writes one on the client's behalf. */
 ---

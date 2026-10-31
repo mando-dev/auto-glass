@@ -29,6 +29,8 @@ async function walk(dir, exts) {
   const out = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const path = join(dir, entry.name);
+    // Vendored Partytown runtime, not our markup.
+    if (entry.isDirectory() && entry.name === "~partytown") continue;
     if (entry.isDirectory()) out.push(...(await walk(path, exts)));
     else if (exts.includes(extname(entry.name).toLowerCase())) out.push(path);
   }

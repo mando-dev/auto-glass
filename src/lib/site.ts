@@ -71,11 +71,17 @@ export const site = {
 
   email: "[EMAIL_PENDING]",
 
+  /**
+   * Optional. Leave street, city and zip empty and no address renders anywhere
+   * (see `hasPublicAddress`). Fill all three to show it in the footer and on the
+   * contact page. The schema address additionally needs PENDING.address false
+   * and hasWalkInShop true.
+   */
   address: {
-    street: "[STREET_PENDING]",
-    city: "[CITY_PENDING]",
+    street: "" as string,
+    city: "" as string,
     state: "CA",
-    zip: "[ZIP_PENDING]",
+    zip: "" as string,
     country: "US",
   },
 
@@ -105,6 +111,12 @@ export const site = {
    */
   credentials: {
     licenseNumber: "[LICENSE_NUMBER_PENDING]",
+    /**
+     * Optional. California Bureau of Automotive Repair registration number, if
+     * the business holds one. Empty renders nothing. Enter exactly what is on
+     * the registration certificate and nothing else.
+     */
+    barRegistration: "" as string,
     insured: "[INSURANCE_PENDING]",
     certification: "[CERTIFICATION_PENDING]",
     yearsInBusiness: "[YEARS_PENDING]",
@@ -123,12 +135,32 @@ export const site = {
     linkedin: "",
   },
 
+  /**
+   * Google Analytics 4. Set PUBLIC_GA4_MEASUREMENT_ID in the Vercel env, or
+   * replace the placeholder below with the real "G-XXXXXXXXXX" ID. While it is
+   * not a valid ID no analytics script loads and no tracking runs.
+   */
+  analytics: {
+    ga4MeasurementId:
+      import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? "[GA4_MEASUREMENT_ID]",
+  },
+
   web3forms: {
     accessKey:
       import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "[WEB3FORMS_KEY_PENDING]",
     redirectTo: "/thanks/",
   },
 } as const;
+
+/** True only for a real GA4 ID, so the placeholder never loads a script. */
+export const analyticsEnabled = /^G-[A-Z0-9]{6,}$/.test(
+  site.analytics.ga4MeasurementId,
+);
+
+/** True when the street, city and zip are all filled in. */
+export const hasPublicAddress = Boolean(
+  site.address.street && site.address.city && site.address.zip,
+);
 
 export type Service = {
   slug: string;
@@ -211,6 +243,9 @@ export type Review = {
   url: string;
 };
 export const reviews: Review[] = [];
+// Renderers should skip any entry missing the quote, author or source link.
+export const publishedReviews = () =>
+  reviews.filter((r) => r.quote && r.author && r.url);
 
 /**
  * Hero photograph. Replaces the illustration when `src` is set.
@@ -245,6 +280,8 @@ export const heroPhoto = {
 /** Real job photos only — shot on the job, not stock. Empty until supplied. */
 export type WorkPhoto = { src: string; alt: string; caption: string };
 export const recentWork: WorkPhoto[] = [];
+// Renderers should skip any entry missing a file or alt text.
+export const publishedWork = () => recentWork.filter((w) => w.src && w.alt);
 
 export const owner = {
   name: "[OWNER_NAME_PENDING]",
@@ -281,4 +318,5 @@ export const contentPages = [
   { label: "Guides", href: "/blog/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
+  { label: "Privacy", href: "/privacy/" },
 ];

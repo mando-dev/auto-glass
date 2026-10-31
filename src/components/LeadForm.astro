@@ -122,7 +122,17 @@ if (PENDING.web3forms) {
           headers: { Accept: "application/json" },
         });
 
-        if (!response.ok) throw new Error(String(response.status));
+        // Web3Forms answers with JSON; HTTP 200 alone is not proof of delivery.
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result || result.success !== true) {
+          throw new Error(String(response.status));
+        }
+
+        // Only here, after confirmed success. No-op while analytics is off.
+        (window as { trackEvent?: (n: string, p?: object) => void }).trackEvent?.(
+          "quote_submit",
+          { form_source: form.querySelector<HTMLInputElement>("[name=page_source]")?.value },
+        );
 
         form.reset();
         status.textContent = "Got it. We'll call you back as soon as we can.";

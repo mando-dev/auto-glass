@@ -1,5 +1,12 @@
 ---
-import { site, services, cities, contentPages, PENDING } from "@lib/site";
+import {
+  site,
+  services,
+  cities,
+  contentPages,
+  hasPublicAddress,
+  PENDING,
+} from "@lib/site";
 import { publishedCounties, countyPath } from "../data/counties";
 const year = new Date().getFullYear();
 const countyNames = publishedCounties.map((c) => c.name).join(" & ");
@@ -13,6 +20,22 @@ const countyNames = publishedCounties.map((c) => c.name).join(" & ");
       <p>
         <a class="fcall" href={site.phone.href}>{site.phone.display}</a>
       </p>
+      {
+        hasPublicAddress && (
+          <p class="muted">
+            {site.address.street}, {site.address.city}, {site.address.state}{" "}
+            {site.address.zip}
+          </p>
+        )
+      }
+      {
+        site.credentials.barRegistration && (
+          <p class="muted">
+            Bureau of Automotive Repair registration no.{" "}
+            {site.credentials.barRegistration}
+          </p>
+        )
+      }
     </div>
 
     <div>

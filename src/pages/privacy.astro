@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { site, analyticsEnabled } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+
+const schemas = [
+  breadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Privacy", url: "/privacy/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`Privacy | ${site.name}`}
+  description={`What information ${site.name} collects through this website, and how it is used.`}
+  path="/privacy/"
+  schemas={schemas}
+>
+  <section>
+    <div class="wrap prose">
+      <h1>Privacy</h1>
+      <p class="lede">
+        What this website collects and why, in plain terms. Last updated
+        October 31, 2026.
+      </p>
+
+      <h2>When you send us a request</h2>
+      <p>
+        The quote form asks for your name, phone number, email, and optionally
+        your vehicle, city and a message. The form is processed by Web3Forms,
+        which passes it on to us by email. We use it to get back to you about
+        your glass.
+      </p>
+
+      <h2>When you call or text</h2>
+      <p>
+        If you call or text {site.phone.display}, we see the number you are
+        calling or texting from, and anything you send us, such as photos of
+        the damage. We use it to answer you.
+      </p>
+
+      {
+        analyticsEnabled && (
+          <>
+            <h2>Analytics</h2>
+            <p>
+              This site uses Google Analytics to measure visits and contact
+              clicks: which pages are viewed, and how often the call link, the
+              text link and the quote form are used. Google Analytics may set
+              cookies or similar identifiers in your browser. We do not send it
+              your name, phone number or the contents of your form.
+            </p>
+            <p>
+              You can opt out with the{" "}
+              <a
+                href="https://tools.google.com/dlpage/gaoptout"
+                rel="nofollow noopener"
+                target="_blank"
+              >
+                Google Analytics opt-out browser add-on
+              </a>
+              , or by blocking cookies in your browser. Google's own{" "}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                rel="nofollow noopener"
+                target="_blank"
+              >
+                explanation of how it uses data from sites like this one
+              </a>{" "}
+              is on its site.
+            </p>
+          </>
+        )
+      }
+
+      <h2>Questions</h2>
+      <p>
+        Call or text <a href={site.phone.href}>{site.phone.display}</a> and ask
+        what we have from you.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 72ch;
+  }
+</style>

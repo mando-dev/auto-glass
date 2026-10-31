@@ -1,0 +1,34 @@
+---
+import { site, analyticsEnabled } from "@lib/site";
+
+/**
+ * Google Analytics 4, loaded off the main thread through Partytown.
+ *
+ * Renders nothing until site.analytics.ga4MeasurementId is a real "G-" ID, so
+ * the placeholder never ships a script. Events:
+ *   call_click  - any tel: link
+ *   text_click  - any sms: link
+ *   quote_submit - fired by LeadForm, only after Web3Forms reports success
+ * Every event carries page_path.
+ */
+const id = site.analytics.ga4MeasurementId;
+
+// Main thread, tiny: a delegated click listener plus the helper LeadForm calls.
+const clickJs = `window.trackEvent=function(n,p){try{window.gtag&&window.gtag('event',n,Object.assign({page_path:location.pathname},p||{}))}catch(e){}};document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href^="tel:"],a[href^="sms:"]');if(!a)return;window.trackEvent(a.getAttribute('href').indexOf('tel:')===0?'call_click':'text_click')},true);`;
+---
+
+{
+  analyticsEnabled && (
+    <>
+      <script
+        type="text/partytown"
+        src={`https://www.googletagmanager.com/gtag/js?id=${id}`}
+      />
+      <script
+        type="text/partytown"
+        set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${id}');`}
+      />
+      <script is:inline set:html={clickJs} />
+    </>
+  )
+}

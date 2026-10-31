@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import partytown from "@astrojs/partytown";
 
 // Kept in sync with site.url by hand — astro.config cannot import from src/lib
 // because Vite has not resolved aliases at config load time.
@@ -13,4 +14,7 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   compressHTML: true,
+  // GA4 runs in a web worker so it stays off the main thread. `gtag` is
+  // forwarded so main-thread code (click tracking, the form) can call it.
+  integrations: [partytown({ config: { forward: ["gtag"] } })],
 });

@@ -330,3 +330,8 @@ domains under 10 Authority Score, heavy foreign-country representation, spam
 anchor-text patterns, and one flagged "Dangerous" by Semrush's own toxicity
 score. A few real local citations — Yelp, then MapQuest — already beats that.
 Copying their volume would mean copying their problem.
+
+## Analytics and optional trust slots
+
+- **GA4.** Set `PUBLIC_GA4_MEASUREMENT_ID` in Vercel (or replace the placeholder in `site.analytics` in `src/lib/site.ts`) with the `G-XXXXXXXXXX` ID. Until then no analytics script loads and the privacy page omits the analytics paragraph. It loads through Partytown. Events: `call_click`, `text_click`, `quote_submit` (only on a successful Web3Forms response), each with `page_path`. Check them in GA4 DebugView after setting the ID.
+- **Optional slots, all hidden while empty:** `site.address` (street, city and zip all filled), `site.credentials.barRegistration`, `reviews`, `recentWork`. Fill only with real values.

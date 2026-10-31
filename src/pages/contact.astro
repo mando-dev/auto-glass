@@ -2,7 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import LeadForm from "@components/LeadForm.astro";
 import ServiceArea from "@components/ServiceArea.astro";
-import { site, PENDING } from "@lib/site";
+import { site, PENDING, hasPublicAddress } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
 import { publishedCounties } from "../data/counties";
 
@@ -50,6 +50,18 @@ const schemas = [
                       {h.days}: {h.open}–{h.close}
                     </div>
                   ))}
+                </dd>
+              </div>
+            )
+          }
+
+          {
+            hasPublicAddress && (
+              <div>
+                <dt>Address</dt>
+                <dd>
+                  {site.address.street}, {site.address.city},{" "}
+                  {site.address.state} {site.address.zip}
                 </dd>
               </div>
             )

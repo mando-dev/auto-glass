@@ -25,6 +25,7 @@ const paths = [
   ...posts.map((post) => `/blog/${post.id}/`),
   "/about/",
   "/contact/",
+  "/privacy/",
 ];
 
 const body = `<?xml version="1.0" encoding="UTF-8"?>
