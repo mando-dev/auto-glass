@@ -209,12 +209,12 @@ export const services: Service[] = [
   {
     slug: "windshield-chip-repair",
     name: "Chip & Crack Repair",
-    title: "Windshield Repair Irvine, CA | Chip Repair",
+    title: "Rock Chip & Windshield Chip Repair",
     metaDescription:
       "Windshield repair near me? Mobile chip and crack repair across Orange County, based in Irvine. Caught early, most chips fill with resin.",
     blurb:
       "A chip caught early is a resin fill, not a new windshield. Most take under half an hour.",
-    h1: "Windshield Chip & Crack Repair in Irvine",
+    h1: "Rock Chip & Windshield Chip Repair in Orange County",
   },
 ];
 
